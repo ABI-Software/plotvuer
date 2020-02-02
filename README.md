@@ -1,6 +1,8 @@
 # plotvuer
 
-This project aims to process and display csv files as graphs in the vue frameowkr
+This project aims to process and display csv files as graphs in the vue framework
+
+![demo](https://user-images.githubusercontent.com/37255664/73617045-a3231e00-467f-11ea-90bd-b1074acd26b3.gif)
 
 ## Project installation
 ```
