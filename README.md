@@ -1,4 +1,6 @@
-# plotvuer
+# plotvuer 
+
+![@tehsurfer/plotvuer](https://img.shields.io/npm/v/@tehsurfer/plotvuer)
 
 This project aims to process and display csv files as graphs in the vue framework
 
