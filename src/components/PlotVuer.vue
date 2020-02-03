@@ -106,12 +106,11 @@ export default {
     },
     handleResize: function() {
       new ReziseSensor(this.$el, () => {
-        var newHeight = this.height - this.$refs.selectBox.$el.clientHeight;
         this.layout.title =
-          "Width now:" + this.$el.clientWidth + " Height now: " + this.$el.clientHeight;
+          "Width now:" + this.$el.clientWidth + " Height now: " + (this.$el.parentElement.clientHeight - this.$refs.selectBox.$el.clientHeight)
         this.$refs.plotly.relayout({
           width: this.$el.clientWidth,
-          height: newHeight
+          height: this.$el.parentElement.clientHeight - this.$refs.selectBox.$el.clientHeight
         });
       });
     },

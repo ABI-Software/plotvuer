@@ -1,13 +1,11 @@
 <template>
   <div id="app">
-
-     <vue-draggable-resizable :w="700" :h="700" @dragging="onDrag" @resizing="onResize" :parent="true">
-  
-      <PlotVuer :url="urlList[0]" :height="height/2" :plotType="plotTypeList[0]"></PlotVuer>
-      <PlotVuer :url="urlList[1]" :height="height/2" :plotType="plotTypeList[1]"></PlotVuer>
-    
-    
+    <vue-draggable-resizable :w="700" :h="700" @dragging="onDrag" @resizing="onResize" :parent="true">
+      <PlotVuer :url="urlList[0]" :height="height" :plotType="plotTypeList[0]"></PlotVuer>
     </vue-draggable-resizable>
+    <vue-draggable-resizable :w="300" :h="300" @dragging="onDrag" @resizing="onResize" :parent="true">
+      <PlotVuer :url="urlList[1]"  :plotType="plotTypeList[1]"></PlotVuer>
+    </vue-draggable-resizable>>
     <el-input class='element' placeholder="Enter url" v-model="urlList[0]"></el-input>
   </div>
 </template>
@@ -33,7 +31,7 @@ export default {
   data: function(){
     return {
       urlList: ['https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/csv-data/use-case-4/RNA_Seq.csv', 'https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/csv-data/use-case-2/Sample_1_18907001_channel_1.csv'],
-      width: 0,
+      width: 700,
       height: 700,
       plotTypeList: ["heatmap2", "scatter"],
       y: 0
