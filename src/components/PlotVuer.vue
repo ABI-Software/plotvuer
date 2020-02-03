@@ -124,13 +124,12 @@ export default {
       this.csv.export(this.allChannels);
     },
     traceEvent: function(selectList) {
-      var type = this.pdata[0].type;
       this.pdata = [];
       for (let i in selectList) {
         this.pdata.push({
           x: this.csv.getColoumnByIndex(0),
           y: this.csv.getColoumnByName(selectList[i]),
-          type: type,
+          type: this.csv.getDataType(),
           name: selectList[i]
         });
       }
