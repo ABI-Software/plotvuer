@@ -24,12 +24,12 @@
     </div>
     <vue-plotly class="chart" ref="plotly" :data="pdata" :layout="layout" :autoResize="true" />
     <el-select
+      class="channel-select"
       ref="selectBox"
       v-model="channel"
       @change="traceEvent($event)"
       multiple
       filterable
-      allow-create
       default-first-option
       placeholder="Add and remove data to the plot"
     >
@@ -56,10 +56,10 @@ export default {
   props: ["url", "height", "plotType"],
   data: function() {
     return {
-      allChannels: ["first", "second", "third"],
+      allChannels: [],
       pdata: [{ x: [], y: [], type: "scatter" }],
       layout: {
-        title: "edit this title",
+        title: "Loading csv file",
         paper_bgcolor: "rgba(0,0,0,0)",
         plot_bgcolor: "rgba(0,0,0,0)"
       },
@@ -79,6 +79,7 @@ export default {
         this.pdata[0].type = this.csv.getDataType();
         this.allChannels = this.csv.getHeaders();
         this.plot(this.csv.getHeaderByIndex(1));
+        this.layout.title = this.csv.getTitle(url)
 
         return true;
       });
@@ -94,7 +95,7 @@ export default {
         window.ddata = this.csv.getAllData();
         this.pdata = [
           {
-            z: this.csv.getAllData(),
+            z: [[1, 20, 30], [20, 1, 60], [30, 60, 1]],
             type: "heatmap"
           }
         ];
@@ -106,8 +107,8 @@ export default {
     },
     handleResize: function() {
       new ReziseSensor(this.$el, () => {
-        this.layout.title =
-          "Width now:" + this.$el.clientWidth + " Height now: " + (this.$el.parentElement.clientHeight - this.$refs.selectBox.$el.clientHeight)
+        // this.layout.title =
+        //   "Width now:" + this.$el.clientWidth + " Height now: " + (this.$el.parentElement.clientHeight - this.$refs.selectBox.$el.clientHeight)
         this.$refs.plotly.relayout({
           width: this.$el.clientWidth,
           height: this.$el.parentElement.clientHeight - this.$refs.selectBox.$el.clientHeight
@@ -156,10 +157,13 @@ export default {
 .options {
   position: absolute;
   z-index: 11000;
-  top: 10px;
-  left: 10px;
   height: calc(100% - 20px);
   text-align: left;
   overflow: auto;
+}
+.channel-select {
+  width: 50%;
+  min-width: 250px;
+  height: 7%;
 }
 </style>
