@@ -1,9 +1,9 @@
 <template>
   <div class="plotvuer_parent" :title="collapseName">
     <div class="options">
-      <el-collapse v-model="ccheckbox">
+      <el-collapse >
         <el-collapse-item :title="collapseName">
-          <div style="display: flex;justify-content: space-between;">
+          <div class="input-div">
             <el-checkbox
               style="margin-top:3px;"
               :checked="false"
@@ -11,12 +11,10 @@
               border
             >Plot as heatmap</el-checkbox>
           </div>
-
-          <div style="display: flex;justify-content: space-between;">
+          <div class="input-div">
             <el-checkbox :checked="false" @change="switchAxes()" border>Flip Axes</el-checkbox>
           </div>
-
-          <div style="display: flex;justify-content: space-between;">
+          <div class="input-div">
             <el-button @click="exportAsCSV()">Download as csv file</el-button>
           </div>
         </el-collapse-item>
@@ -45,7 +43,6 @@ import "element-ui/lib/theme-chalk/index.css";
 import CsvManager from "./csv_manager";
 import ReziseSensor from "css-element-queries/src/ResizeSensor";
 
-
 Vue.use(Select);
 Vue.use(Option);
 Vue.use(Collapse);
@@ -53,7 +50,7 @@ Vue.use(CollapseItem);
 export default {
   name: "PlotVuer",
   components: { VuePlotly },
-  props: ["url", "height", "plotType"],
+  props: ["url"],
   data: function() {
     return {
       allChannels: [],
@@ -67,7 +64,6 @@ export default {
       channel: "Select a channel",
       collapseName: "Options",
       buttonLabels: ["Plot As Heatmap", "Export as CSV"],
-      ccheckbox: [1, 2, 3],
       selected: []
     };
   },
@@ -85,14 +81,12 @@ export default {
       });
     },
     plot: function(channel) {
-      window.pdata = this.pdata;
       this.pdata[0].x = this.csv.getColoumnByIndex(0)
       this.pdata[0].y = this.csv.getColoumnByName(channel)
       this.pdata[0].type = this.csv.getDataType() ;
     },
     plotAsHeatmap: function(event) {
       if (event) {
-        window.ddata = this.csv.getAllData();
         this.pdata = [
           {
             z: [[1, 20, 30], [20, 1, 60], [30, 60, 1]],
@@ -164,6 +158,9 @@ export default {
 .channel-select {
   width: 50%;
   min-width: 250px;
-  height: 7%;
+}
+.input-div {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
