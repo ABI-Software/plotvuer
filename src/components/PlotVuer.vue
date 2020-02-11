@@ -20,7 +20,7 @@
         </el-collapse-item>
       </el-collapse>
     </div>
-    <vue-plotly class="chart" ref="plotly" :data="pdata" :layout="layout" :autoResize="true" />
+    <div ref="container" class="vue-plotly"/>
     <el-select
       class="channel-select"
       ref="selectBox"
@@ -36,12 +36,47 @@
   </div>
 </template>
 <script>
-import VuePlotly from "@statnett/vue-plotly";
+import Plotly from './custom-plotly'
 import Vue from "vue";
 import { Select, Option, Collapse, CollapseItem } from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import CsvManager from "./csv_manager";
 import ReziseSensor from "css-element-queries/src/ResizeSensor";
+
+const events = [
+  'click',
+  'hover',
+  'unhover',
+  'selecting',
+  'selected',
+  'restyle',
+  'relayout',
+  'autosize',
+  'deselect',
+  'doubleclick',
+  'redraw',
+  'animated',
+  'afterplot'
+]
+
+const functions = [
+  'restyle',
+  'relayout',
+  'update',
+  'addTraces',
+  'deleteTraces',
+  'moveTraces',
+  'extendTraces',
+  'prependTraces',
+  'purge'
+]
+
+const methods = functions.reduce((all, funcName) => {
+  all[funcName] = function(...args) {
+    return Plotly[funcName].apply(Plotly, [this.$refs.container].concat(args))
+  }
+  return all
+}, {})
 
 Vue.use(Select);
 Vue.use(Option);
@@ -49,61 +84,68 @@ Vue.use(Collapse);
 Vue.use(CollapseItem);
 export default {
   name: "PlotVuer",
-  components: { VuePlotly },
   props: ["url"],
   data: function() {
     return {
       allChannels: [],
-      pdata: [{ x: [], y: [], type: "scatter" }],
+      data: [{ x: [], y: [], type: "scatter" }],
       layout: {
         title: "Loading csv file",
         paper_bgcolor: "rgba(0,0,0,0)",
         plot_bgcolor: "rgba(0,0,0,0)"
       },
+      options: {
+        type: Object
+      },
+      watchShallow: false,
       csv: new CsvManager(),
       channel: "Select a channel",
       collapseName: "Options",
       buttonLabels: ["Plot As Heatmap", "Export as CSV"],
-      selected: []
+      selected: [],
+      internalLayout: {
+        ...this.layout,
+        datarevision: 1
+      }
     };
   },
   methods: {
     loadURL: function(url) {
       this.csv.loadFile(url).then(() => {
-        this.pdata[0].x = this.csv.getColoumnByIndex(0);
-        this.pdata[0].y = this.csv.getColoumnByIndex(1);
-        this.pdata[0].type = this.csv.getDataType();
+        this.data[0].x = this.csv.getColoumnByIndex(0);
+        this.data[0].y = this.csv.getColoumnByIndex(1);
+        this.data[0].type = this.csv.getDataType();
         this.allChannels = this.csv.getHeaders();
-        this.plot(this.csv.getHeaderByIndex(1));
+        this.plot_channel(this.csv.getHeaderByIndex(1));
         this.layout.title = this.csv.getTitle(url)
 
         return true;
       });
     },
-    plot: function(channel) {
-      this.pdata[0].x = this.csv.getColoumnByIndex(0)
-      this.pdata[0].y = this.csv.getColoumnByName(channel)
-      this.pdata[0].type = this.csv.getDataType() ;
+    plot_channel: function(channel) {
+      this.data[0].x = this.csv.getColoumnByIndex(0)
+      this.data[0].y = this.csv.getColoumnByName(channel)
+      this.data[0].type = this.csv.getDataType() ;
     },
     plotAsHeatmap: function(event) {
       if (event) {
-        this.pdata = [
+        this.data = [
           {
             z: [[1, 20, 30], [20, 1, 60], [30, 60, 1]],
             type: "heatmap"
           }
         ];
       } else {
-        this.pdata[0].x = this.csv.getColoumnByIndex(0);
-        this.pdata[0].y = this.csv.getColoumnByIndex(1);
-        this.pdata[0].type = "bar";
+        this.data[0].x = this.csv.getColoumnByIndex(0);
+        this.data[0].y = this.csv.getColoumnByIndex(1);
+        this.data[0].type = "bar";
       }
     },
     handleResize: function() {
       new ReziseSensor(this.$el, () => {
         // this.layout.title =
         //   "Width now:" + this.$el.clientWidth + " Height now: " + (this.$el.parentElement.clientHeight - this.$refs.selectBox.$el.clientHeight)
-        this.$refs.plotly.relayout({
+        Plotly.relayout(this.$refs.container, {
           width: this.$el.clientWidth,
           height: this.$el.parentElement.clientHeight - this.$refs.selectBox.$el.clientHeight
         });
@@ -112,28 +154,73 @@ export default {
     switchAxes: function() {
       this.csv.transposeSelf();
       this.allChannels = this.csv.getHeaders();
-      this.pdata[0].x = this.csv.getColoumnByIndex(0);
-      this.pdata[0].y = this.csv.getColoumnByIndex(1);
+      this.data[0].x = this.csv.getColoumnByIndex(0);
+      this.data[0].y = this.csv.getColoumnByIndex(1);
     },
     exportAsCSV: function() {
       this.csv.export(this.allChannels);
     },
     traceEvent: function(selectList) {
-      this.pdata = [];
+      this.data = [];
       for (let i in selectList) {
-        this.pdata.push({
+        this.data.push({
           x: this.csv.getColoumnByIndex(0),
           y: this.csv.getColoumnByName(selectList[i]),
           type: this.csv.getDataType(),
           name: selectList[i]
         });
       }
-    }
+    },
+    initEvents() {
+      
+      this.__generalListeners = events.map((eventName) => {
+        return {
+          fullName: 'plotly_' + eventName,
+          handler: (...args) => {
+            this.$emit.apply(this, [eventName].concat(args))
+          }
+        }
+      })
+
+      this.__generalListeners.forEach((obj) => {
+        this.$refs.container.on(obj.fullName, obj.handler)
+      })
+    },
+    plot() {
+      return Plotly.plot(this.$refs.container, this.data, this.internalLayout, this.getOptions())
+    },
+    getOptions() {
+      let el = this.$refs.container
+      let opts = this.options
+
+      // if width/height is not specified for toImageButton, default to el.clientWidth/clientHeight
+      if (!opts) opts = {}
+      if (!opts.toImageButtonOptions) opts.toImageButtonOptions = {}
+      if (!opts.toImageButtonOptions.width) opts.toImageButtonOptions.width = el.clientWidth
+      if (!opts.toImageButtonOptions.height) opts.toImageButtonOptions.height = el.clientHeight
+      return opts
+    },
+    newPlot() {
+      return Plotly.newPlot(this.$refs.container, this.data, this.internalLayout, this.getOptions())
+    },
+    react() {
+      return Plotly.react(this.$refs.container, this.data, this.internalLayout, this.getOptions())
+    },
+    ...methods,
   },
   mounted() {
+    this.react()
+    this.initEvents()
     this.handleResize();
+    this.$watch('data', () => {
+      this.internalLayout.datarevision++
+      this.react()
+    }, { deep: !this.watchShallow })
+
+    this.$watch('options', this.react, { deep: !this.watchShallow })
+    this.$watch('layout', this.relayout, { deep: !this.watchShallow })
     if (this.plotType === "heatmap") {
-      this.pdata = [
+      this.data = [
         {
           z: this.csv.getAllData(),
           type: "heatmap"
@@ -144,7 +231,11 @@ export default {
   created() {
     this.loadURL(this.url);
   },
-  destroyed() {}
+  destroyed() {},
+  beforeDestroy() {
+    this.__generalListeners.forEach(obj => this.$refs.container.removeAllListeners(obj.fullName))
+    Plotly.purge(this.$refs.container)
+  }
 };
 </script>
 <style scoped>
