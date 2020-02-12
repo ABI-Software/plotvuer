@@ -116,9 +116,9 @@ export default {
         this.data[0].y = this.csv.getColoumnByIndex(1);
         this.data[0].type = this.csv.getDataType();
         this.allChannels = this.csv.getHeaders();
-        this.plot_channel(this.csv.getHeaderByIndex(1));
+        // this.plot_channel(this.csv.getHeaderByIndex(1));
         this.layout.title = this.csv.getTitle(url)
-
+        Plotly.newPlot(this.$refs.container, this.data, this.layout)
         return true;
       });
     },
@@ -129,12 +129,18 @@ export default {
     },
     plotAsHeatmap: function(event) {
       if (event) {
-        this.data = [
+        var tdata = [
           {
-            z: [[1, 20, 30], [20, 1, 60], [30, 60, 1]],
+            z: this.csv.getAllData(),
             type: "heatmap"
           }
         ];
+        let tlayout = {
+          title: this.csv.getTitle(),
+          paper_bgcolor: "rgba(0,0,0,0)",
+          plot_bgcolor: "rgba(0,0,0,0)"
+        }
+        Plotly.react(this.$refs.container, tdata, tlayout)
       } else {
         this.data[0].x = this.csv.getColoumnByIndex(0);
         this.data[0].y = this.csv.getColoumnByIndex(1);
@@ -187,7 +193,7 @@ export default {
       })
     },
     plot() {
-      return Plotly.plot(this.$refs.container, this.data, this.internalLayout, this.getOptions())
+      return Plotly.plot(this.$refs.container, this.data, this.layout, this.getOptions())
     },
     getOptions() {
       let el = this.$refs.container
@@ -201,10 +207,10 @@ export default {
       return opts
     },
     newPlot() {
-      return Plotly.newPlot(this.$refs.container, this.data, this.internalLayout, this.getOptions())
+      return Plotly.newPlot(this.$refs.container, this.data, this.layout, this.getOptions())
     },
     react() {
-      return Plotly.react(this.$refs.container, this.data, this.internalLayout, this.getOptions())
+      return Plotly.react(this.$refs.container, this.data, this.layout, this.getOptions())
     },
     ...methods,
   },
