@@ -1,6 +1,7 @@
 # plotvuer 
 
 [![npm version](https://badge.fury.io/js/%40tehsurfer%2Fplotvuer.svg)](https://badge.fury.io/js/%40tehsurfer%2Fplotvuer)
+[![Maintainability](https://api.codeclimate.com/v1/badges/8dd727f153711aaae6e1/maintainability)](https://codeclimate.com/github/Tehsurfer/plotvuer/maintainability)
 
 This project aims to process and display csv files as graphs in the vue framework
 
