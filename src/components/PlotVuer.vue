@@ -132,6 +132,8 @@ export default {
         var tdata = [
           {
             z: this.csv.getAllData(),
+            x: this.csv.getColoumnByIndex(0),
+            y: this.csv.getHeaders(),
             type: "heatmap"
           }
         ];
