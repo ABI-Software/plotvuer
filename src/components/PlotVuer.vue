@@ -178,7 +178,6 @@ export default {
       }
     },
     initEvents() {
-      
       this.__generalListeners = events.map((eventName) => {
         return {
           fullName: 'plotly_' + eventName,
