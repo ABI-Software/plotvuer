@@ -136,7 +136,7 @@ export default {
           }
         ];
         let tlayout = {
-          title: this.csv.getTitle(),
+          title: this.csv.getTitle(this.url),
           paper_bgcolor: "rgba(0,0,0,0)",
           plot_bgcolor: "rgba(0,0,0,0)"
         }
