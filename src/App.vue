@@ -33,7 +33,7 @@ export default {
       urlList: ['https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/csv-data/use-case-4/RNA_Seq.csv', 'https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/csv-data/use-case-2/Sample_1_18907001_channel_1.csv'],
       width: 700,
       height: 700,
-      plotTypeList: ["heatmap2", "scatter"],
+      plotTypeList: ["heatmap", "scatter"],
       y: 0
     }
   },
@@ -57,7 +57,7 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  text-align: left;
   color: #2c3e50;
   height:100%;
   width: 100%;
