@@ -26,32 +26,30 @@
     <el-select
       class="channel-select"
       ref="selectBox"
-      v-model="channel"
-      @change="traceEvent($event)"
+      v-model="channelx"
       multiple
       filterable
       default-first-option
       placeholder="Select cell/sample"
     >
-      <el-option v-for="item in allChannels" :key="item" :label="item" :value="item"></el-option>
+      <el-option v-for="item in allChannelsX" :key="item" :label="item" :value="item"></el-option>
     </el-select>
     </span>
     <span>
     <el-select
       class="channel-select"
       ref="selectBox2"
-      v-model="channel"
-      @change="traceEvent($event)"
+      v-model="channely"
       multiple
       filterable
       default-first-option
       placeholder="Select gene"
     >
-      <el-option v-for="item in allChannels" :key="item" :label="item" :value="item"></el-option>
+      <el-option v-for="item in allChannelsY" :key="item" :label="item" :value="item"></el-option>
     </el-select>
     </span>
     <span>
-      <el-button class="view-heatmap-button">View Heatmap</el-button>
+      <el-button class="view-heatmap-button" @click="heatmapPlot()">View Heatmap</el-button>
     </span>
     </div>
     
@@ -112,7 +110,8 @@ export default {
   props: ["url", "plotType"],
   data: function() {
     return {
-      allChannels: [],
+      allChannelsX: [],
+      allChannelsY: [],
       data: [{ x: [], y: [], type: "scatter" }],
       layout: {
         paper_bgcolor: "rgba(0,0,0,0)",
@@ -130,7 +129,8 @@ export default {
       },
       watchShallow: false,
       csv: new CsvManager(),
-      channel: "Select a channel",
+      channelx: "Select a channel",
+      channely: '',
       collapseName: "Options",
       buttonLabels: ["Plot As Heatmap", "Export as CSV"],
       selected: [],
@@ -143,13 +143,17 @@ export default {
   methods: {
     loadURL: function(url) {
       this.csv.loadFile(url).then(() => {
-        // this.data[0].x = this.csv.getColoumnByIndex(0);
-        // this.data[0].y = this.csv.getColoumnByIndex(1);
-        // this.data[0].type = this.csv.getDataType();
-        this.allChannels = this.csv.getHeaders();
-        // this.plot_channel(this.csv.getHeaderByIndex(1));
-        // Plotly.newPlot(this.$refs.container, this.data, this.layout)
-        this.plotAsHeatmap(true)
+        this.allChannelsX = this.csv.getHeaders();
+        this.allChannelsY = this.csv.getColoumnByIndex(0)
+        if (this.plotType === 'heatmap') {
+          this.plotAsHeatmap(true)
+        } else {
+          this.data[0].x = this.csv.getColoumnByIndex(0);
+          this.data[0].y = this.csv.getColoumnByIndex(1);
+          this.data[0].type = this.csv.getDataType();
+          this.plot_channel(this.csv.getHeaderByIndex(1));
+          Plotly.newPlot(this.$refs.container, this.data, this.layout)
+        }
         return true;
       });
     },
@@ -175,9 +179,22 @@ export default {
         this.data[0].type = "bar";
       }
     },
+
+    heatmapPlot: function (){
+      var data = this.csv.getByAxes(this.channelx, this.channely)
+      var tdata = [
+          {
+            z: data,
+            x: this.channelx,
+            y: this.channely,
+            type: "heatmap"
+          }
+        ];
+        Plotly.react(this.$refs.container, tdata, this.layout)
+      
+    },
     handleResize: function() {
       new ReziseSensor(this.$el, () => {
-        window.heeee = this.$refs
         // this.layout.title =
         //   "Width now:" + this.$el.clientWidth + " Height now: " + (this.$el.parentElement.clientHeight - this.$refs.selectBox.$el.clientHeight)
         Plotly.relayout(this.$refs.container, {
@@ -188,23 +205,13 @@ export default {
     },
     switchAxes: function() {
       this.csv.transposeSelf();
-      this.allChannels = this.csv.getHeaders();
+      this.allChannelsX = this.csv.getHeaders();
+      this.allChannelsY = this.csv.getColoumnByIndex(0)
       this.data[0].x = this.csv.getColoumnByIndex(0);
       this.data[0].y = this.csv.getColoumnByIndex(1);
     },
     exportAsCSV: function() {
-      this.csv.export(this.allChannels);
-    },
-    traceEvent: function(selectList) {
-      this.data = [];
-      for (let i in selectList) {
-        this.data.push({
-          x: this.csv.getColoumnByIndex(0),
-          y: this.csv.getColoumnByName(selectList[i]),
-          type: this.csv.getDataType(),
-          name: selectList[i]
-        });
-      }
+      this.csv.export(this.allChannelsX);
     },
     initEvents() {
       this.__generalListeners = events.map((eventName) => {
