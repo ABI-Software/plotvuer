@@ -277,11 +277,12 @@ export default {
 .controls{
   padding: 40px;
   padding-bottom: 0px;
+  align-items: left;
 }
 .title{
   width: 572px;
   height: 17px;
-  font-family: HelveticaNeue;
+  font-family: Helvetica;
   font-size: 14px;
   font-weight: 500;
   font-stretch: normal;
