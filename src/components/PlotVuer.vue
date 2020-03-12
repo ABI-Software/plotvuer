@@ -29,6 +29,7 @@
       v-model="channelx"
       multiple
       filterable
+      collapse-tags
       default-first-option
       placeholder="Select cell/sample"
     >
@@ -42,6 +43,7 @@
       v-model="channely"
       multiple
       filterable
+      collapse-tags
       default-first-option
       placeholder="Select gene"
     >
