@@ -280,7 +280,10 @@ export default {
   padding: 40px;
   padding-bottom: 0px;
   align-items: left;
+  min-width: 700px;
 }
+
+
 .title{
   width: 572px;
   height: 17px;
@@ -331,5 +334,15 @@ export default {
 .input-div {
   display: flex;
   justify-content: space-between;
+}
+</style>
+<style>
+.el-select__tags-text {
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: middle;
 }
 </style>
