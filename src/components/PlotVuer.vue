@@ -281,6 +281,7 @@ export default {
   padding-bottom: 0px;
   align-items: left;
   min-width: 700px;
+  text-align: left;
 }
 
 
