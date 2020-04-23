@@ -109,7 +109,7 @@ Vue.use(CollapseItem);
 Vue.use(Button)
 export default {
   name: "PlotVuer",
-  props: ["url", "plotType"],
+  props: ["url", "plotType", "genes", "samples"],
   data: function() {
     return {
       allChannelsX: [],
@@ -149,6 +149,11 @@ export default {
         this.allChannelsY = this.csv.getColoumnByIndex(0)
         if (this.plotType === 'heatmap') {
           this.plotAsHeatmap(true)
+          if (this.genes !== undefined){
+            this.channelx = this.genes
+            this.channely = this.samples
+            this.heatmapPlot()
+          }
         } else {
           this.data[0].x = this.csv.getColoumnByIndex(0);
           this.data[0].y = this.csv.getColoumnByIndex(1);
