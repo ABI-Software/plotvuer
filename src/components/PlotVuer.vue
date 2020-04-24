@@ -31,12 +31,12 @@
       filterable
       collapse-tags
       default-first-option
-      placeholder="Select cell/sample"
+      :placeholder="ui.placeholderx"
     >
       <el-option v-for="item in allChannelsX" :key="item" :label="item" :value="item"></el-option>
     </el-select>
     </span>
-    <span>
+    <span v-if="ui.showSecondSelector">
     <el-select
       class="channel-select"
       ref="selectBox2"
@@ -45,13 +45,13 @@
       filterable
       collapse-tags
       default-first-option
-      placeholder="Select gene"
+      :placeholder="ui.placeholdery"
     >
       <el-option v-for="item in allChannelsY" :key="item" :label="item" :value="item"></el-option>
     </el-select>
     </span>
     <span>
-      <el-button class="view-heatmap-button" @click="heatmapPlot()">View Heatmap</el-button>
+      <el-button class="view-heatmap-button" @click="ui.buttonPlot">{{ui.button}}</el-button>
     </span>
     </div>
     
@@ -141,6 +141,29 @@ export default {
         datarevision: 1
       }
     };
+  },
+  computed: {
+    ui: function(){
+      var ui = {}
+      if(this.plotType === "heatmap"){
+        ui = {
+          'button': 'View Heatmap',
+          'buttonPlot': this.heatmapPlot,
+          'placeholderx': 'Select cell/sample',
+          'placeholdery': 'Select gene',
+          'showSecondSelector': true
+        }
+      } else {
+        ui = {
+          'button': 'View Plot',
+          'buttonPlot': this.plotAsHeatmap,
+          'placeholderx': 'Select channel',
+          'placeholdery': 'Select gene',
+          'showSecondSelector': false,
+        }
+      }
+      return ui
+    }
   },
   methods: {
     loadURL: function(url) {
