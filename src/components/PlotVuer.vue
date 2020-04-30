@@ -156,7 +156,7 @@ export default {
       } else {
         ui = {
           'button': 'View Plot',
-          'buttonPlot': this.plotAsHeatmap,
+          'buttonPlot': this.timeseriesPlot,
           'placeholderx': 'Select channel',
           'placeholdery': 'Select gene',
           'showSecondSelector': false,
@@ -171,11 +171,13 @@ export default {
         this.allChannelsX = this.csv.getHeaders();
         this.allChannelsY = this.csv.getColoumnByIndex(0)
         if (this.plotType === 'heatmap') {
-          this.plotAsHeatmap(true)
           if (this.genes !== undefined){
             this.channelx = this.genes
             this.channely = this.samples
             this.heatmapPlot()
+          }
+          else{
+            this.heatmapPlotAll()
           }
         } else {
           this.data[0].x = this.csv.getColoumnByIndex(0);
@@ -187,29 +189,23 @@ export default {
         return true;
       });
     },
-    plot_channel: function(channel) {
-      this.data[0].x = this.csv.getColoumnByIndex(0)
-      this.data[0].y = this.csv.getColoumnByName(channel)
-      this.data[0].type = this.csv.getDataType() ;
-    },
-    plotAsHeatmap: function(event) {
-      if (event) {
-        var tdata = [
-          {
-            z: this.csv.getAllData(),
-            x: this.csv.getColoumnByIndex(0),
-            y: this.csv.getHeaders(),
-            type: "heatmap"
-          }
-        ];
-        Plotly.react(this.$refs.container, tdata, this.layout)
-      } else {
-        this.data[0].x = this.csv.getColoumnByIndex(0);
-        this.data[0].y = this.csv.getColoumnByIndex(1);
-        this.data[0].type = "bar";
+    plot_channel: function(channel = false) {
+      if (channel){
+        this.data[0].x = this.csv.getColoumnByIndex(0)
+        this.data[0].y = this.csv.getColoumnByName(channel)
+        this.data[0].type = this.csv.getDataType() ;
       }
     },
-
+    timeseriesPlot: function(){
+      this.data = []
+      for(let i in this.channelx){
+        this.data.push([])
+        this.data[i].x = this.csv.getColoumnByIndex(0)
+        this.data[i].y = this.csv.getColoumnByName(this.channelx[i])
+        this.data[i].type = this.csv.getDataType()
+      }
+      Plotly.react(this.$refs.container, this.data, this.layout)
+    },
     heatmapPlot: function (){
       var data = this.csv.getByAxes(this.channelx, this.channely)
       var tdata = [
@@ -223,6 +219,17 @@ export default {
         Plotly.react(this.$refs.container, tdata, this.layout)
       
     },
+    heatmapPlotAll: function (){
+      var tdata = [
+          {
+            z: this.csv.getAllData(),
+            x: this.csv.getColoumnByIndex(0),
+            y: this.csv.getHeaders(),
+            type: "heatmap"
+          }
+        ];
+        Plotly.react(this.$refs.container, tdata, this.layout)
+    },
     handleResize: function() {
       new ReziseSensor(this.$el, () => {
         // this.layout.title =
@@ -232,16 +239,6 @@ export default {
           height: this.$el.parentElement.clientHeight - this.$refs.controls.clientHeight
         });
       });
-    },
-    switchAxes: function() {
-      this.csv.transposeSelf();
-      this.allChannelsX = this.csv.getHeaders();
-      this.allChannelsY = this.csv.getColoumnByIndex(0)
-      this.data[0].x = this.csv.getColoumnByIndex(0);
-      this.data[0].y = this.csv.getColoumnByIndex(1);
-    },
-    exportAsCSV: function() {
-      this.csv.export(this.allChannelsX);
     },
     initEvents() {
       this.__generalListeners = events.map((eventName) => {
