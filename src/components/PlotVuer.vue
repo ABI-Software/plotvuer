@@ -124,7 +124,8 @@ export default {
           r: 55,
           b: 90,
           pad: 4
-        }
+        },
+        dragmode: 'pan' 
       },
       options: {
         type: Object
@@ -184,7 +185,7 @@ export default {
           this.data[0].y = this.csv.getColoumnByIndex(1);
           this.data[0].type = this.csv.getDataType();
           this.plot_channel(this.csv.getHeaderByIndex(1));
-          Plotly.newPlot(this.$refs.container, this.data, this.layout)
+          Plotly.newPlot(this.$refs.container, this.data, this.layout, this.getOptions())
         }
         return true;
       });
@@ -204,7 +205,7 @@ export default {
         this.data[i].y = this.csv.getColoumnByName(this.channelx[i])
         this.data[i].type = this.csv.getDataType()
       }
-      Plotly.react(this.$refs.container, this.data, this.layout)
+      Plotly.react(this.$refs.container, this.data, this.layout, this.getOptions())
     },
     heatmapPlot: function (){
       var data = this.csv.getByAxes(this.channelx, this.channely)
@@ -216,7 +217,7 @@ export default {
             type: "heatmap"
           }
         ];
-        Plotly.react(this.$refs.container, tdata, this.layout)
+        Plotly.react(this.$refs.container, tdata, this.layout, this.getOptions())
       
     },
     heatmapPlotAll: function (){
@@ -228,7 +229,7 @@ export default {
             type: "heatmap"
           }
         ];
-        Plotly.react(this.$refs.container, tdata, this.layout)
+        Plotly.react(this.$refs.container, tdata, this.layout, this.getOptions())
     },
     handleResize: function() {
       new ReziseSensor(this.$el, () => {
@@ -266,6 +267,8 @@ export default {
       if (!opts.toImageButtonOptions) opts.toImageButtonOptions = {}
       if (!opts.toImageButtonOptions.width) opts.toImageButtonOptions.width = el.clientWidth
       if (!opts.toImageButtonOptions.height) opts.toImageButtonOptions.height = el.clientHeight
+      opts.scrollZoom = true
+      opts.displayModeBar = false
       return opts
     },
     newPlot() {
