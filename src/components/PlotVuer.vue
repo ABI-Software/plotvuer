@@ -1,5 +1,15 @@
 <template>
   <div class="plotvuer_parent" :title="collapseName">
+    <div class="ui-controls">
+      <el-button icon="el-icon-plus" :disabled="zoomInDisabled" circle class="zoomIn icon-button" 
+        @click="zoomIn()" size="mini"></el-button>
+      <el-button icon="el-icon-minus" :disabled="zoomOutDisabled" circle class="zoomOut icon-button"
+        @click="zoomOut()" size="mini"></el-button>
+      <el-button icon="el-icon-refresh-right" circle class="resetView icon-button"
+        @click="resetView()" size="mini"></el-button>
+
+    </div>
+  
     <div class="controls" ref="controls">
     <div class='title'>RNA Sequences</div>
     <!-- <span class="options">
@@ -22,6 +32,7 @@
         </el-collapse-item>
       </el-collapse>
     </span> -->
+
     <span >
     <el-select
       class="channel-select"
@@ -130,6 +141,9 @@ export default {
       options: {
         type: Object
       },
+      zoomLevel: 0,
+      zoomInDisabled: false,
+      zoomOutDisabled: true,
       watchShallow: false,
       csv: new CsvManager(),
       channelx: "Select a channel",
@@ -164,7 +178,7 @@ export default {
         }
       }
       return ui
-    }
+    },
   },
   methods: {
     loadURL: function(url) {
@@ -241,6 +255,46 @@ export default {
         });
       });
     },
+    zoomIn: function(){
+      this.zoomLevel++
+      let xaxis = this.csv.getColoumnByIndex(0)
+      let scaling = xaxis.length/10
+      var zoomAxes = [xaxis[Math.floor(this.zoomLevel*scaling)], xaxis[Math.floor(xaxis.length -2 -this.zoomLevel*scaling)]]
+      Plotly.relayout(this.$refs.container, 'xaxis.range', zoomAxes)
+      window.zoomAxes = zoomAxes
+      window.zoomLevel = this.zoomLevel
+      this.setDisabledButtons(this.zoomLevel)
+    },
+    zoomOut: function(){
+      this.zoomLevel--
+      let xaxis = this.csv.getColoumnByIndex(0)
+      let scaling = xaxis.length/10
+      var zoomAxes = [xaxis[Math.floor(this.zoomLevel*scaling)], xaxis[Math.floor(xaxis.length -2 -this.zoomLevel*scaling)]]
+      Plotly.relayout(this.$refs.container, 'xaxis.range', zoomAxes)
+      window.zoomAxes = zoomAxes
+      window.zoomLevel = this.zoomLevel
+      this.setDisabledButtons(this.zoomLevel)
+    },
+    setDisabledButtons(zoomLevel){
+      if (zoomLevel === 8){
+        this.zoomInDisabled = true
+      } else {
+        this.zoomInDisabled = false
+      }
+      if (zoomLevel === 0){
+        this.zoomOutDisabled = true
+      } else {
+        this.zoomOutDisabled = false
+      }
+      return
+    },
+    resetView: function(){
+      this.zoomLevel = 0
+      let xaxis = this.csv.getColoumnByIndex(0)
+      var zoomAxes = [xaxis[0], xaxis[xaxis.length-2]]
+      Plotly.relayout(this.$refs.container, 'xaxis.range', zoomAxes)
+      this.setDisabledButtons(this.zoomLevel)
+    },
     initEvents() {
       this.__generalListeners = events.map((eventName) => {
         return {
@@ -311,6 +365,14 @@ export default {
   min-width: 700px;
   text-align: left;
 }
+.ui-controls{
+  position: absolute;
+  height: 100%;
+  width: 40px;
+  right: 0px;
+  pointer-events: none;
+  z-index: 5
+}
 
 
 .title{
@@ -363,6 +425,35 @@ export default {
 .input-div {
   display: flex;
   justify-content: space-between;
+}
+
+.zoomIn{
+  top:51px;
+  right:20px;
+  position: absolute;
+  pointer-events: auto;
+}
+.zoomOut{
+  top:90px;
+  right:20px;
+  position: absolute;
+    pointer-events: auto;
+}
+.resetView {
+  top:129px;
+  right:20px;
+  position: absolute;
+    pointer-events: auto;
+}
+.icon-button {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  border: solid 1px #ffffff;
+  background-color: #ffffff;
+}
+.freeSpin {
+  bottom:79px;
+  right:50%;
+  position: absolute;
 }
 </style>
 <style>
