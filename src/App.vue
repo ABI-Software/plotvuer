@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <vue-draggable-resizable :w="700" :h="700" @dragging="onDrag" @resizing="onResize" :parent="true">
-      <PlotVuer :url="urlList[0]" :height="height" :plotType="plotTypeList[0]" :genes="['Adra2a']" :samples="['HB_50A_4']"></PlotVuer>
+      <PlotVuer :url="urlList[0]" :height="height" :plotType="plotTypeList[0]" ></PlotVuer>
     </vue-draggable-resizable>
     <vue-draggable-resizable :w="500" :h="500" @dragging="onDrag" @resizing="onResize" :parent="true">
       <PlotVuer :url="urlList[1]"  :plotType="plotTypeList[1]"></PlotVuer>

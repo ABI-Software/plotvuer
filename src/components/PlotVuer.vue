@@ -164,8 +164,8 @@ export default {
         ui = {
           'button': 'View Heatmap',
           'buttonPlot': this.heatmapPlot,
-          'placeholderx': 'Select cell/sample',
-          'placeholdery': 'Select gene',
+          'placeholderx': 'Select gene', 
+          'placeholdery': 'Select cell/sample',
           'showSecondSelector': true
         }
       } else {
