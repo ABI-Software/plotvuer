@@ -257,22 +257,12 @@ export default {
     },
     zoomIn: function(){
       this.zoomLevel++
-      let xaxis = this.csv.getColoumnByIndex(0)
-      let scaling = xaxis.length/10
-      var zoomAxes = [xaxis[Math.floor(this.zoomLevel*scaling)], xaxis[Math.floor(xaxis.length -2 -this.zoomLevel*scaling)]]
-      Plotly.relayout(this.$refs.container, 'xaxis.range', zoomAxes)
-      window.zoomAxes = zoomAxes
-      window.zoomLevel = this.zoomLevel
+      this.$el.querySelector('a[data-attr="zoom"][data-val="in"]').click()
       this.setDisabledButtons(this.zoomLevel)
     },
     zoomOut: function(){
       this.zoomLevel--
-      let xaxis = this.csv.getColoumnByIndex(0)
-      let scaling = xaxis.length/10
-      var zoomAxes = [xaxis[Math.floor(this.zoomLevel*scaling)], xaxis[Math.floor(xaxis.length -2 -this.zoomLevel*scaling)]]
-      Plotly.relayout(this.$refs.container, 'xaxis.range', zoomAxes)
-      window.zoomAxes = zoomAxes
-      window.zoomLevel = this.zoomLevel
+      this.$el.querySelector('a[data-attr="zoom"][data-val="out"]').click()
       this.setDisabledButtons(this.zoomLevel)
     },
     setDisabledButtons(zoomLevel){
@@ -290,9 +280,7 @@ export default {
     },
     resetView: function(){
       this.zoomLevel = 0
-      let xaxis = this.csv.getColoumnByIndex(0)
-      var zoomAxes = [xaxis[0], xaxis[xaxis.length-2]]
-      Plotly.relayout(this.$refs.container, 'xaxis.range', zoomAxes)
+      this.$el.querySelector('a[data-attr="zoom"][data-val="reset"]').click()
       this.setDisabledButtons(this.zoomLevel)
     },
     initEvents() {
@@ -322,7 +310,6 @@ export default {
       if (!opts.toImageButtonOptions.width) opts.toImageButtonOptions.width = el.clientWidth
       if (!opts.toImageButtonOptions.height) opts.toImageButtonOptions.height = el.clientHeight
       opts.scrollZoom = true
-      opts.displayModeBar = false
       return opts
     },
     newPlot() {
@@ -464,5 +451,8 @@ export default {
   white-space: nowrap;
   display: inline-block;
   vertical-align: middle;
+}
+.modebar-container{
+  display: none;
 }
 </style>

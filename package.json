@@ -1,6 +1,6 @@
 {
   "name": "@tehsurfer/plotvuer",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "main": "./dist/plotvuer.common.js",
   "files": [
     "dist/*",
