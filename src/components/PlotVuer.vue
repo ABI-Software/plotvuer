@@ -42,6 +42,7 @@
       filterable
       collapse-tags
       default-first-option
+      :popper-append-to-body="false"
       :placeholder="ui.placeholderx"
     >
       <el-option v-for="item in allChannelsX" :key="item" :label="item" :value="item"></el-option>
@@ -56,6 +57,7 @@
       filterable
       collapse-tags
       default-first-option
+      :popper-append-to-body="false"
       :placeholder="ui.placeholdery"
     >
       <el-option v-for="item in allChannelsY" :key="item" :label="item" :value="item"></el-option>
@@ -456,3 +458,4 @@ export default {
   display: none;
 }
 </style>
+
