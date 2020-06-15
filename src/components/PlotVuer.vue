@@ -1,37 +1,26 @@
 <template>
   <div class="plotvuer_parent" :title="collapseName">
     <div class="ui-controls">
-      <el-button icon="el-icon-plus" :disabled="zoomInDisabled" circle class="zoomIn icon-button" 
-        @click="zoomIn()" size="mini"></el-button>
-      <el-button icon="el-icon-minus" :disabled="zoomOutDisabled" circle class="zoomOut icon-button"
-        @click="zoomOut()" size="mini"></el-button>
-      <el-button icon="el-icon-refresh-right" circle class="resetView icon-button"
-        @click="resetView()" size="mini"></el-button>
+      <el-popover content="Zoom In" placement="left" 
+        :appendToBody=false trigger="manual" popper-class="plot-popper" v-model="hoverVisabilities[0].value">
+        <el-button icon="el-icon-plus" circle class="zoomIn icon-button" 
+          @click="zoomIn()" :disabled="zoomInDisabled" size="mini" slot="reference" @mouseover.native="showToolitip(0)" @mouseout.native="hideToolitip(0)"></el-button>
+      </el-popover>
+      <el-popover content="Zoom Out" placement="left"
+        :appendToBody=false trigger="manual" popper-class="plot-popper" v-model="hoverVisabilities[1].value">
+        <el-button icon="el-icon-minus" circle class="zoomOut icon-button"
+        @click="zoomOut()" :disabled="zoomOutDisabled"  size="mini" slot="reference" @mouseover.native="showToolitip(1)" @mouseout.native="hideToolitip(1)"></el-button>
+      </el-popover>
+      <el-popover content="Reset view" placement="left"
+        :appendToBody=false trigger="manual" popper-class="plot-popper" v-model="hoverVisabilities[2].value">
+        <el-button icon="el-icon-refresh-right" circle class="resetView icon-button"
+          @click="resetView()" size="mini" slot="reference" @mouseover.native="showToolitip(2)" @mouseout.native="hideToolitip(2)"></el-button>
+      </el-popover>
 
     </div>
   
     <div class="controls" ref="controls">
     <div class='title'>RNA Sequences</div>
-    <!-- <span class="options">
-      <el-collapse>
-        <el-collapse-item :title="collapseName">
-          <div class="input-div">
-            <el-checkbox
-              style="margin-top:3px;"
-              :checked="false"
-              @change="plotAsHeatmap($event)"
-              border
-            >Plot as heatmap</el-checkbox>
-          </div>
-          <div class="input-div">
-            <el-checkbox :checked="false" @change="switchAxes()" border>Flip Axes</el-checkbox>
-          </div>
-          <div class="input-div">
-            <el-button @click="exportAsCSV()">Download as csv file</el-button>
-          </div>
-        </el-collapse-item>
-      </el-collapse>
-    </span> -->
 
     <span >
     <el-select
@@ -122,7 +111,29 @@ Vue.use(CollapseItem);
 Vue.use(Button)
 export default {
   name: "PlotVuer",
-  props: ["url", "plotType", "genes", "samples"],
+  props:{
+    url:{
+      type: String,
+      default: 'https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/csv-data/use-case-4/RNA_Seq.csv',
+    },
+    plotType:{
+      type: String,
+      default: 'heatmap'
+    },
+    genes: {
+      type: Array,
+      default: () => []
+    },
+    samples: {
+      type: Array,
+      default: () => []
+    },
+    helpMode: {
+      type: Boolean,
+      default: false
+    }
+    
+  },
   data: function() {
     return {
       allChannelsX: [],
@@ -143,6 +154,8 @@ export default {
       options: {
         type: Object
       },
+      hoverVisabilities: [{value: false}, {value: false}, {value: false}, {value: false},{value: false}],
+      inHelp: false,
       zoomLevel: 0,
       zoomInDisabled: false,
       zoomOutDisabled: true,
@@ -188,7 +201,7 @@ export default {
         this.allChannelsX = this.csv.getHeaders();
         this.allChannelsY = this.csv.getColoumnByIndex(0)
         if (this.plotType === 'heatmap') {
-          if (this.genes !== undefined){
+          if (this.genes !== []){
             this.channelx = this.genes
             this.channely = this.samples
             this.heatmapPlot()
@@ -285,6 +298,29 @@ export default {
       this.$el.querySelector('a[data-attr="zoom"][data-val="reset"]').click()
       this.setDisabledButtons(this.zoomLevel)
     },
+    setHelpMode: function(helpMode){
+      if (helpMode){
+        this.inHelp = true;
+        this.hoverVisabilities.forEach( (item) =>{
+          item.value = true;
+        });
+      } else {
+        this.inHelp = false;
+        this.hoverVisabilities.forEach( (item) =>{
+          item.value = false;
+        });
+      }
+    },
+    showToolitip: function(tooltipNumber){
+      if (!this.inHelp){
+        this.hoverVisabilities[tooltipNumber].value = true;
+      }
+    },
+    hideToolitip: function(tooltipNumber){
+      if (!this.inHelp){
+        this.hoverVisabilities[tooltipNumber].value = false;
+      }
+    },
     initEvents() {
       this.__generalListeners = events.map((eventName) => {
         return {
@@ -336,8 +372,10 @@ export default {
     this.$watch('layout', this.relayout, { deep: !this.watchShallow })
     
   },
-  created() {
-    
+  watch: {
+    helpMode: function(val){
+      this.setHelpMode(val);
+    }
   },
   destroyed() {},
   beforeDestroy() {
@@ -443,6 +481,16 @@ export default {
   bottom:79px;
   right:50%;
   position: absolute;
+}
+>>> .plot-popper {
+  padding:9px 10px;
+  min-width:150px;
+  font-size:12px;
+  color: #fff;
+  background-color: #8300bf;  
+}
+>>> .plot-popper .popper__arrow::after{
+  border-left-color: #8300bf !important;
 }
 </style>
 <style>
