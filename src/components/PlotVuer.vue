@@ -201,7 +201,7 @@ export default {
         this.allChannelsX = this.csv.getHeaders();
         this.allChannelsY = this.csv.getColoumnByIndex(0)
         if (this.plotType === 'heatmap') {
-          if (this.genes !== []){
+          if (this.genes.length > 1){
             this.channelx = this.genes
             this.channely = this.samples
             this.heatmapPlot()
