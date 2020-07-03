@@ -65,7 +65,6 @@
 import Plotly from './custom-plotly'
 import Vue from "vue";
 import { Select, Option, Collapse, CollapseItem, Button } from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
 import CsvManager from "./csv_manager";
 import ReziseSensor from "css-element-queries/src/ResizeSensor";
 
@@ -386,6 +385,7 @@ export default {
   }
 };
 </script>
+<style scoped src="element-ui/lib/theme-chalk/index.css"></style>
 <style scoped>
 .controls{
   padding-left: 55px;
@@ -494,9 +494,8 @@ export default {
 >>> .plot-popper .popper__arrow::after{
   border-left-color: #8300bf !important;
 }
-</style>
-<style>
-.el-select__tags-text {
+
+>>> .el-select__tags-text {
   max-width: 90px;
   overflow: hidden;
   text-overflow: ellipsis;
