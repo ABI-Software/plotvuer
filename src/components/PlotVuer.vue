@@ -68,41 +68,6 @@ import { Select, Option, Collapse, CollapseItem, Button } from "element-ui";
 import CsvManager from "./csv_manager";
 import ReziseSensor from "css-element-queries/src/ResizeSensor";
 
-const events = [
-  'click',
-  'hover',
-  'unhover',
-  'selecting',
-  'selected',
-  'restyle',
-  'relayout',
-  'autosize',
-  'deselect',
-  'doubleclick',
-  'redraw',
-  'animated',
-  'afterplot'
-]
-
-const functions = [
-  'restyle',
-  'relayout',
-  'update',
-  'addTraces',
-  'deleteTraces',
-  'moveTraces',
-  'extendTraces',
-  'prependTraces',
-  'purge'
-]
-
-const methods = functions.reduce((all, funcName) => {
-  all[funcName] = function(...args) {
-    return Plotly[funcName].apply(Plotly, [this.$refs.container].concat(args))
-  }
-  return all
-}, {})
-
 Vue.use(Select);
 Vue.use(Option);
 Vue.use(Collapse);
@@ -313,7 +278,7 @@ export default {
     showToolitip: function(tooltipNumber){
       if (!this.inHelp){
         this.hoverVisabilities[tooltipNumber].value = true;
-        this.tooltipWait = setTimeout( ()=>{this.hoverVisabilities[tooltipNumber].value = true}, 500);
+        this.tooltipWait = setTimeout( ()=>{this.hoverVisabilities[tooltipNumber].value = true}, 1000);
       }
     },
     hideToolitip: function(tooltipNumber){
@@ -322,20 +287,7 @@ export default {
         clearInterval(this.tooltipWait);
       }
     },
-    initEvents() {
-      this.__generalListeners = events.map((eventName) => {
-        return {
-          fullName: 'plotly_' + eventName,
-          handler: (...args) => {
-            this.$emit.apply(this, [eventName].concat(args))
-          }
-        }
-      })
 
-      this.__generalListeners.forEach((obj) => {
-        this.$refs.container.on(obj.fullName, obj.handler)
-      })
-    },
     plot() {
       return Plotly.plot(this.$refs.container, this.data, this.layout, this.getOptions())
     },
@@ -357,12 +309,10 @@ export default {
     react() {
       return Plotly.react(this.$refs.container, this.data, this.layout, this.getOptions())
     },
-    ...methods,
   },
   mounted() {
     this.loadURL(this.url);
     this.react()
-    this.initEvents()
     this.handleResize();
     this.$watch('data', () => {
       this.internalLayout.datarevision++
