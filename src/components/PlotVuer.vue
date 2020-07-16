@@ -84,11 +84,11 @@ export default {
       type: String,
       default: 'heatmap'
     },
-    genes: {
+    yAxisFilter: {
       type: Array,
       default: () => []
     },
-    samples: {
+    xAxisFilter: {
       type: Array,
       default: () => []
     },
@@ -165,9 +165,9 @@ export default {
         this.allChannelsX = this.csv.getHeaders();
         this.allChannelsY = this.csv.getColoumnByIndex(0)
         if (this.plotType === 'heatmap') {
-          if (this.genes.length > 1){
-            this.channelx = this.genes
-            this.channely = this.samples
+          if (this.yAxisFilter.length > 1){
+            this.channelx = this.yAxisFilter
+            this.channely = this.xAxisFilter
             this.heatmapPlot()
           }
           else{
