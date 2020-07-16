@@ -4,7 +4,6 @@ import Vue from "vue";
 import PlotVuer from "./PlotVuer.vue"
 
 const Components = {
-    
     PlotVuer
   };
   

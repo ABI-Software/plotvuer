@@ -81,6 +81,30 @@ class Sparccsv {
     return this.getColoumnByIndex(column_index)
   }
 
+  getByAxes(channelx, channely){
+    var dx = []
+    var c1 = this.getColoumnByIndex(0)
+    var index = []
+    for (let i in channely){
+      for (let j in c1){
+        if (c1[j] === channely[i]){
+          index.push(j)
+          continue
+        }
+      }
+    }
+    var datat = []
+    for (let i in channelx){
+      var col = []
+      dx = this.getColoumnByName(channelx[i])
+      for(let j in index){
+        col.push(dx[index[j]])
+      }
+      datat.push(col)
+    }
+    return [...this.transpose(datat)]
+  }
+
   export(selectedChannels){
     var headerList = []
     var selectedData = []
