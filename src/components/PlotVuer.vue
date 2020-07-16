@@ -63,15 +63,15 @@
 </template>
 <script>
 import Plotly from './custom-plotly'
-import Vue from "vue";
-import { Select, Option, Collapse, CollapseItem, Button } from "element-ui";
-import CsvManager from "./csv_manager";
-import ReziseSensor from "css-element-queries/src/ResizeSensor";
+import Vue from "vue"
+import { Select, Option, Collapse, CollapseItem, Button } from "element-ui"
+import CsvManager from "./csv_manager"
+import ReziseSensor from "css-element-queries/src/ResizeSensor"
 
-Vue.use(Select);
-Vue.use(Option);
-Vue.use(Collapse);
-Vue.use(CollapseItem);
+Vue.use(Select)
+Vue.use(Option)
+Vue.use(Collapse)
+Vue.use(CollapseItem)
 Vue.use(Button)
 export default {
   name: "PlotVuer",
@@ -174,10 +174,10 @@ export default {
             this.heatmapPlotAll()
           }
         } else {
-          this.data[0].x = this.csv.getColoumnByIndex(0);
-          this.data[0].y = this.csv.getColoumnByIndex(1);
-          this.data[0].type = this.csv.getDataType();
-          this.plot_channel(this.csv.getHeaderByIndex(1));
+          this.data[0].x = this.csv.getColoumnByIndex(0)
+          this.data[0].y = this.csv.getColoumnByIndex(1)
+          this.data[0].type = this.csv.getDataType()
+          this.plot_channel(this.csv.getHeaderByIndex(1))
           Plotly.newPlot(this.$refs.container, this.data, this.layout, this.getOptions())
         }
         return true;
@@ -187,7 +187,7 @@ export default {
       if (channel){
         this.data[0].x = this.csv.getColoumnByIndex(0)
         this.data[0].y = this.csv.getColoumnByName(channel)
-        this.data[0].type = this.csv.getDataType() ;
+        this.data[0].type = this.csv.getDataType() 
       }
     },
     timeseriesPlot: function(){
@@ -264,27 +264,27 @@ export default {
     },
     setHelpMode: function(helpMode){
       if (helpMode){
-        this.inHelp = true;
+        this.inHelp = true
         this.hoverVisabilities.forEach( (item) =>{
-          item.value = true;
+          item.value = true
         });
       } else {
-        this.inHelp = false;
+        this.inHelp = false
         this.hoverVisabilities.forEach( (item) =>{
-          item.value = false;
+          item.value = false
         });
       }
     },
     showToolitip: function(tooltipNumber){
       if (!this.inHelp){
         this.hoverVisabilities[tooltipNumber].value = true;
-        this.tooltipWait = setTimeout( ()=>{this.hoverVisabilities[tooltipNumber].value = true}, 1000);
+        this.tooltipWait = setTimeout( ()=>{this.hoverVisabilities[tooltipNumber].value = true}, 1000)
       }
     },
     hideToolitip: function(tooltipNumber){
       if (!this.inHelp){
-        this.hoverVisabilities[tooltipNumber].value = false;
-        clearInterval(this.tooltipWait);
+        this.hoverVisabilities[tooltipNumber].value = false
+        clearInterval(this.tooltipWait)
       }
     },
 
@@ -311,9 +311,9 @@ export default {
     },
   },
   mounted() {
-    this.loadURL(this.url);
+    this.loadURL(this.url)
     this.react()
-    this.handleResize();
+    this.handleResize()
     this.$watch('data', () => {
       this.internalLayout.datarevision++
       this.react()
@@ -325,7 +325,7 @@ export default {
   },
   watch: {
     helpMode: function(val){
-      this.setHelpMode(val);
+      this.setHelpMode(val)
     }
   },
   destroyed() {},
