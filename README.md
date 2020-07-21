@@ -7,7 +7,7 @@ This project aims to process and display csv files as graphs in the vue framewor
 
 Demo the site functionality of this app [here](https://plotvuer-demo.herokuapp.com/)*. 
 
-*(Demo will take 30s to load while Heroku server boots)
+*_Demo will take 30s to load while Heroku server boots_
 
 ![demo](https://user-images.githubusercontent.com/37255664/73617045-a3231e00-467f-11ea-90bd-b1074acd26b3.gif)
 
