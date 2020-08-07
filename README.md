@@ -11,7 +11,7 @@ Demo the site functionality of this app [here](https://plotvuer-demo.herokuapp.c
 
 ![demo](https://user-images.githubusercontent.com/37255664/73617045-a3231e00-467f-11ea-90bd-b1074acd26b3.gif)
 
-**Don't feel like coding? See how to copy and paste plotvuer as an HTML widget**
+**Don't feel like coding? See how to copy and paste plotvuer as an HTML widget [here](https://github.com/ABI-Software/plotvuer/blob/master/README.md#copy-and-paste-as-an-html-widget)**
 
 ## Project installation
 ```
@@ -91,7 +91,7 @@ Paste the following lines in the `<body>` of you HTML
 ```
 ### Modifying input file for widget
 Change this line to point at a csv file for display
-```
+```HTML
  <!-- Modify the 'file' input to point to a csv file you wish to show --> 
  <plot-vuer-widget file="./path/to/file.csv"></plot-vuer-widget>
 ```
