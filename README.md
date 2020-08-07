@@ -11,6 +11,8 @@ Demo the site functionality of this app [here](https://plotvuer-demo.herokuapp.c
 
 ![demo](https://user-images.githubusercontent.com/37255664/73617045-a3231e00-467f-11ea-90bd-b1074acd26b3.gif)
 
+**Don't feel like coding? See how to copy and paste plotvuer as an HTML widget**
+
 ## Project installation
 ```
 npm i @abi-software/plotvuer
@@ -75,3 +77,21 @@ _Optional Parameters_:
 | 0     | -70.12939453 | 
 | 0.0002    | -70.12939453     |
 | 0.0004      | -70.34301758      | 
+
+
+## Copy and paste as an HTML widget
+Paste the following lines in the `<body>` of you HTML
+```HTML
+ <!-- Modify the 'file' input to point to a csv file you wish to show --> 
+ <plot-vuer-widget file="https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/csv-data/use-case-4/RNA_Seq.csv"></plot-vuer-widget>
+ <!-- widget source css from cdn-->
+ <link href="https://cdn.jsdelivr.net/npm/@tehsurfer/plotvuer-widget/dist/plotVuer.css" rel="stylesheet">
+ <!-- widget source js from cdn -->
+ <script src="https://cdn.jsdelivr.net/npm/@tehsurfer/plotvuer-widget/dist/plotVuer.js"></script>
+```
+### Modifying input file for widget
+Change this line to point at a csv file for display
+```
+ <!-- Modify the 'file' input to point to a csv file you wish to show --> 
+ <plot-vuer-widget file="./path/to/file.csv"></plot-vuer-widget>
+```
