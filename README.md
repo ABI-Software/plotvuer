@@ -33,8 +33,18 @@ npm run build-bundle
 ## How to use
 Include the package in your script.
 ```javascript
-import '@abi-software/plotvuer'
+import { PlotVuer } from '@abi-software/plotvuer'
 import '@abi-software/plotvuer/dist/plotvuer.css'
+```
+Local registration in vue component:
+```javascript
+export default {
+  ...
+  components: {
+    PlotVuer,
+  }
+  ...
+}
 ```
 
 The snippet above registers the Plotvuer component into the global scope.
