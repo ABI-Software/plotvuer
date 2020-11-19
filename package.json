@@ -1,6 +1,6 @@
 {
   "name": "@abi-software/plotvuer",
-  "version": "0.2.25",
+  "version": "0.2.26",
   "main": "./dist/plotvuer.common.js",
   "files": [
     "dist/*",
@@ -17,6 +17,7 @@
     "start": "vue-cli-service serve"
   },
   "dependencies": {
+    "core-js": "^3.7.0",
     "css-element-queries": "^1.2.3",
     "current-script-polyfill": "^1.0.0",
     "d3-time-format": "^3.0.0",
