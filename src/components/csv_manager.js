@@ -15,6 +15,14 @@ class Sparccsv {
       })
   }
 
+  loadData(data) {
+    return new Promise( (resolve) => {
+      this.csv_data = {}
+      this.csv_data.data = data
+      resolve() 
+    })
+  }
+
   transposeSelf() {
     var tempData = this.transpose(this.csv_data.data)
     this.csv_data.data = tempData

@@ -80,6 +80,10 @@ export default {
       type: String,
       default: 'https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/csv-data/use-case-4/RNA_Seq.csv',
     },
+    dataInput:{
+      type: Array,
+      default: () => []
+    },
     plotType:{
       type: String,
       default: 'heatmap'
@@ -160,6 +164,29 @@ export default {
     },
   },
   methods: {
+    loadData: function(data) {
+      this.csv.loadData(data).then(() => {
+        this.allChannelsX = this.csv.getHeaders();
+        this.allChannelsY = this.csv.getColoumnByIndex(0)
+        if (this.plotType === 'heatmap') {
+          if (this.yAxisFilter.length > 1){
+            this.channelx = this.yAxisFilter
+            this.channely = this.xAxisFilter
+            this.heatmapPlot()
+          }
+          else{
+            this.heatmapPlotAll()
+          }
+        } else {
+          this.data[0].x = this.csv.getColoumnByIndex(0)
+          this.data[0].y = this.csv.getColoumnByIndex(1)
+          this.data[0].type = this.csv.getDataType()
+          this.plot_channel(this.csv.getHeaderByIndex(1))
+          Plotly.newPlot(this.$refs.container, this.data, this.layout, this.getOptions())
+        }
+        return true;
+      });
+    },
     loadURL: function(url) {
       this.csv.loadFile(url).then(() => {
         this.allChannelsX = this.csv.getHeaders();
@@ -311,7 +338,11 @@ export default {
     },
   },
   mounted() {
-    this.loadURL(this.url)
+    if(this.dataInput.length !== 0){
+      this.loadData(this.dataInput)
+    } else {
+      this.loadURL(this.url)
+    }
     this.react()
     this.handleResize()
     this.$watch('data', () => {

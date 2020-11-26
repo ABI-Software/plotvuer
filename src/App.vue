@@ -1,11 +1,9 @@
 <template>
   <div id="app">
     <button @click="helpMode = !helpMode">Help Mode</button>
-    <vue-draggable-resizable :w="700" :h="700" @dragging="onDrag" @resizing="onResize" :parent="true">
-      <PlotVuer :url="urlList[0]" :height="height" :plotType="plotTypeList[0]" :helpMode="helpMode"></PlotVuer>
-    </vue-draggable-resizable>
+
     <vue-draggable-resizable :w="500" :h="500" @dragging="onDrag" @resizing="onResize" :parent="true">
-      <PlotVuer :url="urlList[1]"  :plotType="plotTypeList[1]" :helpMode="helpMode"></PlotVuer>
+      <PlotVuer  :dataInput="exampleInput" :plotType="'scatter'" :helpMode="helpMode"></PlotVuer>
     </vue-draggable-resizable>>
     <el-input class='element' placeholder="Enter url" v-model="urlList[0]"></el-input>
   </div>
@@ -37,6 +35,7 @@ export default {
       plotTypeList: ["heatmap", "barchart",],
       y: 0,
       helpMode: false,
+      exampleInput: [ ['time in seconds', 'values of first coloumn', 'values of second coloumn'],[0,1,.5],[1,2,1]]
     }
   },
     methods: {
