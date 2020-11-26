@@ -3,11 +3,15 @@
     <button @click="helpMode = !helpMode">Help Mode</button>
 
     <vue-draggable-resizable :w="500" :h="500" @dragging="onDrag" @resizing="onResize" :parent="true">
-      <PlotVuer  :dataInput="exampleInput" :plotType="'scatter'" :helpMode="helpMode"></PlotVuer>
+      <PlotVuer  :dataInput="[['time in seconds', 'values of first coloumn', 'values of second coloumn'],[0,1,.5],[1,2,1]]" :plotType="'scatter'" :helpMode="helpMode"></PlotVuer>
     </vue-draggable-resizable>>
     <el-input class='element' placeholder="Enter url" v-model="urlList[0]"></el-input>
+    <div class='plot-container' style="height: 800px; width: 800px;">
+      <PlotVuer :title="'plot title'" :dataInput="[['time in seconds', 'values of first coloumn', 'values of second coloumn'],[0,1,.5],[1,2,1]]" :plotType="'scatter'" :helpMode="helpMode"></PlotVuer>
+    </div>
   </div>
 </template>
+  
 
 <script>
 import Input from "element-ui";

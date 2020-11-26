@@ -20,7 +20,7 @@
     </div>
   
     <div class="controls" ref="controls">
-    <div class='title'>RNA Sequences</div>
+    <div class='title'>{{title}}</div>
 
     <span >
     <el-select
@@ -76,6 +76,10 @@ Vue.use(Button)
 export default {
   name: "PlotVuer",
   props:{
+    title:{
+      type: String,
+      default: '',
+    },
     url:{
       type: String,
       default: 'https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/csv-data/use-case-4/RNA_Seq.csv',
