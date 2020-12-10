@@ -1,13 +1,13 @@
 <template>
   <div id="app">
     <button @click="helpMode = !helpMode">Help Mode</button>
+    <button @click="changeInput">Change input</button>
 
     <vue-draggable-resizable :w="500" :h="500" @dragging="onDrag" @resizing="onResize" :parent="true">
-      <PlotVuer  :dataInput="[['time in seconds', 'values of first coloumn', 'values of second coloumn'],[0,1,.5],[1,2,1]]" :plotType="'scatter'" :helpMode="helpMode"></PlotVuer>
+      <PlotVuer :title="'plot title'" :dataInput="exampleInput" :plotType="'scatter'" :helpMode="helpMode"></PlotVuer>
     </vue-draggable-resizable>>
     <el-input class='element' placeholder="Enter url" v-model="urlList[0]"></el-input>
     <div class='plot-container' style="height: 800px; width: 800px;">
-      <PlotVuer :title="'plot title'" :dataInput="[['time in seconds', 'values of first coloumn', 'values of second coloumn'],[0,1,.5],[1,2,1]]" :plotType="'scatter'" :helpMode="helpMode"></PlotVuer>
     </div>
   </div>
 </template>
@@ -39,10 +39,13 @@ export default {
       plotTypeList: ["heatmap", "barchart",],
       y: 0,
       helpMode: false,
-      exampleInput: [ ['time in seconds', 'values of first coloumn', 'values of second coloumn'],[0,1,.5],[1,2,1]]
+      exampleInput: [ ['time in seconds', 'values of first coloumn'],[]]
     }
   },
     methods: {
+    changeInput: function(){
+      this.exampleInput = [ ['time in seconds', 'values of first coloumn'],[0,1],[1,2]]
+    },
     onResize: function (x, y, width, height) {
       this.x = x
       this.y = y

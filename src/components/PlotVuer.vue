@@ -64,7 +64,7 @@
 <script>
 import Plotly from './custom-plotly'
 import Vue from "vue"
-import { Select, Option, Collapse, CollapseItem, Button } from "element-ui"
+import { Select, Option, Collapse, CollapseItem, Button, Popover} from "element-ui"
 import CsvManager from "./csv_manager"
 import ReziseSensor from "css-element-queries/src/ResizeSensor"
 
@@ -73,6 +73,8 @@ Vue.use(Option)
 Vue.use(Collapse)
 Vue.use(CollapseItem)
 Vue.use(Button)
+Vue.use(Popover)
+
 export default {
   name: "PlotVuer",
   props:{
@@ -359,6 +361,9 @@ export default {
     
   },
   watch: {
+    dataInput: function() {
+      this.loadData(this.dataInput)
+    },
     helpMode: function(val){
       this.setHelpMode(val)
     }
