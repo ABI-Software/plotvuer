@@ -4,7 +4,7 @@
     <button @click="changeInput">Change input</button>
 
     <vue-draggable-resizable :w="500" :h="500" @dragging="onDrag" @resizing="onResize" :parent="true">
-      <PlotVuer :title="'plot title'" :dataInput="exampleInput" :plotType="'scatter'" :helpMode="helpMode"></PlotVuer>
+      <PlotVuer :title="'plot title'" :dataInput="exampleInput" :plotType="'plotly-only'" :helpMode="helpMode"></PlotVuer>
     </vue-draggable-resizable>>
     <el-input class='element' placeholder="Enter url" v-model="urlList[0]"></el-input>
     <div class='plot-container' style="height: 800px; width: 800px;">
@@ -25,6 +25,12 @@ Vue.component('vue-draggable-resizable', VueDraggableResizable)
 Vue.use(Input);
 import PlotVuer from './components/PlotVuer'
 
+var input = [{
+        x: [0, 1, 2, 3, 4, 5], 
+        y: [100, 10, 130, 70, 80, 90], 
+        type: 'scatter'
+      }]
+
 export default {
   name: 'app',
   components: {
@@ -39,12 +45,16 @@ export default {
       plotTypeList: ["heatmap", "barchart",],
       y: 0,
       helpMode: false,
-      exampleInput: [ ['time in seconds', 'values of first coloumn'],[]]
+      exampleInput: input
     }
   },
     methods: {
     changeInput: function(){
-      this.exampleInput = [ ['time in seconds', 'values of first coloumn'],[0,1],[1,2]]
+      this.exampleInput = [{
+        x: [0, 1, 2, 3, 4, 5], 
+        y: [1.5, 1, 1.3, 0.7, 0.8, 0.9], 
+        type: 'scatter'
+      }]
     },
     onResize: function (x, y, width, height) {
       this.x = x
