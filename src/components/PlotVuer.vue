@@ -20,41 +20,43 @@
     </div>
   
     <div class="controls" ref="controls">
-    <div class='title'>{{title}}</div>
+      <div class='title'>{{title}}</div>
 
-    <span >
-    <el-select
-      class="channel-select"
-      ref="selectBox"
-      v-model="channelx"
-      multiple
-      filterable
-      collapse-tags
-      default-first-option
-      :popper-append-to-body="false"
-      :placeholder="ui.placeholderx"
-    >
-      <el-option v-for="item in allChannelsX" :key="item" :label="item" :value="item"></el-option>
-    </el-select>
-    </span>
-    <span v-if="ui.showSecondSelector">
-    <el-select
-      class="channel-select"
-      ref="selectBox2"
-      v-model="channely"
-      multiple
-      filterable
-      collapse-tags
-      default-first-option
-      :popper-append-to-body="false"
-      :placeholder="ui.placeholdery"
-    >
-      <el-option v-for="item in allChannelsY" :key="item" :label="item" :value="item"></el-option>
-    </el-select>
-    </span>
-    <span>
-      <el-button class="view-heatmap-button" @click="ui.buttonPlot">{{ui.button}}</el-button>
-    </span>
+      <div v-if="plotType !== 'plotly-only'">
+        <span>
+        <el-select
+          class="channel-select"
+          ref="selectBox"
+          v-model="channelx"
+          multiple
+          filterable
+          collapse-tags
+          default-first-option
+          :popper-append-to-body="false"
+          :placeholder="ui.placeholderx"
+        >
+          <el-option v-for="item in allChannelsX" :key="item" :label="item" :value="item"></el-option>
+        </el-select>
+        </span>
+        <span v-if="ui.showSecondSelector">
+        <el-select
+          class="channel-select"
+          ref="selectBox2"
+          v-model="channely"
+          multiple
+          filterable
+          collapse-tags
+          default-first-option
+          :popper-append-to-body="false"
+          :placeholder="ui.placeholdery"
+        >
+          <el-option v-for="item in allChannelsY" :key="item" :label="item" :value="item"></el-option>
+        </el-select>
+        </span>
+        <span>
+          <el-button class="view-heatmap-button" @click="ui.buttonPlot">{{ui.button}}</el-button>
+        </span>
+      </div>
     </div>
     
     <div ref="container" class="vue-plotly"/>
@@ -62,9 +64,10 @@
   </div>
 </template>
 <script>
+/* eslint-disable no-alert, no-console */
 import Plotly from './custom-plotly'
 import Vue from "vue"
-import { Select, Option, Collapse, CollapseItem, Button } from "element-ui"
+import { Select, Option, Collapse, CollapseItem, Button, Popover} from "element-ui"
 import CsvManager from "./csv_manager"
 import ReziseSensor from "css-element-queries/src/ResizeSensor"
 
@@ -73,6 +76,8 @@ Vue.use(Option)
 Vue.use(Collapse)
 Vue.use(CollapseItem)
 Vue.use(Button)
+Vue.use(Popover)
+
 export default {
   name: "PlotVuer",
   props:{
@@ -153,6 +158,7 @@ export default {
           'buttonPlot': this.heatmapPlot,
           'placeholderx': 'Select gene', 
           'placeholdery': 'Select cell/sample',
+          'showFirstSelector': true,
           'showSecondSelector': true
         }
       } else {
@@ -161,6 +167,7 @@ export default {
           'buttonPlot': this.timeseriesPlot,
           'placeholderx': 'Select channel',
           'placeholdery': 'Select gene',
+          'showFirstSelector': true,
           'showSecondSelector': false,
         }
       }
@@ -169,27 +176,28 @@ export default {
   },
   methods: {
     loadData: function(data) {
-      this.csv.loadData(data).then(() => {
-        this.allChannelsX = this.csv.getHeaders();
-        this.allChannelsY = this.csv.getColoumnByIndex(0)
-        if (this.plotType === 'heatmap') {
-          if (this.yAxisFilter.length > 1){
-            this.channelx = this.yAxisFilter
-            this.channely = this.xAxisFilter
-            this.heatmapPlot()
+      if (this.plotType === 'plotly-only') {
+          Plotly.newPlot(this.$refs.container, this.dataInput, this.layout, this.getOptions())
+          return true
+      } else {
+        this.csv.loadData(data).then(() => {
+          this.allChannelsX = this.csv.getHeaders();
+          this.allChannelsY = this.csv.getColoumnByIndex(0)
+          if (this.plotType === 'heatmap') {
+            if (this.yAxisFilter.length > 1){
+              this.channelx = this.yAxisFilter
+              this.heatmapPlotAll()
+            }
+          } else {
+            this.data[0].x = this.csv.getColoumnByIndex(0)
+            this.data[0].y = this.csv.getColoumnByIndex(1)
+            this.data[0].type = this.csv.getDataType()
+            this.plot_channel(this.csv.getHeaderByIndex(1))
+            Plotly.newPlot(this.$refs.container, this.data, this.layout, this.getOptions())
           }
-          else{
-            this.heatmapPlotAll()
-          }
-        } else {
-          this.data[0].x = this.csv.getColoumnByIndex(0)
-          this.data[0].y = this.csv.getColoumnByIndex(1)
-          this.data[0].type = this.csv.getDataType()
-          this.plot_channel(this.csv.getHeaderByIndex(1))
-          Plotly.newPlot(this.$refs.container, this.data, this.layout, this.getOptions())
-        }
-        return true;
-      });
+          return true;
+        });
+      }
     },
     loadURL: function(url) {
       this.csv.loadFile(url).then(() => {
@@ -347,7 +355,6 @@ export default {
     } else {
       this.loadURL(this.url)
     }
-    this.react()
     this.handleResize()
     this.$watch('data', () => {
       this.internalLayout.datarevision++
@@ -359,6 +366,9 @@ export default {
     
   },
   watch: {
+    dataInput: function() {
+      this.loadData(this.dataInput)
+    },
     helpMode: function(val){
       this.setHelpMode(val)
     }
