@@ -4,8 +4,11 @@
     <button @click="changeInput">Change input</button>
 
     <vue-draggable-resizable :w="500" :h="500" @dragging="onDrag" @resizing="onResize" :parent="true">
-      <PlotVuer :title="'plot title'" :dataInput="exampleInput" :plotType="'plotly-only'" :helpMode="helpMode"></PlotVuer>
-    </vue-draggable-resizable>>
+      <PlotVuer :title="'plot title'" :url="urlList[0]" :plotType="'heatmap'"></PlotVuer>
+    </vue-draggable-resizable>
+    <vue-draggable-resizable :w="500" :h="500" @dragging="onDrag" @resizing="onResize" :parent="true">
+      <PlotVuer :title="'plot title'" :url="urlList[1]" :plotType="'scatter'"></PlotVuer>
+    </vue-draggable-resizable>
     <el-input class='element' placeholder="Enter url" v-model="urlList[0]"></el-input>
     <div class='plot-container' style="height: 800px; width: 800px;">
     </div>

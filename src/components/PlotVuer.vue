@@ -386,7 +386,6 @@ export default {
   padding-left: 55px;
   padding-top: 5px;
   align-items: left;
-  min-width: 700px;
   text-align: left;
 }
 .ui-controls{
@@ -437,6 +436,9 @@ export default {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
   border: solid 1px #d8dce6;
   background-color: #8300bf;
+  margin: 8px;
+  margin-left: 0px;
+  margin-right: 16px;
 
   font-size: 14px;
   font-weight: 500;
