@@ -511,7 +511,7 @@ export default {
   display: inline-block;
   vertical-align: middle;
 }
-.modebar-container{
+>>> .modebar-container{
   display: none;
 }
 </style>
