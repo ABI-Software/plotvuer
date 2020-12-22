@@ -402,7 +402,7 @@ export default {
     height: 100%;
     width: 40px;
     right: 0px;
-    top: 100px;
+    top: 160px;
     pointer-events: none;
     z-index: 5
   }
