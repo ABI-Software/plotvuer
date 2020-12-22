@@ -87,7 +87,7 @@ export default {
     },
     url:{
       type: String,
-      default: 'https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/csv-data/use-case-4/RNA_Seq.csv',
+      default: '',
     },
     dataInput:{
       type: Array,
@@ -350,10 +350,11 @@ export default {
     },
   },
   mounted() {
-    if(this.dataInput.length !== 0){
-      this.loadData(this.dataInput)
-    } else {
+    if(this.url != ''){
       this.loadURL(this.url)
+      this.react()
+    } else if (this.dataInput.length != 0) {
+      this.loadData(this.dataInput)
     }
     this.handleResize()
     this.$watch('data', () => {
@@ -366,9 +367,7 @@ export default {
     
   },
   watch: {
-    dataInput: function() {
-      this.loadData(this.dataInput)
-    },
+
     helpMode: function(val){
       this.setHelpMode(val)
     }
@@ -386,7 +385,6 @@ export default {
   padding-left: 55px;
   padding-top: 5px;
   align-items: left;
-  min-width: 700px;
   text-align: left;
 }
 .ui-controls{
@@ -396,6 +394,18 @@ export default {
   right: 0px;
   pointer-events: none;
   z-index: 5
+}
+
+@media only screen and (max-width: 48em) {
+  .ui-controls {
+    position: absolute;
+    height: 100%;
+    width: 40px;
+    right: 0px;
+    top: 160px;
+    pointer-events: none;
+    z-index: 5
+  }
 }
 
 
@@ -437,6 +447,9 @@ export default {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
   border: solid 1px #d8dce6;
   background-color: #8300bf;
+  margin: 8px;
+  margin-left: 0px;
+  margin-right: 16px;
 
   font-size: 14px;
   font-weight: 500;
@@ -498,7 +511,7 @@ export default {
   display: inline-block;
   vertical-align: middle;
 }
-.modebar-container{
+>>> .modebar-container{
   display: none;
 }
 </style>
