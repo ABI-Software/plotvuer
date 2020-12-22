@@ -87,7 +87,7 @@ export default {
     },
     url:{
       type: String,
-      default: 'https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/csv-data/use-case-4/RNA_Seq.csv',
+      default: '',
     },
     dataInput:{
       type: Array,
@@ -350,10 +350,11 @@ export default {
     },
   },
   mounted() {
-    if(this.dataInput.length !== 0){
-      this.loadData(this.dataInput)
-    } else {
+    if(this.url != ''){
       this.loadURL(this.url)
+      this.react()
+    } else if (this.dataInput.length != 0) {
+      this.loadData(this.dataInput)
     }
     this.handleResize()
     this.$watch('data', () => {
@@ -366,9 +367,7 @@ export default {
     
   },
   watch: {
-    dataInput: function() {
-      this.loadData(this.dataInput)
-    },
+
     helpMode: function(val){
       this.setHelpMode(val)
     }
@@ -395,6 +394,18 @@ export default {
   right: 0px;
   pointer-events: none;
   z-index: 5
+}
+
+@media only screen and (max-width: 48em) {
+  .ui-controls {
+    position: absolute;
+    height: 100%;
+    width: 40px;
+    right: 0px;
+    top: 100px;
+    pointer-events: none;
+    z-index: 5
+  }
 }
 
 
