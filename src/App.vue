@@ -42,7 +42,7 @@ export default {
   },
   data: function(){
     return {
-      urlList: ['https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/csv-data/use-case-4/RNA_Seq.csv', 'https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/csv-data/use-case-2/Sample_1_18907001_channel_1.csv'],
+      urlList: ['https://api.sparc.science/s3-resource/29/6/files/derivative/HB-ICN-NegDDCT-data.csv', 'https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/csv-data/use-case-2/Sample_1_18907001_channel_1.csv'],
       width: 700,
       height: 700,
       plotTypeList: ["heatmap", "barchart",],
