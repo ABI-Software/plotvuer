@@ -181,7 +181,7 @@ export default {
           return true
       } else {
         this.csv.loadData(data).then(() => {
-          this.allChannelsX = this.csv.getHeaders();
+          this.allChannelsX = this.csv.getHeadersExceptForFirst();
           this.allChannelsY = this.csv.getColoumnByIndex(0)
           if (this.plotType === 'heatmap') {
             if (this.yAxisFilter.length > 1){
@@ -201,7 +201,7 @@ export default {
     },
     loadURL: function(url) {
       this.csv.loadFile(url).then(() => {
-        this.allChannelsX = this.csv.getHeaders();
+        this.allChannelsX = this.csv.getHeadersExceptForFirst();
         this.allChannelsY = this.csv.getColoumnByIndex(0)
         if (this.plotType === 'heatmap') {
           if (this.yAxisFilter.length > 1){
@@ -255,9 +255,9 @@ export default {
     heatmapPlotAll: function (){
       var tdata = [
           {
-            z: this.csv.getAllData(),
-            x: this.csv.getColoumnByIndex(0),
-            y: this.csv.getHeaders(),
+            z: this.csv.getDataValuesOnly(),
+            x: this.csv.getHeadersExceptForFirst(),
+            y: this.csv.getColoumnByIndex(0)  ,
             type: "heatmap"
           }
         ];
