@@ -1,6 +1,6 @@
 {
   "name": "@abi-software/plotvuer",
-  "version": "0.2.32",
+  "version": "0.2.33",
   "main": "./dist/plotvuer.common.js",
   "files": [
     "dist/*",

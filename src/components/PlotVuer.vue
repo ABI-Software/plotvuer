@@ -368,7 +368,9 @@ export default {
     
   },
   watch: {
-
+    dataInput: function() {	
+      this.loadData(this.dataInput)	
+    },
     helpMode: function(val){
       this.setHelpMode(val)
     }
