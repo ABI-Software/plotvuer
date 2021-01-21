@@ -7,9 +7,10 @@
       <PlotVuer :title="'plot title'" :url="urlList[0]" :plotType="'heatmap'"></PlotVuer>
     </vue-draggable-resizable>
     <vue-draggable-resizable :w="500" :h="500" @dragging="onDrag" @resizing="onResize" :parent="true">
-      <PlotVuer :title="'plot title'" :url="urlList[1]" :plotType="'scatter'"></PlotVuer>
+      <PlotVuer :title="'plotly only'" :data-input="exampleInput" :plotType="'plotly-only'"></PlotVuer>
     </vue-draggable-resizable>
     <el-input class='element' placeholder="Enter url" v-model="urlList[0]"></el-input>
+    <el-button @click="changeInput">Change data</el-button>
     <div class='plot-container' style="height: 800px; width: 800px;">
     </div>
   </div>
