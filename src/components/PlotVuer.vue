@@ -406,9 +406,6 @@ export default {
       return Plotly.react(this.$refs.container, this.data, this.layout, this.getOptions())
     },
   },
-  created(){
-    
-  },
   mounted() {
     this.$refs.container.addEventListener('wheel', this.handleWheel);
     this.createZoomPercentages()
@@ -437,7 +434,7 @@ export default {
     }
   },
   destroyed() {
-
+    this.$refs.container.removeEventListener('wheel', this.handleWheel);
   },
   beforeDestroy() {
     this.__generalListeners.forEach(obj => this.$refs.container.removeAllListeners(obj.fullName))
