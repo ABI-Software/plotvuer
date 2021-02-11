@@ -1,22 +1,30 @@
 <template>
   <div class="plotvuer_parent" :title="collapseName">
-    <div class="ui-controls">
-      <el-popover content="Zoom In" placement="left" 
-        :appendToBody=false trigger="manual" popper-class="plot-popper" v-model="hoverVisabilities[0].value">
-        <el-button icon="el-icon-plus" circle class="zoomIn icon-button" 
-          @click="zoomIn()" :disabled="zoomInDisabled" size="mini" slot="reference" @mouseover.native="showToolitip(0)" @mouseout.native="hideToolitip(0)"></el-button>
-      </el-popover>
-      <el-popover content="Zoom Out" placement="left"
-        :appendToBody=false trigger="manual" popper-class="plot-popper" v-model="hoverVisabilities[1].value">
-        <el-button icon="el-icon-minus" circle class="zoomOut icon-button"
-        @click="zoomOut()" :disabled="zoomOutDisabled"  size="mini" slot="reference" @mouseover.native="showToolitip(1)" @mouseout.native="hideToolitip(1)"></el-button>
-      </el-popover>
-      <el-popover content="Reset view" placement="left"
-        :appendToBody=false trigger="manual" popper-class="plot-popper" v-model="hoverVisabilities[2].value">
-        <el-button icon="el-icon-refresh-right" circle class="resetView icon-button"
-          @click="resetView()" size="mini" slot="reference" @mouseover.native="showToolitip(2)" @mouseout.native="hideToolitip(2)"></el-button>
-      </el-popover>
-
+    <svg-sprite-color/>
+    <div class="bottom-right-control">
+        <el-popover content="Zoom in" placement="left" 
+          :appendToBody=false trigger="manual" popper-class="plot-popper" v-model="hoverVisibilities[0].value">
+          <svg-icon icon="zoomIn" class="icon-button zoomIn" slot="reference" @click.native="zoomIn()"
+            @mouseover.native="showToolitip(0)" @mouseout.native="hideToolitip(0)"/>
+        </el-popover>
+        <el-popover content="Zoom out" placement="top-end"
+          :appendToBody=false trigger="manual" popper-class="plot-popper popper-zoomout" v-model="hoverVisibilities[1].value">
+          <svg-icon icon="zoomOut" class="icon-button zoomOut" slot="reference" @click.native="zoomOut()"
+            @mouseover.native="showToolitip(1)" @mouseout.native="hideToolitip(1)"/>
+        </el-popover>
+        <el-select size="mini" v-model="selectZoom" placeholder="100%" class="zoomSelect" @change="selectZoomChange">
+          <el-option
+            v-for="item in zoomSelect"
+            :key="item.value"
+            :label="item.label"
+            :value="item.label">
+          </el-option>
+        </el-select>
+        <el-popover content="Reset" placement="top"
+          :appendToBody=false trigger="manual" popper-class="plot-popper" v-model="hoverVisibilities[2].value">
+          <svg-icon icon="resetZoom" class="icon-button resetView" slot="reference" @click.native="resetView()"
+            @mouseover.native="showToolitip(2)" @mouseout.native="hideToolitip(2)"/>
+        </el-popover>
     </div>
   
     <div class="controls" ref="controls">
@@ -131,9 +139,15 @@ export default {
       options: {
         type: Object
       },
-      hoverVisabilities: [{value: false}, {value: false}, {value: false}, {value: false},{value: false}],
+      hoverVisibilities: [{value: false}, {value: false}, {value: false}, {value: false},{value: false}],
+      zoomSelect: [{
+          value: '1',
+          label: '100%'
+        }],
+      selectZoom: '100%',
+      zoom: 100,
+      maxZoom: 800,
       inHelp: false,
-      zoomLevel: 0,
       zoomInDisabled: false,
       zoomOutDisabled: true,
       watchShallow: false,
@@ -274,24 +288,26 @@ export default {
     },
     // zoomIn: Findd and clickd the plolty modebar 'zoom in' 
     zoomIn: function(){
-      this.zoomLevel++
+      this.zoom += 100
       this.$el.querySelector('a[data-attr="zoom"][data-val="in"]').click()
-      this.setDisabledButtons(this.zoomLevel)
+      this.setDisabledButtons(this.zoom)
+      this.updateZoomSelect(this.zoom)
     },
-    // zoomOut: Findd and clickd the plolty modebar 'zoom out' 
+    // zoomOut: Find and clickd the plolty modebar 'zoom out' 
     zoomOut: function(){
-      this.zoomLevel--
+      this.zoom -= 100
       this.$el.querySelector('a[data-attr="zoom"][data-val="out"]').click()
-      this.setDisabledButtons(this.zoomLevel)
+      this.setDisabledButtons(this.zoom)
+      this.updateZoomSelect(this.zoom)
     },
     // setDisabledButtons(zoomLevel): Disable buttons once they hit max zoom
-    setDisabledButtons(zoomLevel){
-      if (zoomLevel === 8){
+    setDisabledButtons(zoom){
+      if (zoom === this.maxZoom){
         this.zoomInDisabled = true
       } else {
         this.zoomInDisabled = false
       }
-      if (zoomLevel === 0){
+      if (zoom === 0){
         this.zoomOutDisabled = true
       } else {
         this.zoomOutDisabled = false
@@ -299,34 +315,74 @@ export default {
       return
     },
     resetView: function(){
-      this.zoomLevel = 0
+      this.zoom = 100
       this.$el.querySelector('a[data-attr="zoom"][data-val="reset"]').click()
-      this.setDisabledButtons(this.zoomLevel)
+      this.setDisabledButtons(this.zoom)
+      this.updateZoomSelect(this.zoom)
+    },
+    percentToNum(percentage){
+      return Number(percentage.slice(0, -1))  
+    },
+    selectZoomChange: function(requestedZoomPercentage){
+      if(requestedZoomPercentage === '100%'){
+        this.resetView()
+        return
+      }
+      let newZoom = this.percentToNum(requestedZoomPercentage)
+      let zoomDiff =  Math.round((newZoom - this.zoom)/100)
+      console.log(zoomDiff)
+      for (let i= 0; i < Math.abs(zoomDiff); i++){
+        if (zoomDiff > 0) {
+          this.zoomIn()
+        } else {
+          this.zoomOut()
+        }
+      }
+      this.updateZoomSelect(newZoom)
+    },
+    updateZoomSelect(percentage){
+      this.selectZoom = String(percentage) + '%'
+    },
+    createZoomPercentages: function(){
+      this.zoomSelect = []
+      for(let i= 0; i <= this.maxZoom/100; i++){
+        this.zoomSelect.push({
+          value: i,
+          label: (i+1)*100 + '%'
+        })
+      }
     },
     setHelpMode: function(helpMode){
       if (helpMode){
         this.inHelp = true
-        this.hoverVisabilities.forEach( (item) =>{
+        this.hoverVisibilities.forEach( (item) =>{
           item.value = true
         });
       } else {
         this.inHelp = false
-        this.hoverVisabilities.forEach( (item) =>{
+        this.hoverVisibilities.forEach( (item) =>{
           item.value = false
         });
       }
     },
     showToolitip: function(tooltipNumber){
       if (!this.inHelp){
-        this.hoverVisabilities[tooltipNumber].value = true;
-        this.tooltipWait = setTimeout( ()=>{this.hoverVisabilities[tooltipNumber].value = true}, 1000)
+        this.hoverVisibilities[tooltipNumber].value = true;
+        this.tooltipWait = setTimeout( ()=>{this.hoverVisibilities[tooltipNumber].value = true}, 1000)
       }
     },
     hideToolitip: function(tooltipNumber){
       if (!this.inHelp){
-        this.hoverVisabilities[tooltipNumber].value = false
+        this.hoverVisibilities[tooltipNumber].value = false
         clearInterval(this.tooltipWait)
       }
+    },
+    handleWheel: function(event){
+      console.log(event)
+      window.zoomp = this.zoom
+      let change = Math.round( event.deltaY / 7 )
+      this.zoom = this.zoom - change
+      this.updateZoomSelect(this.zoom)
     },
     plot() {
       return Plotly.plot(this.$refs.container, this.data, this.layout, this.getOptions())
@@ -350,7 +406,12 @@ export default {
       return Plotly.react(this.$refs.container, this.data, this.layout, this.getOptions())
     },
   },
+  created(){
+    
+  },
   mounted() {
+    this.$refs.container.addEventListener('wheel', this.handleWheel);
+    this.createZoomPercentages()
     if(this.url != ''){
       this.loadURL(this.url)
       this.react()
@@ -375,7 +436,9 @@ export default {
       this.setHelpMode(val)
     }
   },
-  destroyed() {},
+  destroyed() {
+
+  },
   beforeDestroy() {
     this.__generalListeners.forEach(obj => this.$refs.container.removeAllListeners(obj.fullName))
     Plotly.purge(this.$refs.container)
@@ -390,13 +453,12 @@ export default {
   align-items: left;
   text-align: left;
 }
-.ui-controls{
-  position: absolute;
-  height: 100%;
-  width: 40px;
-  right: 0px;
-  pointer-events: none;
-  z-index: 5
+
+.bottom-right-control {
+  position:absolute;
+  right:16px;
+  bottom:16px;
+  z-index: 3;
 }
 
 @media only screen and (max-width: 48em) {
@@ -467,29 +529,33 @@ export default {
   justify-content: space-between;
 }
 
-.zoomIn{
-  top:51px;
-  right:20px;
-  position: absolute;
-  pointer-events: auto;
-}
-.zoomOut{
-  top:90px;
-  right:20px;
-  position: absolute;
-    pointer-events: auto;
-}
-.resetView {
-  top:129px;
-  right:20px;
-  position: absolute;
-    pointer-events: auto;
-}
 .icon-button {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   border: solid 1px #ffffff;
   background-color: #ffffff;
+  margin-right: 8px;
+  height:24px!important;
+  width:24px!important;
 }
+
+.icon-button:hover {
+  cursor:pointer;
+}
+
+.zoomSelect{
+  width: 60px;
+  margin-right: 8px;
+}
+
+.zoomSelect >>> .el-input__inner{
+  padding: 0px;
+  padding-left: 4px;
+}
+
+.zoomSelect >>> .el-select__caret{
+  width: 8px;
+}
+
 .freeSpin {
   bottom:79px;
   right:50%;
