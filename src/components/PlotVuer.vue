@@ -1,34 +1,8 @@
 <template>
   <div class="plotvuer_parent" :title="collapseName">
-    <svg-sprite-color/>
-    <div class="bottom-right-control">
-        <el-popover content="Zoom in" placement="left" 
-          :appendToBody=false trigger="manual" popper-class="plot-popper" v-model="hoverVisibilities[0].value">
-          <svg-icon icon="zoomIn" class="icon-button zoomIn" slot="reference" @click.native="zoomIn()"
-            @mouseover.native="showToolitip(0)" @mouseout.native="hideToolitip(0)"/>
-        </el-popover>
-        <el-popover content="Zoom out" placement="top-end"
-          :appendToBody=false trigger="manual" popper-class="plot-popper popper-zoomout" v-model="hoverVisibilities[1].value">
-          <svg-icon icon="zoomOut" class="icon-button zoomOut" slot="reference" @click.native="zoomOut()"
-            @mouseover.native="showToolitip(1)" @mouseout.native="hideToolitip(1)"/>
-        </el-popover>
-        <el-select size="mini" v-model="selectZoom" placeholder="100%" class="zoomSelect" @change="selectZoomChange">
-          <el-option
-            v-for="item in zoomSelect"
-            :key="item.value"
-            :label="item.label"
-            :value="item.label">
-          </el-option>
-        </el-select>
-        <el-popover content="Reset" placement="top"
-          :appendToBody=false trigger="manual" popper-class="plot-popper" v-model="hoverVisibilities[2].value">
-          <svg-icon icon="resetZoom" class="icon-button resetView" slot="reference" @click.native="resetView()"
-            @mouseover.native="showToolitip(2)" @mouseout.native="hideToolitip(2)"/>
-        </el-popover>
-    </div>
-  
+    <SvgSpriteColor/>
     <div class="controls" ref="controls">
-      <div class='title'>{{title}}</div>
+      <div class='title'>{{title}}j</div>
 
       <div v-if="plotType !== 'plotly-only'">
         <span>
@@ -68,6 +42,31 @@
     </div>
     
     <div ref="container" class="vue-plotly"/>
+    <div class="bottom-right-control" ref="zoomControls">
+        <el-popover content="Zoom in" placement="left" 
+          :appendToBody=false trigger="manual" popper-class="plot-popper" v-model="hoverVisibilities[0].value">
+          <svg-icon icon="zoomIn" class="icon-button zoomIn" slot="reference" @click.native="zoomIn()"
+            @mouseover.native="showToolitip(0)" @mouseout.native="hideToolitip(0)"/>
+        </el-popover>
+        <el-popover content="Zoom out" placement="top-end"
+          :appendToBody=false trigger="manual" popper-class="plot-popper popper-zoomout" v-model="hoverVisibilities[1].value">
+          <svg-icon icon="zoomOut" class="icon-button zoomOut" slot="reference" @click.native="zoomOut()"
+            @mouseover.native="showToolitip(1)" @mouseout.native="hideToolitip(1)"/>
+        </el-popover>
+        <el-select size="mini" v-model="selectZoom" placeholder="100%" class="zoomSelect" @change="selectZoomChange">
+          <el-option
+            v-for="item in zoomSelect"
+            :key="item.value"
+            :label="item.label"
+            :value="item.label">
+          </el-option>
+        </el-select>
+        <el-popover content="Reset" placement="top"
+          :appendToBody=false trigger="manual" popper-class="plot-popper" v-model="hoverVisibilities[2].value">
+          <svg-icon icon="resetZoom" class="icon-button resetView" slot="reference" @click.native="resetView()"
+            @mouseover.native="showToolitip(2)" @mouseout.native="hideToolitip(2)"/>
+        </el-popover>
+    </div>
     
   </div>
 </template>
@@ -76,6 +75,7 @@
 import Plotly from './custom-plotly'
 import Vue from "vue"
 import { Select, Option, Collapse, CollapseItem, Button, Popover} from "element-ui"
+import {SvgSpriteColor, SvgIcon} from '@abi-software/svg-sprite'
 import CsvManager from "./csv_manager"
 import ReziseSensor from "css-element-queries/src/ResizeSensor"
 
@@ -88,6 +88,10 @@ Vue.use(Popover)
 
 export default {
   name: "PlotVuer",
+  components: {
+    SvgSpriteColor,
+    SvgIcon
+  },
   props:{
     title:{
       type: String,
@@ -284,6 +288,7 @@ export default {
           width: this.$el.clientWidth,
           height: this.$el.parentElement.clientHeight - this.$refs.controls.clientHeight
         });
+        this.$refs.zoomControls.style.top = this.$el.parentElement.clientHeight 
       });
     },
     // zoomIn: Findd and clickd the plolty modebar 'zoom in' 
@@ -454,7 +459,6 @@ export default {
 .bottom-right-control {
   position:absolute;
   right:16px;
-  bottom:16px;
   z-index: 3;
 }
 
@@ -527,8 +531,6 @@ export default {
 }
 
 .icon-button {
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-  border: solid 1px #ffffff;
   background-color: #ffffff;
   margin-right: 8px;
   height:24px!important;
