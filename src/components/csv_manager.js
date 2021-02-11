@@ -54,12 +54,30 @@ class Sparccsv {
     return title
   }
 
+  // Return all headers
   getHeaders() {
     return this.csv_data.data[0]
   }
 
-  getAllData() {
-    return this.csv_data.data
+  // Returns all headers except for first cell
+  getHeadersExceptForFirst(){
+    var headers = this.csv_data.data[0] 
+    headers.shift()
+    return headers
+  }
+
+  getCSVData() {
+    return [...this.csv_data.data]
+  }
+
+  // Remove header and first row to pass data values only
+  getDataValuesOnly(){
+    let all_data = [...this.csv_data.data]
+    let headers_removed = all_data.slice(1)
+    let headers_and_col_removed = headers_removed.map(function(row) {
+      return row.slice(1);
+    });
+    return headers_and_col_removed
   }
 
   getSampleRate() {

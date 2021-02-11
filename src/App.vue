@@ -7,9 +7,10 @@
       <PlotVuer :title="'plot title'" :url="urlList[0]" :plotType="'heatmap'"></PlotVuer>
     </vue-draggable-resizable>
     <vue-draggable-resizable :w="500" :h="500" @dragging="onDrag" @resizing="onResize" :parent="true">
-      <PlotVuer :title="'plot title'" :url="urlList[1]" :plotType="'scatter'"></PlotVuer>
+      <PlotVuer :title="'plotly only'" :data-input="exampleInput" :plotType="'plotly-only'"></PlotVuer>
     </vue-draggable-resizable>
     <el-input class='element' placeholder="Enter url" v-model="urlList[0]"></el-input>
+    <el-button @click="changeInput">Change data</el-button>
     <div class='plot-container' style="height: 800px; width: 800px;">
     </div>
   </div>
@@ -42,7 +43,7 @@ export default {
   },
   data: function(){
     return {
-      urlList: ['https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/csv-data/use-case-4/RNA_Seq.csv', 'https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/csv-data/use-case-2/Sample_1_18907001_channel_1.csv'],
+      urlList: ['https://api.sparc.science/s3-resource/29/6/files/derivative/HB-ICN-NegDDCT-data.csv', 'https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/csv-data/use-case-2/Sample_1_18907001_channel_1.csv'],
       width: 700,
       height: 700,
       plotTypeList: ["heatmap", "barchart",],

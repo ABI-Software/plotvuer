@@ -169,7 +169,7 @@ export default {
       if(this.plotType === "heatmap"){
         ui = {
           'button': 'View Heatmap',
-          'buttonPlot': this.heatmapPlot,
+          'buttonPlot': this.heatmapPlotWithFilters,
           'placeholderx': 'Select gene', 
           'placeholdery': 'Select cell/sample',
           'showFirstSelector': true,
@@ -178,7 +178,7 @@ export default {
       } else {
         ui = {
           'button': 'View Plot',
-          'buttonPlot': this.timeseriesPlot,
+          'buttonPlot': this.timeseriesSelectedChannelsPlot,
           'placeholderx': 'Select channel',
           'placeholdery': 'Select gene',
           'showFirstSelector': true,
@@ -190,52 +190,47 @@ export default {
   },
   methods: {
     loadData: function(data) {
+      // Send data to plotly directly if 'plotly-only' is specified
       if (this.plotType === 'plotly-only') {
           Plotly.newPlot(this.$refs.container, this.dataInput, this.layout, this.getOptions())
-          return true
-      } else {
+          return 
+      } else { // Else we treat the data as if it was in csv format
         this.csv.loadData(data).then(() => {
-          this.allChannelsX = this.csv.getHeaders();
-          this.allChannelsY = this.csv.getColoumnByIndex(0)
-          if (this.plotType === 'heatmap') {
-            if (this.yAxisFilter.length > 1){
-              this.channelx = this.yAxisFilter
-              this.heatmapPlotAll()
-            }
-          } else {
-            this.data[0].x = this.csv.getColoumnByIndex(0)
-            this.data[0].y = this.csv.getColoumnByIndex(1)
-            this.data[0].type = this.csv.getDataType()
-            this.plot_channel(this.csv.getHeaderByIndex(1))
-            Plotly.newPlot(this.$refs.container, this.data, this.layout, this.getOptions())
-          }
-          return true;
+          this.findTypeThenPlot()
         });
       }
     },
+    // loadURL: Takes a url pointing to a csv file as input and plots it
     loadURL: function(url) {
       this.csv.loadFile(url).then(() => {
-        this.allChannelsX = this.csv.getHeaders();
-        this.allChannelsY = this.csv.getColoumnByIndex(0)
-        if (this.plotType === 'heatmap') {
-          if (this.yAxisFilter.length > 1){
-            this.channelx = this.yAxisFilter
-            this.channely = this.xAxisFilter
-            this.heatmapPlot()
-          }
-          else{
-            this.heatmapPlotAll()
-          }
-        } else {
-          this.data[0].x = this.csv.getColoumnByIndex(0)
-          this.data[0].y = this.csv.getColoumnByIndex(1)
-          this.data[0].type = this.csv.getDataType()
-          this.plot_channel(this.csv.getHeaderByIndex(1))
-          Plotly.newPlot(this.$refs.container, this.data, this.layout, this.getOptions())
-        }
-        return true;
+        this.findTypeThenPlot()
       });
     },
+    // findTypeThenPlot: Check the inputs (props) to Plotvuer and plot accordingly
+    findTypeThenPlot: function(){
+      this.allChannelsX = this.csv.getHeadersExceptForFirst();
+      this.allChannelsY = this.csv.getColoumnByIndex(0)
+      // Check if plot type is provided
+      if (this.plotType === 'heatmap') {
+        // Check if filters are definded
+        if (this.yAxisFilter.length > 1){
+          this.channelx = this.yAxisFilter
+          this.channely = this.xAxisFilter
+          this.heatmapPlotWithFilters()
+        }
+        // Plot all data if no filters are defined
+        else{
+          this.heatmapPlotAll()
+        }
+      } else { // If no plot type is defined, we attempt to deduce it with 'getDataType'
+        this.data[0].x = this.csv.getColoumnByIndex(0)
+        this.data[0].y = this.csv.getColoumnByIndex(1)
+        this.data[0].type = this.csv.getDataType()
+        this.plot_channel(this.csv.getHeaderByIndex(1))
+        Plotly.newPlot(this.$refs.container, this.data, this.layout, this.getOptions())
+      }
+    },
+    // plot_channel: plot a singular channel from a given coloumn name
     plot_channel: function(channel = false) {
       if (channel){
         this.data[0].x = this.csv.getColoumnByIndex(0)
@@ -243,7 +238,8 @@ export default {
         this.data[0].type = this.csv.getDataType() 
       }
     },
-    timeseriesPlot: function(){
+    // timeseriesSelectedChannelsPlot: Plot all selected channels
+    timeseriesSelectedChannelsPlot: function(){
       this.data = []
       for(let i in this.channelx){
         this.data.push([])
@@ -253,7 +249,8 @@ export default {
       }
       Plotly.react(this.$refs.container, this.data, this.layout, this.getOptions())
     },
-    heatmapPlot: function (){
+    // heatmapPlotWithFilters: Plot a heatmap with given x and y filters
+    heatmapPlotWithFilters: function (){
       var data = this.csv.getByAxes(this.channelx, this.channely)
       var tdata = [
           {
@@ -266,17 +263,19 @@ export default {
         Plotly.react(this.$refs.container, tdata, this.layout, this.getOptions())
       
     },
+    // heatmapPlotAll: plot all data avialable for heatmap 
     heatmapPlotAll: function (){
       var tdata = [
           {
-            z: this.csv.getAllData(),
-            x: this.csv.getColoumnByIndex(0),
-            y: this.csv.getHeaders(),
+            z: this.csv.getDataValuesOnly(),
+            x: this.csv.getHeadersExceptForFirst(),
+            y: this.csv.getColoumnByIndex(0)  ,
             type: "heatmap"
           }
         ];
         Plotly.react(this.$refs.container, tdata, this.layout, this.getOptions())
     },
+    // handleResize: listener to resize plotly canvas and redraw
     handleResize: function() {
       new ReziseSensor(this.$el, () => {
         // this.layout.title =
@@ -287,18 +286,21 @@ export default {
         });
       });
     },
+    // zoomIn: Findd and clickd the plolty modebar 'zoom in' 
     zoomIn: function(){
       this.zoom += 100
       this.$el.querySelector('a[data-attr="zoom"][data-val="in"]').click()
       this.setDisabledButtons(this.zoom)
       this.updateZoomSelect(this.zoom)
     },
+    // zoomOut: Find and clickd the plolty modebar 'zoom out' 
     zoomOut: function(){
       this.zoom -= 100
       this.$el.querySelector('a[data-attr="zoom"][data-val="out"]').click()
       this.setDisabledButtons(this.zoom)
       this.updateZoomSelect(this.zoom)
     },
+    // setDisabledButtons(zoomLevel): Disable buttons once they hit max zoom
     setDisabledButtons(zoom){
       if (zoom === this.maxZoom){
         this.zoomInDisabled = true
@@ -427,7 +429,9 @@ export default {
     
   },
   watch: {
-
+    dataInput: function() {	
+      this.loadData(this.dataInput)	
+    },
     helpMode: function(val){
       this.setHelpMode(val)
     }
