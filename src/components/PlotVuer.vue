@@ -290,7 +290,7 @@ export default {
           width: this.$el.clientWidth,
           height: this.$el.parentElement.clientHeight - this.$refs.controls.clientHeight
         });
-        this.$refs.zoomControls.style.bottom =  String(this.$el.parentElement.clientHeight - this.$refs.zoomControls.clientHeight + 16) + 'px'
+        this.$refs.zoomControls.style.top =  String(this.$el.parentElement.clientHeight - this.$refs.zoomControls.clientHeight - 16 ) + 'px'
       });
     },
     // zoomIn: Findd and clickd the plolty modebar 'zoom in' 
