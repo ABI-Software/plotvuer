@@ -1,5 +1,5 @@
 <template>
-  <div class="plotvuer_parent" :title="collapseName">
+  <div class="plotvuer_parent" :title="collapseName" >
     <SvgSpriteColor/>
     <div class="controls" ref="controls">
       <div class='title'>{{title}}j</div>
@@ -282,13 +282,15 @@ export default {
     // handleResize: listener to resize plotly canvas and redraw
     handleResize: function() {
       new ReziseSensor(this.$el, () => {
+        window.zzzz = this.$refs.zoomControls
+        window.hhhh = this.$refs.zoomControls.clientHeight
         // this.layout.title =
         //   "Width now:" + this.$el.clientWidth + " Height now: " + (this.$el.parentElement.clientHeight - this.$refs.selectBox.$el.clientHeight)
         Plotly.relayout(this.$refs.container, {
           width: this.$el.clientWidth,
           height: this.$el.parentElement.clientHeight - this.$refs.controls.clientHeight
         });
-        this.$refs.zoomControls.style.top = this.$el.parentElement.clientHeight 
+        this.$refs.zoomControls.style.bottom =  String(this.$el.parentElement.clientHeight - this.$refs.zoomControls.clientHeight + 16) + 'px'
       });
     },
     // zoomIn: Findd and clickd the plolty modebar 'zoom in' 
@@ -532,7 +534,7 @@ export default {
 
 .icon-button {
   background-color: #ffffff;
-  margin-right: 8px;
+  margin-left: 8px;
   height:24px!important;
   width:24px!important;
 }
@@ -541,18 +543,18 @@ export default {
   cursor:pointer;
 }
 
-.zoomSelect{
-  width: 60px;
-  margin-right: 8px;
-}
-
 .zoomSelect >>> .el-input__inner{
   padding: 0px;
+  height: 24px;
   padding-left: 4px;
+  width: 60px;
+  margin-left: 8px;
 }
 
 .zoomSelect >>> .el-select__caret{
   width: 8px;
+  margin-right: 2px;
+  margin-top: 2px;
 }
 
 .freeSpin {
