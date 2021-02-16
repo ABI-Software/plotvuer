@@ -2,7 +2,7 @@
   <div class="plotvuer_parent" :title="collapseName" >
     <SvgSpriteColor/>
     <div class="controls" ref="controls">
-      <div class='title'>{{title}}j</div>
+      <div class='title'>{{title}}</div>
 
       <div v-if="plotType !== 'plotly-only'">
         <span>
@@ -288,9 +288,8 @@ export default {
         //   "Width now:" + this.$el.clientWidth + " Height now: " + (this.$el.parentElement.clientHeight - this.$refs.selectBox.$el.clientHeight)
         Plotly.relayout(this.$refs.container, {
           width: this.$el.clientWidth,
-          height: this.$el.parentElement.clientHeight - this.$refs.controls.clientHeight
+          height: String(this.$el.parentElement.clientHeight - this.$refs.controls.clientHeight - 10) 
         });
-        this.$refs.zoomControls.style.top =  String(this.$el.parentElement.clientHeight - this.$refs.zoomControls.clientHeight - 16 ) + 'px'
       });
     },
     // zoomIn: Findd and clickd the plolty modebar 'zoom in' 
@@ -451,6 +450,13 @@ export default {
 </script>
 <style scoped src="element-ui/lib/theme-chalk/index.css"></style>
 <style scoped>
+.plotvuer_parent{
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
 .controls{
   padding-left: 55px;
   padding-top: 5px;
@@ -459,8 +465,9 @@ export default {
 }
 
 .bottom-right-control {
-  position:absolute;
-  right:16px;
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
   z-index: 3;
 }
 
