@@ -550,6 +550,10 @@ export default {
   cursor:pointer;
 }
 
+.el-select-dropdown__item{
+  font-family: Arial, Helvetica, sans-serif ;
+}
+
 .zoomSelect >>> .el-input__inner{
   padding: 0px;
   height: 24px;
@@ -592,4 +596,3 @@ export default {
   display: none;
 }
 </style>
-
