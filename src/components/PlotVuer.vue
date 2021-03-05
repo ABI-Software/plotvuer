@@ -282,8 +282,6 @@ export default {
     // handleResize: listener to resize plotly canvas and redraw
     handleResize: function() {
       new ReziseSensor(this.$el, () => {
-        window.zzzz = this.$refs.zoomControls
-        window.hhhh = this.$refs.zoomControls.clientHeight
         // this.layout.title =
         //   "Width now:" + this.$el.clientWidth + " Height now: " + (this.$el.parentElement.clientHeight - this.$refs.selectBox.$el.clientHeight)
         Plotly.relayout(this.$refs.container, {
@@ -336,7 +334,6 @@ export default {
       }
       let newZoom = this.percentToNum(requestedZoomPercentage)
       let zoomDiff =  Math.round((newZoom - this.zoom)/100)
-      console.log(zoomDiff)
       for (let i= 0; i < Math.abs(zoomDiff); i++){
         if (zoomDiff > 0) {
           this.zoomIn()
@@ -384,8 +381,6 @@ export default {
       }
     },
     handleWheel: function(event){
-      console.log(event)
-      window.zoomp = this.zoom
       let change = Math.round( event.deltaY / 7 )
       this.zoom = this.zoom - change
       this.updateZoomSelect(this.zoom)
