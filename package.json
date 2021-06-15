@@ -10,11 +10,11 @@
     "*.js"
   ],
   "scripts": {
-    "serve": "vue-cli-service serve --port 8081",
+    "serve": "vue-cli-service serve",
     "build-bundle": "vue-cli-service build --target lib --name plotvuer ./src/components/index.js",
     "build": "vue-cli-service build --mode static",
     "lint": "vue-cli-service lint",
-    "start": "vue-cli-service serve"
+    "start": "vue-cli-service serve --port 8081"
   },
   "dependencies": {
     "@abi-software/svg-sprite": "^0.1.11",
