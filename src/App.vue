@@ -3,9 +3,9 @@
     <button @click="helpMode = !helpMode">Help Mode</button>
     <button @click="changeInput">Change input</button>
 
-    <vue-draggable-resizable :w="500" :h="500" @dragging="onDrag" @resizing="onResize" :parent="true">
+    <div style="height: 400px; width: 400px; overflow: scroll;">
       <PlotVuer :title="'plot title'" :url="urlList[0]" :plotType="'heatmap'"></PlotVuer>
-    </vue-draggable-resizable>
+    </div>
     <vue-draggable-resizable :w="500" :h="500" @dragging="onDrag" @resizing="onResize" :parent="true">
       <PlotVuer :title="'plotly only'" :data-input="exampleInput" :plotType="'plotly-only'"></PlotVuer>
     </vue-draggable-resizable>

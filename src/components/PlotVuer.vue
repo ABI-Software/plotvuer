@@ -1,8 +1,8 @@
 <template>
-  <div class="plotvuer_parent" :title="collapseName">
+  <div class="plotvuer_parent" :title="collapseName" >
     <SvgSpriteColor/>
     <div class="controls" ref="controls">
-      <div class='title'>{{title}}j</div>
+      <div class='title'>{{title}}</div>
 
       <div v-if="plotType !== 'plotly-only'">
         <span>
@@ -286,9 +286,8 @@ export default {
         //   "Width now:" + this.$el.clientWidth + " Height now: " + (this.$el.parentElement.clientHeight - this.$refs.selectBox.$el.clientHeight)
         Plotly.relayout(this.$refs.container, {
           width: this.$el.clientWidth,
-          height: this.$el.parentElement.clientHeight - this.$refs.controls.clientHeight
+          height: String(this.$el.parentElement.clientHeight - this.$refs.controls.clientHeight - 10) 
         });
-        this.$refs.zoomControls.style.top = this.$el.parentElement.clientHeight 
       });
     },
     // zoomIn: Findd and clickd the plolty modebar 'zoom in' 
@@ -335,7 +334,6 @@ export default {
       }
       let newZoom = this.percentToNum(requestedZoomPercentage)
       let zoomDiff =  Math.round((newZoom - this.zoom)/100)
-      console.log(zoomDiff)
       for (let i= 0; i < Math.abs(zoomDiff); i++){
         if (zoomDiff > 0) {
           this.zoomIn()
@@ -383,8 +381,6 @@ export default {
       }
     },
     handleWheel: function(event){
-      console.log(event)
-      window.zoomp = this.zoom
       let change = Math.round( event.deltaY / 7 )
       this.zoom = this.zoom - change
       this.updateZoomSelect(this.zoom)
@@ -449,6 +445,13 @@ export default {
 </script>
 <style scoped src="element-ui/lib/theme-chalk/index.css"></style>
 <style scoped>
+.plotvuer_parent{
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
 .controls{
   padding-left: 55px;
   padding-top: 5px;
@@ -457,8 +460,9 @@ export default {
 }
 
 .bottom-right-control {
-  position:absolute;
-  right:16px;
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
   z-index: 3;
 }
 
@@ -532,7 +536,7 @@ export default {
 
 .icon-button {
   background-color: #ffffff;
-  margin-right: 8px;
+  margin-left: 8px;
   height:24px!important;
   width:24px!important;
 }
@@ -541,18 +545,22 @@ export default {
   cursor:pointer;
 }
 
-.zoomSelect{
-  width: 60px;
-  margin-right: 8px;
+.el-select-dropdown__item{
+  font-family: Arial, Helvetica, sans-serif ;
 }
 
 .zoomSelect >>> .el-input__inner{
   padding: 0px;
+  height: 24px;
   padding-left: 4px;
+  width: 60px;
+  margin-left: 8px;
 }
 
 .zoomSelect >>> .el-select__caret{
   width: 8px;
+  margin-right: 2px;
+  margin-top: 2px;
 }
 
 .freeSpin {
@@ -583,4 +591,3 @@ export default {
   display: none;
 }
 </style>
-
