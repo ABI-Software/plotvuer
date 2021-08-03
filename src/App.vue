@@ -2,15 +2,14 @@
   <div id="app">
     <button @click="helpMode = !helpMode">Help Mode</button>
     <button @click="changeInput">Change input</button>
-
-    <div style="height: 400px; width: 400px; overflow: scroll;">
+    <el-button @click="changeInput">Change data</el-button>
+    <el-input class='url-input' placeholder="Enter url" v-model="urlList[0]"></el-input>
+    <div style="height: 400px; width: 400px; overflow: none; position: absolute">
       <PlotVuer :title="'plot title'" :url="urlList[0]" :plotType="'heatmap'"></PlotVuer>
     </div>
     <vue-draggable-resizable :w="500" :h="500" @dragging="onDrag" @resizing="onResize" :parent="true">
-      <PlotVuer :title="'plotly only'" :data-input="exampleInput" :plotType="'plotly-only'"></PlotVuer>
+      <PlotVuer :title="'plotly only'" :data-input="exampleInput" :layout-input="layout" :plotType="'plotly-only'"></PlotVuer>
     </vue-draggable-resizable>
-    <el-input class='element' placeholder="Enter url" v-model="urlList[0]"></el-input>
-    <el-button @click="changeInput">Change data</el-button>
     <div class='plot-container' style="height: 800px; width: 800px;">
     </div>
   </div>
@@ -29,11 +28,25 @@ Vue.component('vue-draggable-resizable', VueDraggableResizable)
 Vue.use(Input);
 import PlotVuer from './components/PlotVuer'
 
-var input = [{
-        x: [0, 1, 2, 3, 4, 5], 
-        y: [100, 10, 130, 70, 80, 90], 
-        type: 'scatter'
-      }]
+let input = [{
+  x: [0, 1, 2, 3, 4, 5], 
+  y: [100, 10, 130, 70, 80, 90], 
+  type: 'scatter'
+}]
+  
+// example of how to proide a layout to the plot  
+let layout = {
+  xaxis: {
+    title: {
+      text: 'Provided x Axis',
+    },
+  },
+  yaxis: {
+    title: {
+      text: 'Provided y axis'
+    }
+  }
+};
 
 export default {
   name: 'app',
@@ -49,7 +62,8 @@ export default {
       plotTypeList: ["heatmap", "barchart",],
       y: 0,
       helpMode: false,
-      exampleInput: input
+      exampleInput: input,
+      layout: layout
     }
   },
     methods: {
@@ -84,6 +98,9 @@ export default {
   height:100%;
   width: 100%;
   position:absolute;
+}
+.url-input {
+  width: 250px;
 }
 
 body {
