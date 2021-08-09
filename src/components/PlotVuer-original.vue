@@ -285,8 +285,6 @@ export default {
     // findTypeThenPlot: Check the inputs (props) to Plotvuer and plot accordingly
     findTypeThenPlot: function () {
       this.allChannelsX = this.csv.getHeadersExceptForFirst()
-      console.log('==================')
-      console.log(this.allChannelsX)
       this.allChannelsY = this.csv.getColoumnByIndex(0)
       // Check if plot type is provided
       if (this.plotType === 'heatmap') {
