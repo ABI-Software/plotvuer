@@ -3,15 +3,17 @@
     <button @click="helpMode = !helpMode">Help Mode</button>
     <button @click="changeInput">Change input</button>
     <el-button @click="changeInput">Change data</el-button>
+    <el-button @click="layout1 = layout2">Change layout</el-button>
     <el-input class='url-input' placeholder="Enter url" v-model="urlList[0]"></el-input>
     <div style="height: 400px; width: 400px; overflow: none; position: absolute">
-      <PlotVuer :title="'plot title'" :url="urlList[0]" :plotType="'heatmap'"></PlotVuer>
+      <PlotVuer :title="'plot title'" :url="urlList[0]" :layout-input="layout1" :plotType="'heatmap'"></PlotVuer>
     </div>
     <vue-draggable-resizable :w="500" :h="500" @dragging="onDrag" @resizing="onResize" :parent="true">
-      <PlotVuer :title="'plotly only'" :data-input="exampleInput" :layout-input="layout" :plotType="'plotly-only'"></PlotVuer>
+      <PlotVuer :title="'plotly only'" :data-input="exampleInput" :layout-input="layout1" :plotType="'plotly-only'"></PlotVuer>
     </vue-draggable-resizable>
     <div class='plot-container' style="height: 800px; width: 800px;">
     </div>
+    
   </div>
 </template>
   
@@ -35,18 +37,35 @@ let input = [{
 }]
   
 // example of how to proide a layout to the plot  
-let layout = {
+let layout1 = {
   xaxis: {
     title: {
-      text: 'Provided x Axis',
+      text: 'layout1',
     },
   },
   yaxis: {
     title: {
-      text: 'Provided y axis'
+      text: 'layout1'
     }
   }
 };
+
+// example of how to proide a layout to the plot  
+let layout2 = {
+  xaxis: {
+    title: {
+      text: 'layout2',
+    },
+  },
+  yaxis: {
+    title: {
+      text: 'layout2'
+    }
+  }
+};
+
+
+
 
 export default {
   name: 'app',
@@ -63,7 +82,8 @@ export default {
       y: 0,
       helpMode: false,
       exampleInput: input,
-      layout: layout
+      layout1: layout1,
+      layout2: layout2
     }
   },
     methods: {

@@ -79,6 +79,19 @@ import {SvgSpriteColor, SvgIcon} from '@abi-software/svg-sprite'
 import CsvManager from "./csv_manager"
 import ReziseSensor from "css-element-queries/src/ResizeSensor"
 
+const defaultLayout = {
+  paper_bgcolor: "rgba(0,0,0,0)",
+  plot_bgcolor: "rgba(0,0,0,0)",
+  margin: {
+    t: 5,
+    l: 55,
+    r: 55,
+    b: 90,
+    pad: 4
+  },
+  dragmode: 'pan' 
+}
+
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(Collapse)
@@ -132,18 +145,7 @@ export default {
       allChannelsX: [],
       allChannelsY: [],
       data: [{ x: [], y: [], type: "scatter" }],
-      layout: {
-        paper_bgcolor: "rgba(0,0,0,0)",
-        plot_bgcolor: "rgba(0,0,0,0)",
-        margin: {
-          t: 5,
-          l: 55,
-          r: 55,
-          b: 90,
-          pad: 4
-        },
-        dragmode: 'pan' 
-      },
+      layout: defaultLayout,
       options: {
         type: Object
       },
@@ -201,7 +203,7 @@ export default {
       // Send data to plotly directly if 'plotly-only' is specified
       if (this.plotType === 'plotly-only') {
         if (this.layoutInput) { // merge layout with our default layout if it exists
-          this.layout = {...this.layout, ...this.layoutInput}
+          this.layout = {...defaultLayout, ...this.layoutInput}
         }
         Plotly.newPlot(this.$refs.container, this.dataInput, this.layout, this.getOptions())
         return 
@@ -289,12 +291,15 @@ export default {
     // handleResize: listener to resize plotly canvas and redraw
     handleResize: function() {
       new ReziseSensor(this.$el, () => {
-        // this.layout.title =
-        //   "Width now:" + this.$el.clientWidth + " Height now: " + (this.$el.parentElement.clientHeight - this.$refs.selectBox.$el.clientHeight)
-        Plotly.relayout(this.$refs.container, {
-          width: this.$el.clientWidth,
-          height: String(this.$el.parentElement.clientHeight - this.$refs.controls.clientHeight - 10) 
-        });
+        this.resize()
+      });
+    },
+    resize: function() {
+      // this.layout.title =
+      //   "Width now:" + this.$el.clientWidth + " Height now: " + (this.$el.parentElement.clientHeight - this.$refs.selectBox.$el.clientHeight)
+      Plotly.relayout(this.$refs.container, {
+        width: this.$el.clientWidth,
+        height: String(this.$el.parentElement.clientHeight - this.$refs.controls.clientHeight - 10) 
       });
     },
     // zoomIn: Findd and clickd the plolty modebar 'zoom in' 
@@ -430,7 +435,6 @@ export default {
     }, { deep: !this.watchShallow })
 
     this.$watch('options', this.react, { deep: !this.watchShallow })
-    this.$watch('layout', this.relayout, { deep: !this.watchShallow })
     
   },
   watch: {
@@ -439,6 +443,16 @@ export default {
     },
     helpMode: function(val){
       this.setHelpMode(val)
+    },
+    layoutInput: {
+      deep: true,
+      handler: function(newVal) {
+        console.log('layout change!')
+        this.layout = {...defaultLayout, ...newVal}
+        this.handleResize()
+        Plotly.relayout(this.$refs.container, this.layout)
+        this.resize()
+      }
     }
   },
   destroyed() {
