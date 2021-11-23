@@ -68,19 +68,19 @@ export default {
       handler: function () {
         this.loading = true
         DataManager.loadFile(this.sourceData.url, this.dataReady)
-        if (this.fullMetadata['no-header']) {
-          DataManager.loadFile(this.supplementalData[0].url, this.headerDataReady)
-        }
       },
       immediate: true
     }
   },
   methods: {
     dataReady(data) {
+      if (this.fullMetadata['no-header']) {
+        DataManager.loadFile(this.supplementalData[0].url, this.headerDataReady)
+      }
       this.loading = false
       this.parsedData = data
-      this.populateTime()
       this.findYaxesCols()
+      this.populateTime()
       this.populateDataValues()
       if (!this.fullMetadata['no-header']) {
         this.populateXaxisLabel()
@@ -134,9 +134,12 @@ export default {
       Plotly.react(this.$refs.plotlyplot, tdata, {...this.layout, ...timeseriesLayout, ...this.plotLayout}, this.options) //this.getOptions())
     },
     findYaxesCols() {
-      if (this.fullMetadata['y-axes-coloumns'] === []){
+      if (this.fullMetadata['y-axes-columns'].length === 0){
         let yCols = [...Array(this.parsedData.data[0].length).keys()] // count up to number of coloumns
-        this.fullMetadata['y-axes-coloumns'] = yCols
+        yCols.shift()
+        yCols.shift() // remove first two values
+        console.log('seeting to:', yCols)
+        this.fullMetadata['y-axes-columns'] = yCols
       }
     },
     populateXaxisLabel() {
