@@ -49,7 +49,7 @@ export default {
     fullMetadata() {
       let metadata = JSON.parse(JSON.stringify(this.metadata))
       if (!metadata['y-axes-columns']) {
-        metadata['y-axes-columns'] = [1, 2]
+        metadata['y-axes-columns'] = []
       }
       if (!metadata['x-axis-column']) {
         metadata['x-axis-column'] = 0
@@ -80,6 +80,7 @@ export default {
       this.loading = false
       this.parsedData = data
       this.populateTime()
+      this.findYaxesCols()
       this.populateDataValues()
       if (!this.fullMetadata['no-header']) {
         this.populateXaxisLabel()
@@ -131,6 +132,12 @@ export default {
       }
       const timeseriesLayout = {title: {text: this.title}, xaxis: {title: {text: xValuesLabel}}}
       Plotly.react(this.$refs.plotlyplot, tdata, {...this.layout, ...timeseriesLayout, ...this.plotLayout}, this.options) //this.getOptions())
+    },
+    findYaxesCols() {
+      if (this.fullMetadata['y-axes-coloumns'] === []){
+        let yCols = [...Array(this.parsedData.data[0].length).keys()] // count up to number of coloumns
+        this.fullMetadata['y-axes-coloumns'] = yCols
+      }
     },
     populateXaxisLabel() {
       if (this.fullMetadata['no-header']) {
