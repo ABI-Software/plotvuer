@@ -127,6 +127,7 @@ export default {
         this.logScale = false
       } else {
         this.createPlot(this.columnHeaders, this.rowHeaders, this.logDataValues, 'heatmap')
+        this.logScale = true
       }
     },
     filterPlot() {
