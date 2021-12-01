@@ -26,7 +26,11 @@ export default {
   },
   computed: {
     metadata() {
-      return {version: '1.2.0', type: 'plot', attrs: {style: 'heatmap', logScale: true, columnHeaderIndex: 1, columnHeaderSize: 3}}
+      return {
+        version: '1.2.0',
+        type: 'plot',
+        attrs: {style: 'heatmap', layout: {l: 200, height: '900px'}, logScale: true, columnHeaderIndex: 1, columnHeaderSize: 3}
+      }
     }
   }
 }

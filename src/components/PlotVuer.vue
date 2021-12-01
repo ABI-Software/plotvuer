@@ -3,7 +3,7 @@
     <component
       :is="plotType"
       :source-data="dataSource"
-      :plot-layout="plotLayout"
+      :plot-layout="layout"
       :version="metadata.version"
       :metadata="metadata.attrs"
       :supplemental-data="supplementalData"
@@ -52,6 +52,18 @@ export default {
   computed: {
     plotType: function () {
       return this.metadata.attrs.style + '-plot'
+    },
+    layout: function () {
+      // return layout in metadat if it exists. If not use the prop
+      let layout = this.metadata
+        ? this.metadata.attrs
+          ? this.metadata.attrs.layout
+            ? this.metadata.attrs.layout
+            : this.plotLayout
+          : this.plotLayout
+        : this.plotLayout
+      layout.height = layout.height ? layout.height : 667 // set default height
+      return layout
     }
   }
 }
