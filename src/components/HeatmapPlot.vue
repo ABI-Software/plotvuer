@@ -107,8 +107,8 @@ export default {
       this.populateDataValues()
       if (this.logScaleEnabled) {
         this.logValues()
-        this.createPlot(this.columnHeaders, this.rowHeaders, this.logDataValues, 'heatmap')
         this.logScale = true
+        this.createPlot(this.columnHeaders, this.rowHeaders, this.logDataValues, 'heatmap')
       } else {
         this.createPlot(this.columnHeaders, this.rowHeaders, this.dataValues, 'heatmap')
       }
@@ -123,11 +123,11 @@ export default {
     },
     logToggle() {
       if (this.logScale) {
-        this.createPlot(this.columnHeaders, this.rowHeaders, this.dataValues, 'heatmap')
         this.logScale = false
+        this.createPlot(this.columnHeaders, this.rowHeaders, this.dataValues, 'heatmap')
       } else {
-        this.createPlot(this.columnHeaders, this.rowHeaders, this.logDataValues, 'heatmap')
         this.logScale = true
+        this.createPlot(this.columnHeaders, this.rowHeaders, this.logDataValues, 'heatmap')
       }
     },
     filterPlot() {
