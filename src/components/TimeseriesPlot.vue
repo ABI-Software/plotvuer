@@ -42,7 +42,7 @@ export default {
       time: [],
       traceData: null,
       traceNames: [],
-      xAxisLabel: 'time'
+      xAxisLabel: 'time',
     }
   },
   computed: {
@@ -151,9 +151,12 @@ export default {
     },
     populateTraceNames() {
       if (this.fullMetadata['no-header']) {
+        window.traceNames = this.traceNames
         this.traceNames.splice(0, this.traceNames.length)
+        window.traceData = this.traceData
         for (let col of this.fullMetadata['y-axes-columns']) {
           this.traceNames.push(this.traceData.data[0][col])
+          console.log('pushing:', this.traceData.data[0][col])
         }
         this.$set(this.traceNames, 0, this.traceNames[0])
       } else {

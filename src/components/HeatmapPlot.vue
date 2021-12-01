@@ -33,6 +33,9 @@
       <span>
         <el-button class="view-heatmap-button" @click="filterPlot">Filter plot</el-button>
       </span>
+      <span v-if="logScaleEnabled">
+        <el-button class="view-heatmap-button" @click="logToggle">Toggle log</el-button>
+      </span>
     </div>
     <plot-controls :parent-element="{element: $refs.plotlyplot}" :controls-enabled="!loading" />
   </div>
@@ -56,7 +59,9 @@ export default {
       filterX: [],
       filterY: [],
       parsedData: null,
-      loading: false
+      loading: false,
+      logScale: false,
+      logDataValues: []
     }
   },
   computed: {
@@ -75,6 +80,10 @@ export default {
         metadata.rowHeaderIndex = 0
       }
       return metadata
+    },
+    logScaleEnabled() {
+      let metadata = JSON.parse(JSON.stringify(this.metadata))
+      return metadata.logScale ? true : false
     }
   },
   watch: {
@@ -93,7 +102,29 @@ export default {
       this.populateColumnHeaders()
       this.populateRowHeaders()
       this.populateDataValues()
-      this.createPlot(this.columnHeaders, this.rowHeaders, this.dataValues, 'heatmap')
+      if (this.logScaleEnabled) {
+        this.logValues()
+        this.createPlot(this.columnHeaders, this.rowHeaders, this.logDataValues, 'heatmap')
+        this.logScale = true
+      } else {
+        this.createPlot(this.columnHeaders, this.rowHeaders, this.dataValues, 'heatmap')
+      }
+    },
+    logValues() {
+      this.dataValues.forEach((r, i) => {
+        this.logDataValues.push([])
+        r.forEach(c => {
+          this.logDataValues[i].push(Math.log10(c))
+        })
+      })
+    },
+    logToggle() {
+      if (this.logScale) {
+        this.createPlot(this.columnHeaders, this.rowHeaders, this.dataValues, 'heatmap')
+        this.logScale = false
+      } else {
+        this.createPlot(this.columnHeaders, this.rowHeaders, this.logDataValues, 'heatmap')
+      }
     },
     filterPlot() {
       let xHeaders = this.filterX
