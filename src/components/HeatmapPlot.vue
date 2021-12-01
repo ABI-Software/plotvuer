@@ -84,6 +84,9 @@ export default {
     logScaleEnabled() {
       let metadata = JSON.parse(JSON.stringify(this.metadata))
       return metadata.logScale ? true : false
+    },
+    plotTitle() {
+      return this.logScale ? this.title + ' (Log scale)' : this.title
     }
   },
   watch: {
@@ -171,7 +174,7 @@ export default {
           type: plotType
         }
       ]
-      const heatmapLayout = {title: {text: this.title}}
+      const heatmapLayout = {title: {text: this.plotTitle}}
       Plotly.react(this.$refs.plotlyplot, tdata, {...this.layout, ...heatmapLayout, ...this.plotLayout}, this.options) //this.getOptions())
     },
     populateColumnHeaders() {
