@@ -64,15 +64,22 @@ export default {
     }
   },
   watch: {
-    sourceData: {
-      handler: function () {
-        this.loading = true
-        DataManager.loadFile(this.sourceData.url, this.dataReady)
-      },
-      immediate: true
+    sourceData: function () {
+      this.loadData(this.sourceData)
     }
   },
+  mounted: function () {
+    this.loadData(this.sourceData)
+  },
   methods: {
+    loadData(sourceData) {
+      if (sourceData.url) {
+        this.loading = true
+        DataManager.loadFile(sourceData.url, this.dataReady) // Use url
+      } else {
+        Plotly.react(this.$refs.plotlyplot, this.sourceData.data, this.sourceData.layout ? this.sourceData.layout : this.layout, this.options) // Use plolty input
+      }
+    },
     dataReady(data) {
       if (this.fullMetadata['no-header']) {
         DataManager.loadFile(this.supplementalData[0].url, this.headerDataReady)

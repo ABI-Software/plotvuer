@@ -1,7 +1,7 @@
 <template>
   <div class="plot-container">
     <h1>Plot of heatmap data</h1>
-    <plot-vuer :data-source="{url: urlList[4]}" :metadata="metadata" />
+    <plot-vuer :data-source="{url: urlList[1]}" :metadata="metadata" />
   </div>
 </template>
 
@@ -29,7 +29,7 @@ export default {
       return {
         version: '1.2.0',
         type: 'plot',
-        attrs: {style: 'heatmap', layout: {l: 200, height: '900px'}, logScale: true, columnHeaderIndex: 1, columnHeaderSize: 3}
+        attrs: {style: 'heatmap', layout: {l: 200, height: '900px', title: 'okokok'}, logScale: true, columnHeaderIndex: 1, columnHeaderSize: 3}
       }
     }
   }
