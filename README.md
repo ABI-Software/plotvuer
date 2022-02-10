@@ -56,14 +56,78 @@ _Optional Parameters_:
  1. Type of plot - Use 'scatter, 'heatmap', or 'barplot'.
  2. Plot filters - Filters will preload the plot with the supplied data
 ```html
-<PlotVuer :url="csvfile.csv" :plotType="'scatter'" :xAxisFilter="['step1', 'step2']"></PlotVuer>
+<PlotVuer :data-source="data" :metadata="metadata" :supplemental-data="supplementalData"></PlotVuer>
 ```
 
-`url` should be the variable/string containing the url of a csv file.
+`datasource` has two options for loading data into plotvuer: 
 
-`plotType` is the type of plot we wish to see the data as one of: `'heatmap', 'scatter', 'barplot'` 
+##### Using plotly directly
 
-`xAxisFilter` and `yAxisFilter` provide filters to load the plot with selected filters displayed.
+```javascript
+let data = {
+  data: [
+    {
+      x: [0, 1, 2, 3, 4, 5],
+      y: [100, 10, 130, 70, 80, 90],
+      type: 'scatter'
+    }
+  ],
+  layout: { // **Optional**
+    height: '700px',
+    margin: {
+      t: 35,
+      l: 85,
+      r: 55,
+      b: 190,
+      pad: 4
+    }
+  }
+}
+
+
+let metadata = {
+  version: '1.1.0',
+  type: 'plot',
+  attrs: {
+    style: 'timeseries', // Style will be 'timeseries' or 'heatmap'
+    }
+  }
+}
+
+```
+Note that these are the same inputs for data and layout as plotly normally takes in [`Plotly.newPlot()`](https://plotly.com/javascript/plotlyjs-function-reference/) 
+
+##### Sending plotly a csv file url
+
+```javascript
+let data = {
+  url : 'https://example.com/myfile.csv'
+}
+
+
+let metadata= {
+  version: '1.1.0',
+  type: 'plot',
+  attrs: {
+    'x-axis-column': 2, // **Optional**
+    style: 'timeseries',
+    'y-axes-columns': [3, 4, 5, 6, 7, 8, 9, 10], // **Optional**
+    'plot-layout': { // **Optional**
+      height: '700px',
+      margin: {
+        t: 35,
+        l: 85,
+        r: 55,
+        b: 190,
+        pad: 4
+      }
+    }
+  }
+}
+
+let supplementalData = {
+  url : 'https://example.com/mySupplementalFile.json'
+}
 
 
 ## CSV file formatting
