@@ -49,12 +49,7 @@ export default {
 
 The snippet above registers the Plotvuer component into the global scope.
 You can now use the Plotvuer in your vue template as followed:
-```html
-<PlotVuer :url="csvfile.csv"></PlotVuer>
-```
-_Optional Parameters_: 
- 1. Type of plot - Use 'scatter, 'heatmap', or 'barplot'.
- 2. Plot filters - Filters will preload the plot with the supplied data
+
 ```html
 <PlotVuer :data-source="data" :metadata="metadata" :supplemental-data="supplementalData"></PlotVuer>
 ```
