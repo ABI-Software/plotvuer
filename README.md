@@ -123,7 +123,7 @@ let metadata= {
 let supplementalData = {
   url : 'https://example.com/mySupplementalFile.json'
 }
-
+```
 
 ## CSV file formatting
 
