@@ -12,7 +12,7 @@ module.exports = {
   },
   configureWebpack: config => {
     if(process.env.NODE_ENV === 'production') {
-      config.externals =  [ nodeExternals({allowlist: [/^plotly.js/]}) ];
+      config.externals =  [ nodeExternals({allowlist: [/^element-ui/, /^plotly.js/]}) ];
     }
   },
 }
