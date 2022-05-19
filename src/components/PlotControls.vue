@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <svg-sprite-color />
+    <map-svg-sprite-color />
     <div ref="zoomControls" :class="{inactive: !controlsEnabled}" class="bottom-right-control">
       <el-popover
         v-model="hoverVisibilities[0].value"
@@ -10,7 +10,7 @@
         trigger="manual"
         popper-class="plot-popper"
       >
-        <svg-icon
+        <map-svg-icon
           slot="reference"
           icon="zoomIn"
           class="icon-button zoomIn"
@@ -27,7 +27,7 @@
         trigger="manual"
         popper-class="plot-popper popper-zoomout"
       >
-        <svg-icon
+        <map-svg-icon
           slot="reference"
           icon="zoomOut"
           class="icon-button zoomOut"
@@ -47,7 +47,7 @@
         trigger="manual"
         popper-class="plot-popper"
       >
-        <svg-icon
+        <map-svg-icon
           slot="reference"
           icon="resetZoom"
           class="icon-button resetView"
@@ -63,7 +63,7 @@
 <script>
 import Vue from 'vue'
 import {Select, Option, Collapse, CollapseItem, Button, Popover} from 'element-ui'
-import {SvgSpriteColor, SvgIcon} from '@abi-software/svg-sprite'
+import {MapSvgSpriteColor, MapSvgIcon} from '@abi-software/svg-sprite'
 
 Vue.use(Select)
 Vue.use(Option)
@@ -75,8 +75,8 @@ Vue.use(Popover)
 export default {
   name: 'PlotControls',
   components: {
-    SvgSpriteColor,
-    SvgIcon
+    MapSvgSpriteColor,
+    MapSvgIcon
   },
   props: {
     parentElement: {

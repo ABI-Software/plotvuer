@@ -1,6 +1,6 @@
 <template>
   <div class="plotvuer_parent" :title="collapseName">
-    <SvgSpriteColor />
+    <MapSvgSpriteColor />
     <div ref="controls" class="controls">
       <div class="title">{{ title }}</div>
 
@@ -51,7 +51,7 @@
         trigger="manual"
         popper-class="plot-popper"
       >
-        <svg-icon
+        <map-svg-icon
           slot="reference"
           icon="zoomIn"
           class="icon-button zoomIn"
@@ -68,7 +68,7 @@
         trigger="manual"
         popper-class="plot-popper popper-zoomout"
       >
-        <svg-icon
+        <map-svg-icon
           slot="reference"
           icon="zoomOut"
           class="icon-button zoomOut"
@@ -88,7 +88,7 @@
         trigger="manual"
         popper-class="plot-popper"
       >
-        <svg-icon
+        <map-svg-icon
           slot="reference"
           icon="resetZoom"
           class="icon-button resetView"
@@ -105,7 +105,7 @@
 import Plotly from '../js/custom_plotly'
 import Vue from 'vue'
 import {Select, Option, Collapse, CollapseItem, Button, Popover} from 'element-ui'
-import {SvgSpriteColor, SvgIcon} from '@abi-software/svg-sprite'
+import {MapSvgSpriteColor, MapSvgIcon} from '@abi-software/svg-sprite'
 import CsvManager from './csv_manager'
 import ReziseSensor from 'css-element-queries/src/ResizeSensor'
 
@@ -119,8 +119,8 @@ Vue.use(Popover)
 export default {
   name: 'PlotVuer',
   components: {
-    SvgSpriteColor,
-    SvgIcon
+    MapSvgSpriteColor,
+    MapSvgIcon
   },
   props: {
     title: {
