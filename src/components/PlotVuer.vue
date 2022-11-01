@@ -105,6 +105,10 @@ export default {
       type: Array,
       default: () => []
     },
+    layoutInput: {
+      type: Object,
+      default: () => {}
+    },
     plotType:{
       type: String,
       default: 'heatmap'
@@ -196,7 +200,11 @@ export default {
     loadData: function(data) {
       // Send data to plotly directly if 'plotly-only' is specified
       if (this.plotType === 'plotly-only') {
-          Plotly.newPlot(this.$refs.container, this.dataInput, this.layout, this.getOptions())
+          if (Object.keys(this.layoutInput).length !== 0) { // check if we have layout input
+            Plotly.newPlot(this.$refs.container, this.dataInput, this.layoutInput, this.getOptions())
+          } else {
+            Plotly.newPlot(this.$refs.container, this.dataInput, this.layout, this.getOptions())
+          }
           return 
       } else { // Else we treat the data as if it was in csv format
         this.csv.loadData(data).then(() => {

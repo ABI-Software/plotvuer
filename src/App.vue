@@ -7,7 +7,7 @@
       <PlotVuer :title="'plot title'" :url="urlList[0]" :plotType="'heatmap'"></PlotVuer>
     </div>
     <vue-draggable-resizable :w="500" :h="500" @dragging="onDrag" @resizing="onResize" :parent="true">
-      <PlotVuer :title="'plotly only'" :data-input="exampleInput" :plotType="'plotly-only'"></PlotVuer>
+      <PlotVuer :title="'plotly only'" :data-input="exampleInput" :layout-input="layoutInput" :plotType="'plotly-only'"></PlotVuer>
     </vue-draggable-resizable>
     <el-input class='element' placeholder="Enter url" v-model="urlList[0]"></el-input>
     <el-button @click="changeInput">Change data</el-button>
@@ -49,7 +49,20 @@ export default {
       plotTypeList: ["heatmap", "barchart",],
       y: 0,
       helpMode: false,
-      exampleInput: input
+      exampleInput: input,
+      layoutInput: {
+         xaxis: {
+            title: {
+              text: 'x Axis',
+
+            },
+          },
+          yaxis: {
+            title: {
+              text: 'y Axis',
+            }
+          }
+      }
     }
   },
     methods: {
