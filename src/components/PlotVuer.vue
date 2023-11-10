@@ -1,13 +1,22 @@
 <template>
   <div class="plotvuer_parent">
-    <component
-      :is="plotType"
-      :source-data="dataSource"
-      :plot-layout="layout"
-      :version="metadata.version"
-      :metadata="metadata.attrs"
-      :supplemental-data="supplementalData"
-    ></component>
+    <template v-if="!plotlyOnly">
+      <component
+        :is="plotType"
+        :source-data="dataSource"
+        :plot-layout="layout"
+        :version="metadata.version"
+        :metadata="metadata.attrs"
+        :supplemental-data="supplementalData"
+      ></component>
+    </template>
+    <template v-else>
+      <component
+        :is="'plotvuer-original'"
+        :data-input="dataSource" 
+        :plotType="'plotly-only'"
+        ></component>
+    </template>
   </div>
 </template>
 
@@ -18,19 +27,21 @@ export default {
   name: 'PlotVuer',
   components: {
     'heatmap-plot': () => import('@/components/HeatmapPlot'),
-    'timeseries-plot': () => import('@/components/TimeseriesPlot')
+    'timeseries-plot': () => import('@/components/TimeseriesPlot'),
+    'plotvuer-original': () => import('@/components/PlotVuer-original')
   },
   props: {
     dataSource: {
       type: Object,
       default: () => {}
     },
+    plotlyOnly: {
+      type: Boolean,
+      default: false
+    },
     metadata: {
       type: Object,
-      required: true,
-      validator: function (value) {
-        return KNOWN_VERSIONS.includes(value.version) && value.type === 'plot'
-      }
+      required: false,
     },
     plotLayout: {
       type: Object,
