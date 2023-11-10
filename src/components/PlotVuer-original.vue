@@ -117,7 +117,7 @@ Vue.use(Button)
 Vue.use(Popover)
 
 export default {
-  name: 'PlotVuer',
+  name: 'PlotVuer-original',
   components: {
     MapSvgSpriteColor,
     MapSvgIcon
@@ -237,9 +237,10 @@ export default {
       this.loadURL(this.url)
       this.react()
     } else if (this.dataInput.length != 0) {
+      console.log('datainput', this.dataInput)
       this.loadData(this.dataInput)
     }
-    this.handleResize()
+    // this.handleResize()
     this.$watch(
       'data',
       () => {
