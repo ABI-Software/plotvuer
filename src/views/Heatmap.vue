@@ -1,7 +1,7 @@
 <template>
   <div class="plot-container">
     <h1>Plot of heatmap data</h1>
-    <plot-vuer :data-source="{url: urlList[1]}" :metadata="metadata" />
+    <plot-vuer :data-source="{url: urlList[0]}" :metadata="metadata" />
   </div>
 </template>
 
@@ -16,6 +16,8 @@ export default {
   data: function () {
     return {
       urlList: [
+        'https://api.sparc.science//s3-resource/139/files/derivative/Differential_expression/Average_per_strain.csv?s3BucketName=prd-sparc-discover50-use1',
+        'https://api.sparc.science/s3-resource/139/files/derivative/Differential_expression/Differential_expression_WistarVsSHR.csv?s3BucketName=prd-sparc-discover50-use1',
         'https://api.sparc.science/s3-resource/29/6/files/derivative/HB-ICN-NegDDCT-data.csv',
         'https://mapcore-bucket1.s3-us-west-2.amazonaws.com/ISAN/csv-data/use-case-2/Sample_1_18907001_channel_1.csv',
         'https://api.sparc.science/s3-resource/141/3/files/derivative/pool-1/RAGP_4subs_raw_Ct.csv',

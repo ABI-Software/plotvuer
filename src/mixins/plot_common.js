@@ -7,11 +7,11 @@ export default {
       type: Object,
       required: true
     },
-    plotLayout: {
+    sourceData: {
       type: Object,
       required: true
     },
-    sourceData: {
+    plotLayout: {
       type: Object,
       required: true
     },

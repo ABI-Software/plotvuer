@@ -1,24 +1,28 @@
 <template>
   <div class="plotvuer_parent">
-    <component
-      :is="plotType"
-      :source-data="dataSource"
-      :plot-layout="layout"
-      :version="metadata.version"
-      :metadata="metadata.attrs"
-      :supplemental-data="supplementalData"
-    ></component>
+    <template v-if="plotType != '-plot'">
+      <component
+        :is="plotType"
+        :sourceData="dataSource"
+        :plotLayout="layout"
+        :version="metadata.version"
+        :metadata="metadata.attrs"
+        :supplementalData="supplementalData"
+      ></component>
+    </template>
   </div>
 </template>
 
 <script>
+import TimeseriesPlot from './TimeseriesPlot.vue'
+import HeatmapPlot from './HeatmapPlot.vue'
 const KNOWN_VERSIONS = ['1.2.0', '1.1.0']
 
 export default {
   name: 'PlotVuer',
   components: {
-    'heatmap-plot': () => import('@/components/HeatmapPlot'),
-    'timeseries-plot': () => import('@/components/TimeseriesPlot')
+    TimeseriesPlot,
+    HeatmapPlot,
   },
   props: {
     dataSource: {
@@ -65,19 +69,18 @@ export default {
       layout.height = layout.height ? layout.height : 667 // set default height
       return layout
     }
-  }
+  },
 }
 </script>
 
-<style scoped src="element-ui/lib/theme-chalk/index.css"></style>
 
 <style scoped>
-/* .plotvuer_parent {
+.plotvuer_parent {
   height: 100%;
   width: 100%;
   position: relative;
   overflow: hidden;
-} */
+}
 </style>
 
 <style>

@@ -1,4 +1,4 @@
-const nodeExternals = require('webpack-node-externals');
+var nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   chainWebpack: config => {
@@ -14,5 +14,5 @@ module.exports = {
     if(process.env.NODE_ENV === 'production') {
       config.externals =  [ nodeExternals({allowlist: [/^element-ui/, /^plotly.js/]}) ];
     }
-  },
+  }
 }

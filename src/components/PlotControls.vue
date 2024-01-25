@@ -10,14 +10,15 @@
         trigger="manual"
         popper-class="plot-popper"
       >
-        <map-svg-icon
-          slot="reference"
-          icon="zoomIn"
-          class="icon-button zoomIn"
-          @click.native="zoomIn()"
-          @mouseover.native="showToolitip(0)"
-          @mouseout.native="hideToolitip(0)"
-        />
+        <template v-slot:reference>
+          <!-- <map-svg-icon
+            icon="zoomIn"
+            class="icon-button zoomIn"
+            @click="zoomIn()"
+            @mouseover="showToolitip(0)"
+            @mouseout="hideToolitip(0)"
+          /> -->
+        </template>
       </el-popover>
       <el-popover
         v-model="hoverVisibilities[1].value"
@@ -27,18 +28,17 @@
         trigger="manual"
         popper-class="plot-popper popper-zoomout"
       >
-        <map-svg-icon
-          slot="reference"
-          icon="zoomOut"
-          class="icon-button zoomOut"
-          @click.native="zoomOut()"
-          @mouseover.native="showToolitip(1)"
-          @mouseout.native="hideToolitip(1)"
-        />
+        <template v-slot:reference>
+          <!-- <map-svg-icon
+            icon="zoomOut"
+            class="icon-button zoomOut"
+            @click="zoomOut()"
+            @mouseover="showToolitip(1)"
+            @mouseout="hideToolitip(1)"
+          /> -->
+        </template>
       </el-popover>
-      <!-- <el-select v-model="selectZoom" size="mini" placeholder="100%" class="zoomSelect" @change="selectZoomChange">
-        <el-option v-for="item in zoomSelect" :key="item.value" :label="item.label" :value="item.label"> </el-option>
-      </el-select> -->
+      <!-- The commented part remains unchanged -->
       <el-popover
         v-model="hoverVisibilities[2].value"
         content="Reset"
@@ -47,36 +47,35 @@
         trigger="manual"
         popper-class="plot-popper"
       >
-        <map-svg-icon
-          slot="reference"
-          icon="resetZoom"
-          class="icon-button resetView"
-          @click.native="resetView()"
-          @mouseover.native="showToolitip(2)"
-          @mouseout.native="hideToolitip(2)"
-        />
+        <template v-slot:reference>
+          <!-- <map-svg-icon
+            icon="resetZoom"
+            class="icon-button resetView"
+            @click="resetView()"
+            @mouseover="showToolitip(2)"
+            @mouseout="hideToolitip(2)"
+          /> -->
+        </template>
       </el-popover>
     </div>
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import {Select, Option, Collapse, CollapseItem, Button, Popover} from 'element-ui'
-import {MapSvgSpriteColor, MapSvgIcon} from '@abi-software/svg-sprite'
-
-Vue.use(Select)
-Vue.use(Option)
-Vue.use(Collapse)
-Vue.use(CollapseItem)
-Vue.use(Button)
-Vue.use(Popover)
+import { ElSelect, ElOption, ElCollapse, ElCollapseItem, ElButton, ElPopover } from 'element-plus';
+// import { MapSvgSpriteColor, MapSvgIcon } from '@abi-software/svg-sprite';
 
 export default {
   name: 'PlotControls',
   components: {
-    MapSvgSpriteColor,
-    MapSvgIcon
+    // MapSvgSpriteColor,
+    // MapSvgIcon,
+    ElSelect,
+    ElOption,
+    ElCollapse,
+    ElCollapseItem,
+    ElButton,
+    ElPopover
   },
   props: {
     parentElement: {

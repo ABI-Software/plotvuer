@@ -1,26 +1,6 @@
 <template>
   <div class="container">
     <div ref="plotlyplot" class="vue-plotly" />
-    <div class="chooser-container" :class="{inactive: loading}">
-      <span>
-        <el-select
-          v-model="filterX"
-          class="channel-select"
-          multiple
-          filterable
-          collapse-tags
-          default-first-option
-          :popper-append-to-body="false"
-          placeholder="select"
-        >
-          <el-option v-for="item in traceNames" :key="item" :label="item" :value="item"></el-option>
-        </el-select>
-      </span>
-      <span>
-        <el-button class="view-heatmap-button" @click="filterPlot">Filter plot</el-button>
-      </span>
-    </div>
-    <plot-controls :parent-element="{element: $refs.plotlyplot}" :controls-enabled="!loading" />
   </div>
 </template>
 
@@ -29,10 +9,12 @@ import Plotly from '@/js/custom_plotly'
 import DataManager from '@/js/data_manager'
 import PlotControls from '@/components/PlotControls'
 import PlotCommon from '@/mixins/plot_common'
+import { ElSelect, ElButton, ElOption } from 'element-plus';
+
 
 export default {
   name: 'TimeseriesPlot',
-  components: {PlotControls},
+  components: {PlotControls, ElSelect, ElButton, ElOption},
   mixins: [PlotCommon],
   data: function () {
     return {
@@ -201,4 +183,11 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+@use "element-plus/theme-chalk/src/button";
+@use "element-plus/theme-chalk/src/loading";
+@use "element-plus/theme-chalk/src/option";
+@use "element-plus/theme-chalk/src/popover";
+@use "element-plus/theme-chalk/src/select";
+
+</style>
