@@ -1,4 +1,4 @@
-import PlotControls from '@/components/PlotControls'
+import PlotControls from '@/components/PlotControls.vue'
 
 export default {
   components: {PlotControls},

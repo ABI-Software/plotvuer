@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <map-svg-sprite-color />
+    <!-- <map-svg-sprite-color /> -->
     <div ref="zoomControls" :class="{inactive: !controlsEnabled}" class="bottom-right-control">
       <el-popover
         v-model="hoverVisibilities[0].value"

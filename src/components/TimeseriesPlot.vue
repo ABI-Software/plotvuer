@@ -7,7 +7,7 @@
 <script>
 import Plotly from '@/js/custom_plotly'
 import DataManager from '@/js/data_manager'
-import PlotControls from '@/components/PlotControls'
+import PlotControls from '@/components/PlotControls.vue'
 import PlotCommon from '@/mixins/plot_common'
 import { ElSelect, ElButton, ElOption } from 'element-plus';
 
@@ -182,12 +182,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="scss">
-@use "element-plus/theme-chalk/src/button";
-@use "element-plus/theme-chalk/src/loading";
-@use "element-plus/theme-chalk/src/option";
-@use "element-plus/theme-chalk/src/popover";
-@use "element-plus/theme-chalk/src/select";
-
-</style>

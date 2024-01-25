@@ -4,8 +4,8 @@ import PlotVuer from './PlotVuer.vue'
 
 export {PlotVuer}
 
-import HeatmapPlot from './HeatmapPlot'
-import TimeseriesPlot from './TimeseriesPlot'
+import HeatmapPlot from './HeatmapPlot.vue'
+import TimeseriesPlot from './TimeseriesPlot.vue'
 if (HeatmapPlot || TimeseriesPlot) {
   // Are these things hidden?
 }

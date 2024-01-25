@@ -37,19 +37,29 @@
         <el-button class="view-heatmap-button" @click="logToggle">Toggle log</el-button>
       </span>
     </div>
-    <plot-controls :parent-element="{element: $refs.plotlyplot}" :controls-enabled="!loading" />
+    <!-- <plot-controls :parent-element="{element: $refs.plotlyplot}" :controls-enabled="!loading" /> -->
   </div>
 </template>
 
 <script>
 import DataManager from '@/js/data_manager'
 import PlotCommon from '@/mixins/plot_common'
-import PlotControls from '@/components/PlotControls'
+// import PlotControls from '@/components/PlotControls.vue'
 import Plotly from '@/js/custom_plotly'
+
+import { ElSelect, ElOption, ElCollapse, ElCollapseItem, ElButton, ElPopover } from 'element-plus';
 
 export default {
   name: 'HeatmapPlot',
-  components: {PlotControls},
+  components: {
+    // PlotControls,
+    ElSelect,
+    ElOption,
+    ElCollapse,
+    ElCollapseItem,
+    ElButton,
+    ElPopover
+  },
   mixins: [PlotCommon],
   data: function () {
     return {

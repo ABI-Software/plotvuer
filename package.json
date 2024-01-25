@@ -1,11 +1,11 @@
 {
   "name": "@abi-software/plotvuer",
-  "version": "0.4.0",
+  "version": "0.4.0-vue-3-alpha",
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vite serve",
     "build": "vue-cli-service build --mode static",
     "lint": "vue-cli-service lint",
-    "build-bundle": "vue-cli-service build --target lib --name plotvuer ./src/components/index.js",
+    "build-bundle": "vite build",
     "start": "vue-cli-service serve --port 8081"
   },
   "main": "./dist/plotvuer.common.js",
@@ -27,11 +27,14 @@
     "element-ui": "^2.13.0",
     "papaparse": "^5.3.0",
     "plotly.js": "^2.28.0",
+    "unplugin-vue-components": "^0.26.0",
+    "vite-plugin-node-polyfills": "^0.19.0",
     "vue": "^3.4.15",
     "vue-draggable-resizable": "^2.2.0",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.3",
     "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-plugin-router": "^5.0.8",
@@ -48,6 +51,7 @@
     "sass": "^1.70.0",
     "sass-loader": "^14.0.0",
     "transform-loader": "^0.2.4",
+    "vite": "^5.0.12",
     "vue-template-compiler": "^2.6.10",
     "webpack-node-externals": "^2.5.2"
   },

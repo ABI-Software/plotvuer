@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import PlotVuer from '@/components/PlotVuer'
+import PlotVuer from '@/components/PlotVuer.vue'
 
 export default {
   name: 'Heatmap',
