@@ -1,6 +1,6 @@
 {
   "name": "@abi-software/plotvuer",
-  "version": "0.4.0-vue-3-alpha",
+  "version": "0.4.0-vue-3-alpha.2",
   "scripts": {
     "serve": "vite serve",
     "build": "vue-cli-service build --mode static",
@@ -8,7 +8,9 @@
     "build-bundle": "vite build",
     "start": "vue-cli-service serve --port 8081"
   },
-  "main": "./dist/plotvuer.common.js",
+  "type": "module",
+  "module": "./dist/plovuer.mjs",
+  "main": "./dist/plotvuer.umd.js",
   "files": [
     "dist/*",
     "src/*",
