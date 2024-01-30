@@ -16,6 +16,7 @@ export default {
   data: function () {
     return {
       urlList: [
+        'https://api.sparc.science//s3-resource/139/files/derivative/Differential_expression/Differential_expression_WistarVsSHR.csv?s3BucketName=prd-sparc-discover50-use1',
         'https://api.sparc.science//s3-resource/139/files/derivative/Differential_expression/Average_per_strain.csv?s3BucketName=prd-sparc-discover50-use1',
         'https://api.sparc.science/s3-resource/139/files/derivative/Differential_expression/Differential_expression_WistarVsSHR.csv?s3BucketName=prd-sparc-discover50-use1',
         'https://api.sparc.science/s3-resource/29/6/files/derivative/HB-ICN-NegDDCT-data.csv',
