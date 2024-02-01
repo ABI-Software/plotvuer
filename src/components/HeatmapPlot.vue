@@ -10,7 +10,6 @@
           filterable
           collapse-tags
           default-first-option
-          :popper-append-to-body="false"
           placeholder="select"
         >
           <el-option v-for="item in columnHeaders" :key="item" :label="item" :value="item"></el-option>
@@ -24,7 +23,6 @@
           filterable
           collapse-tags
           default-first-option
-          :popper-append-to-body="false"
           placeholder="select"
         >
           <el-option v-for="item in rowHeaders" :key="item" :label="item" :value="item"></el-option>

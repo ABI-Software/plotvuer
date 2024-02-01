@@ -1,6 +1,6 @@
 {
   "name": "@abi-software/plotvuer",
-  "version": "0.4.0-vue-3-alpha.2",
+  "version": "0.4.0-vue-3-alpha.4",
   "scripts": {
     "serve": "vite serve",
     "build": "vue-cli-service build --mode static",
@@ -9,8 +9,7 @@
     "start": "vue-cli-service serve --port 8081"
   },
   "type": "module",
-  "module": "./dist/plovuer.mjs",
-  "main": "./dist/plotvuer.umd.js",
+  "main": "./dist/plotvuer.js",
   "files": [
     "dist/*",
     "src/*",
@@ -19,7 +18,7 @@
     "*.js"
   ],
   "dependencies": {
-    "@abi-software/svg-sprite": "^0.1.15",
+    "@abi-software/svg-sprite": "^0.4.0-vue3-beta.0",
     "@element-plus/icons-vue": "^2.3.1",
     "core-js": "^3.7.0",
     "css-element-queries": "^1.2.3",
@@ -37,10 +36,6 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.3",
-    "@vue/cli-plugin-babel": "^5.0.8",
-    "@vue/cli-plugin-eslint": "^5.0.8",
-    "@vue/cli-plugin-router": "^5.0.8",
-    "@vue/cli-service": "^5.0.8",
     "babel-eslint": "^10.0.3",
     "babel-plugin-component": "^1.1.1",
     "eslint": "^8.56.0",
