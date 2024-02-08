@@ -288,7 +288,7 @@ export default {
 }
 
 .icon-button {
-  background-color: #ffffff;
+  color: #8300bf;
   margin-left: 8px;
   height: 24px !important;
   width: 24px !important;
