@@ -589,7 +589,7 @@ export default {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.zoomSelect >>> .el-input__inner {
+.zoomSelect :deep( .el-input__inner ){
   padding: 0px;
   height: 24px;
   padding-left: 4px;
@@ -597,7 +597,7 @@ export default {
   margin-left: 8px;
 }
 
-.zoomSelect >>> .el-select__caret {
+.zoomSelect :deep( .el-select__caret ){
   width: 8px;
   margin-right: 2px;
   margin-top: 2px;
@@ -608,18 +608,18 @@ export default {
   right: 50%;
   position: absolute;
 }
-.bottom-right-control >>> .plot-popper {
+.bottom-right-control :deep( .plot-popper ){
   padding: 9px 10px;
   min-width: 150px;
   font-size: 12px;
   color: #fff;
   background-color: #8300bf;
 }
-.bottom-right-control >>> .plot-popper .popper__arrow::after {
+.bottom-right-control :deep( .plot-popper .popper__arrow::after ){
   border-left-color: #8300bf !important;
 }
 
-.bottom-right-control >>> .el-select__tags-text {
+.bottom-right-control :deep( .el-select__tags-text ){
   max-width: 90px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -627,7 +627,7 @@ export default {
   display: inline-block;
   vertical-align: middle;
 }
-.bottom-right-control >>> .modebar-container {
+.bottom-right-control :deep( .modebar-container ){
   display: none;
 }
 </style>

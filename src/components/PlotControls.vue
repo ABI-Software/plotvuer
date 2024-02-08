@@ -1,41 +1,41 @@
 <template>
   <div class="container">
-    <!-- <map-svg-sprite-color /> -->
+    <map-svg-sprite-color />
     <div ref="zoomControls" :class="{inactive: !controlsEnabled}" class="bottom-right-control">
       <el-popover
         v-model="hoverVisibilities[0].value"
         content="Zoom in"
         placement="left"
-        :append-to-body="false"
+        :teleported=false
         trigger="manual"
         popper-class="plot-popper"
       >
-        <template v-slot:reference>
-          <!-- <map-svg-icon
+        <template #reference>
+          <map-svg-icon
             icon="zoomIn"
             class="icon-button zoomIn"
             @click="zoomIn()"
             @mouseover="showToolitip(0)"
             @mouseout="hideToolitip(0)"
-          /> -->
+          />
         </template>
       </el-popover>
       <el-popover
         v-model="hoverVisibilities[1].value"
         content="Zoom out"
         placement="top-end"
-        :append-to-body="false"
+        :teleported=false
         trigger="manual"
         popper-class="plot-popper popper-zoomout"
       >
-        <template v-slot:reference>
-          <!-- <map-svg-icon
+        <template #reference>
+          <map-svg-icon
             icon="zoomOut"
             class="icon-button zoomOut"
             @click="zoomOut()"
             @mouseover="showToolitip(1)"
             @mouseout="hideToolitip(1)"
-          /> -->
+          />
         </template>
       </el-popover>
       <!-- The commented part remains unchanged -->
@@ -43,18 +43,18 @@
         v-model="hoverVisibilities[2].value"
         content="Reset"
         placement="top"
-        :append-to-body="false"
+        :teleported=false
         trigger="manual"
         popper-class="plot-popper"
       >
-        <template v-slot:reference>
-          <!-- <map-svg-icon
+        <template #reference>
+          <map-svg-icon
             icon="resetZoom"
             class="icon-button resetView"
             @click="resetView()"
             @mouseover="showToolitip(2)"
             @mouseout="hideToolitip(2)"
-          /> -->
+          />
         </template>
       </el-popover>
     </div>
@@ -63,13 +63,13 @@
 
 <script>
 import { ElSelect, ElOption, ElCollapse, ElCollapseItem, ElButton, ElPopover } from 'element-plus';
-// import { MapSvgSpriteColor, MapSvgIcon } from '@abi-software/svg-sprite';
+import { MapSvgSpriteColor, MapSvgIcon } from '@abi-software/svg-sprite';
 
 export default {
   name: 'PlotControls',
   components: {
-    // MapSvgSpriteColor,
-    // MapSvgIcon,
+    MapSvgSpriteColor,
+    MapSvgIcon,
     ElSelect,
     ElOption,
     ElCollapse,
@@ -205,24 +205,23 @@ export default {
 }
 </script>
 
-<style scoped src="element-ui/lib/theme-chalk/index.css"></style>
 
 <style scoped>
-/* .controls {
+.controls {
   padding-left: 55px;
   padding-top: 5px;
   align-items: left;
   text-align: left;
-} */
+}
 
-/* .bottom-right-control {
+.bottom-right-control {
   position: absolute;
   bottom: 16px;
   right: 16px;
   z-index: 3;
-} */
+}
 
-/* @media only screen and (max-width: 48em) {
+@media only screen and (max-width: 48em) {
   .ui-controls {
     position: absolute;
     height: 100%;
@@ -232,9 +231,9 @@ export default {
     pointer-events: none;
     z-index: 5;
   }
-} */
+}
 
-/* .title {
+.title {
   width: 572px;
   height: 17px;
   font-family: Helvetica;
@@ -247,8 +246,8 @@ export default {
   color: #606266;
   padding-top: 8px;
   padding-bottom: 8px;
-} */
-/* .options {
+}
+.options {
   position: absolute;
   z-index: 11000;
   height: calc(100% - 20px);
@@ -256,9 +255,9 @@ export default {
   overflow: auto;
   padding-top: 8px;
   padding-bottom: 8px;
-} */
+}
 
-/* .channel-select {
+.channel-select {
   min-width: 220px;
   margin: 8px;
   margin-left: 0px;
@@ -297,43 +296,43 @@ export default {
 
 .icon-button:hover {
   cursor: pointer;
-} */
+}
 
-/* .el-select-dropdown__item {
+.el-select-dropdown__item {
   font-family: Arial, Helvetica, sans-serif;
-} */
+}
 
-/* .zoomSelect >>> .el-input__inner {
+.zoomSelect :deep( .el-input__inner ){
   padding: 0px;
   height: 24px;
   padding-left: 4px;
   width: 60px;
   margin-left: 8px;
-} */
+}
 
-/* .zoomSelect >>> .el-select__caret {
+.zoomSelect :deep( .el-select__caret ){
   width: 8px;
   margin-right: 2px;
   margin-top: 2px;
-} */
+}
 
-/* .bottom-right-control >>> .plot-popper {
+.bottom-right-control :deep( .plot-popper ){
   padding: 9px 10px;
   min-width: 150px;
   font-size: 12px;
   color: #fff;
   background-color: #8300bf;
-} */
-/* .bottom-right-control >>> .plot-popper .popper__arrow::after {
+}
+.bottom-right-control :deep( .plot-popper .popper__arrow::after ){
   border-left-color: #8300bf !important;
-} */
+}
 
-/* .bottom-right-control >>> .el-select__tags-text {
+.bottom-right-control :deep( .el-select__tags-text ){
   max-width: 90px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   display: inline-block;
   vertical-align: middle;
-} */
+}
 </style>
