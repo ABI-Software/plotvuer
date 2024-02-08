@@ -40,7 +40,21 @@ export default {
       type: Object,
       default: () => {
         return {
-          height: 667
+          paper_bgcolor: 'rgba(0,0,0,0)',
+          plot_bgcolor: 'rgba(0,0,0,0)',
+          autosize: true,
+          margin: {
+            t: 25,
+            l: 55,
+            r: 55,
+            b: 90,
+            pad: 4
+          },
+          loading: false,
+          options: {
+            responsive: true,
+            scrollZoom: true
+         }
         }
       }
     },
@@ -66,7 +80,6 @@ export default {
             : this.plotLayout
           : this.plotLayout
         : this.plotLayout
-      layout.height = layout.height ? layout.height : 667 // set default height
       return layout
     }
   },

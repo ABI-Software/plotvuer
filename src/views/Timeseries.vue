@@ -1,16 +1,28 @@
 <template>
-  <div class="plot-container">
-    <h1>Plot of timeseries data</h1>
-    <plot-vuer :data-source="{url: urlList[0]}" :metadata="metadata" :supplemental-data="[{url: urlList[4]}]" />
-  </div>
+  <Vue3DraggableResizable
+    :initW="410"
+    :initH="420"
+    :draggable="true"
+    :resizable="true"
+  >
+    <div class="plot-container">
+      <h1>Plot of timeseries data</h1>
+      <plot-vuer :data-source="{url: urlList[0]}" :metadata="metadata" :supplemental-data="[{url: urlList[4]}]" />
+    </div>
+  </Vue3DraggableResizable>
 </template>
 
 <script>
 import PlotVuer from '@/components/PlotVuer.vue'
+import Vue3DraggableResizable from 'vue3-draggable-resizable'
+//default styles
+import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css'
+
 
 export default {
   name: 'Timeseries',
   components: {
+    Vue3DraggableResizable,
     PlotVuer
   },
   data: function () {
@@ -58,4 +70,9 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.plot-container {
+  width: 100%;
+  height: 100%;
+}
+</style>

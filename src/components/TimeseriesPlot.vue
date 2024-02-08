@@ -4,6 +4,7 @@
     <div class="chooser-container" :class="{inactive: loading}">
       <span>
         <el-select
+          ref="selectBox"
           v-model="filterX"
           class="channel-select"
           size="large"
@@ -21,7 +22,7 @@
         <el-button class="view-heatmap-button" @click="filterPlot">Filter plot</el-button>
       </span>
     </div>
-    <plot-controls :parent-element="{element: $refs.plotlyplot}" :controls-enabled="!loading" />
+    <plot-controls ref="controls" :parent-element="{element: $refs.plotlyplot}" :controls-enabled="!loading" />
   </div>
 </template>
 
@@ -88,6 +89,7 @@ export default {
         DataManager.loadFile(this.supplementalData[0].url, this.headerDataReady)
       }
       this.loading = false
+      // this.handleResize()
       this.parsedData = data
       this.findYaxesCols()
       this.populateTime()
@@ -141,7 +143,7 @@ export default {
         })
       }
       const timeseriesLayout = {title: {text: this.title}, xaxis: {title: {text: xValuesLabel}}}
-      Plotly.react(this.$refs.plotlyplot, tdata, {...this.layout, ...timeseriesLayout, ...this.plotLayout}, this.options) //this.getOptions())
+      Plotly.react(this.$refs.plotlyplot, tdata, {...this.layout, ...timeseriesLayout}, this.options) //this.getOptions())
     },
     findYaxesCols() {
       if (this.fullMetadata['y-axes-columns'].length === 0) {
@@ -205,6 +207,16 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.vue-plotly {
+  width: 100%;
+  height: 80%;
+}
+
 .controls {
   padding-left: 55px;
   padding-top: 5px;
