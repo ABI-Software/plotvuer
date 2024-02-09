@@ -3,6 +3,10 @@
 [![npm version](https://badge.fury.io/js/%40abi-software%2Fplotvuer.svg)](https://badge.fury.io/js/%40abi-software%2Fplotvuer)
 [![Maintainability](https://api.codeclimate.com/v1/badges/8dd727f153711aaae6e1/maintainability)](https://codeclimate.com/github/Tehsurfer/plotvuer/maintainability)
 
+This project is now in Vue 3 only. 
+
+If using vue 2, use the [0.2.x branch](https://github.com/ABI-Software/plotvuer/tree/0.2.x)
+
 This project aims to process and display csv files as graphs in the vue framework
 
 Demo the site functionality of this app [here](https://plotvuer-demo.herokuapp.com/)*. 
