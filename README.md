@@ -5,7 +5,7 @@
 
 This project is now in Vue 3 only. 
 
-If using vue 2, use the [0.2.x branch](https://github.com/ABI-Software/plotvuer/tree/0.2.x)
+If using vue 2, use the [Vue-2 branch](https://github.com/ABI-Software/plotvuer/tree/Vue-2)
 
 This project aims to process and display csv files as graphs in the vue framework
 
