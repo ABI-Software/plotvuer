@@ -1,14 +1,24 @@
 {
   "name": "@abi-software/plotvuer",
-  "version": "0.3.9",
+  "version": "0.4.0-vue-3-alpha.7",
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vite serve",
     "build": "vue-cli-service build --mode static",
     "lint": "vue-cli-service lint",
-    "build-bundle": "vue-cli-service build --target lib --name plotvuer ./src/components/index.js",
+    "build-bundle": "vite build",
     "start": "vue-cli-service serve --port 8081"
   },
-  "main": "./dist/plotvuer.common.js",
+  "type": "module",
+  "main": "./dist/plotvuer.umd.cjs",
+  "module": "./dist/plotvuer.js",
+  "exports": {
+    ".": {
+      "import": "./dist/plotvuer.js",
+      "require": "./dist/plotvuer.umd.cjs"
+    },
+    "./dist/style.css": "./dist/style.css",
+    "./src/*": "./src/*"
+  },
   "files": [
     "dist/*",
     "src/*",
@@ -17,40 +27,39 @@
     "*.js"
   ],
   "dependencies": {
-    "@abi-software/svg-sprite": "^0.1.15",
+    "@abi-software/svg-sprite": "^0.4.0-vue3-beta.0",
+    "@element-plus/icons-vue": "^2.3.1",
     "core-js": "^3.7.0",
     "css-element-queries": "^1.2.3",
     "current-script-polyfill": "^1.0.0",
     "d3-time-format": "^3.0.0",
-    "element-ui": "^2.13.0",
+    "element-plus": "^2.5.3",
     "papaparse": "^5.3.0",
-    "plotly.js": "^1.55.2",
-    "vue": "^2.6.10",
+    "plotly.js": "^2.28.0",
+    "unplugin-vue-components": "^0.26.0",
+    "vite-plugin-node-polyfills": "^0.19.0",
+    "vue": "^3.4.15",
     "vue-draggable-resizable": "^2.2.0",
-    "vue-router": "^3.2.0"
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^4.0.0",
-    "@vue/cli-plugin-eslint": "^4.0.0",
-    "@vue/cli-plugin-router": "^4.5.13",
-    "@vue/cli-service": "^4.0.0",
+    "@vitejs/plugin-vue": "^5.0.3",
     "babel-eslint": "^10.0.3",
     "babel-plugin-component": "^1.1.1",
-    "eslint": "^5.16.0",
+    "eslint": "^8.56.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-vue": "^6.2.2",
-    "file-loader": "^5.0.2",
+    "eslint-plugin-vue": "^9.19.2",
+    "file-loader": "^6.2.0",
     "prettier": "^2.2.1",
     "raw-loader": "^0.5.1",
+    "sass": "^1.70.0",
+    "sass-loader": "^14.0.0",
     "transform-loader": "^0.2.4",
+    "vite": "^5.0.12",
     "vue-template-compiler": "^2.6.10",
+    "vue3-draggable-resizable": "^1.6.5",
     "webpack-node-externals": "^2.5.2"
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
   },
   "browserslist": [
     "> 1%",

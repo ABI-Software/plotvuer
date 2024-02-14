@@ -4,13 +4,15 @@
     <div class="chooser-container" :class="{inactive: loading}">
       <span>
         <el-select
+          ref="selectBox"
           v-model="filterX"
           class="channel-select"
+          size="large"
           multiple
           filterable
           collapse-tags
           default-first-option
-          :popper-append-to-body="false"
+          :teleported=false
           placeholder="select"
         >
           <el-option v-for="item in traceNames" :key="item" :label="item" :value="item"></el-option>
@@ -20,19 +22,21 @@
         <el-button class="view-heatmap-button" @click="filterPlot">Filter plot</el-button>
       </span>
     </div>
-    <plot-controls :parent-element="{element: $refs.plotlyplot}" :controls-enabled="!loading" />
+    <plot-controls ref="controls" :parent-element="{element: $refs.plotlyplot}" :controls-enabled="!loading" />
   </div>
 </template>
 
 <script>
 import Plotly from '@/js/custom_plotly'
 import DataManager from '@/js/data_manager'
-import PlotControls from '@/components/PlotControls'
+import PlotControls from '@/components/PlotControls.vue'
 import PlotCommon from '@/mixins/plot_common'
+import { ElSelect, ElButton, ElOption } from 'element-plus';
+
 
 export default {
   name: 'TimeseriesPlot',
-  components: {PlotControls},
+  components: {PlotControls, ElSelect, ElButton, ElOption},
   mixins: [PlotCommon],
   data: function () {
     return {
@@ -85,6 +89,7 @@ export default {
         DataManager.loadFile(this.supplementalData[0].url, this.headerDataReady)
       }
       this.loading = false
+      // this.handleResize()
       this.parsedData = data
       this.findYaxesCols()
       this.populateTime()
@@ -138,7 +143,7 @@ export default {
         })
       }
       const timeseriesLayout = {title: {text: this.title}, xaxis: {title: {text: xValuesLabel}}}
-      Plotly.react(this.$refs.plotlyplot, tdata, {...this.layout, ...timeseriesLayout, ...this.plotLayout}, this.options) //this.getOptions())
+      Plotly.react(this.$refs.plotlyplot, tdata, {...this.layout, ...timeseriesLayout}, this.options) //this.getOptions())
     },
     findYaxesCols() {
       if (this.fullMetadata['y-axes-columns'].length === 0) {
@@ -201,4 +206,143 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.vue-plotly {
+  width: 100%;
+  height: 80%;
+}
+
+.controls {
+  padding-left: 55px;
+  padding-top: 5px;
+  align-items: left;
+  text-align: left;
+}
+
+.bottom-right-control {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  z-index: 3;
+}
+
+@media only screen and (max-width: 48em) {
+  .ui-controls {
+    position: absolute;
+    height: 100%;
+    width: 40px;
+    right: 0px;
+    top: 160px;
+    pointer-events: none;
+    z-index: 5;
+  }
+}
+
+.title {
+  width: 572px;
+  height: 17px;
+  font-family: Helvetica;
+  font-size: 14px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #606266;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.options {
+  position: absolute;
+  z-index: 11000;
+  height: calc(100% - 20px);
+  text-align: right;
+  overflow: auto;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.channel-select {
+  max-width: 320px;
+  margin: 8px;
+  margin-left: 0px;
+  margin-right: 16px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+}
+.view-heatmap-button {
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+  border: solid 1px #d8dce6;
+  background-color: #8300bf;
+  margin: 8px;
+  margin-left: 0px;
+  margin-right: 16px;
+
+  font-size: 14px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  color: white;
+}
+.input-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.icon-button {
+  background-color: #ffffff;
+  margin-left: 8px;
+  height: 24px !important;
+  width: 24px !important;
+}
+
+.icon-button:hover {
+  cursor: pointer;
+}
+
+.el-select-dropdown__item {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.zoomSelect :deep( .el-input__inner ){
+  padding: 0px;
+  height: 24px;
+  padding-left: 4px;
+  width: 60px;
+  margin-left: 8px;
+}
+
+.zoomSelect :deep( .el-select__caret ){
+  width: 8px;
+  margin-right: 2px;
+  margin-top: 2px;
+}
+
+.bottom-right-control :deep( .plot-popper ){
+  padding: 9px 10px;
+  min-width: 150px;
+  font-size: 12px;
+  color: #fff;
+  background-color: #8300bf;
+}
+.bottom-right-control :deep( .plot-popper .popper__arrow::after ){
+  border-left-color: #8300bf !important;
+}
+
+.bottom-right-control :deep( .el-select__tags-text ){
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: middle;
+}
+</style>

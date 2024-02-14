@@ -1,4 +1,4 @@
-import PlotControls from '@/components/PlotControls'
+import PlotControls from '@/components/PlotControls.vue'
 
 export default {
   components: {PlotControls},
@@ -7,11 +7,11 @@ export default {
       type: Object,
       required: true
     },
-    plotLayout: {
+    sourceData: {
       type: Object,
       required: true
     },
-    sourceData: {
+    plotLayout: {
       type: Object,
       required: true
     },
@@ -28,14 +28,15 @@ export default {
     return {
       layout: {
         paper_bgcolor: 'rgba(0,0,0,0)',
-        plot_bgcolor: 'rgba(0,0,0,0)'
-        // margin: {
-        //   t: 5,
-        //   l: 55,
-        //   r: 55,
-        //   b: 90,
-        //   pad: 4
-        // }
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        autosize: true,
+        margin: {
+          t: 25,
+          l: 55,
+          r: 55,
+          b: 90,
+          pad: 4
+        }
       },
       loading: false,
       options: {
