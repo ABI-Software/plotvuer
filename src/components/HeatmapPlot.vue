@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div ref="plotContainer" class="container">
     <div ref="plotlyplot" class="vue-plotly" />
     <div v-if="selectorUi" class="chooser-container" :class="{inactive: loading}">
       <span>
@@ -35,7 +35,7 @@
         <el-button class="view-heatmap-button" @click="logToggle">Toggle log</el-button>
       </span>
     </div>
-    <plot-controls :parent-element="{element: $refs.plotlyplot}" :controls-enabled="!loading" />
+    <plot-controls :parent-element="{element: $refs.plotContainer}" :controls-enabled="!loading" />
   </div>
 </template>
 
