@@ -258,7 +258,7 @@ export default {
 }
 
 .channel-select {
-  min-width: 220px;
+  min-width: 220px !important;
   margin: 8px;
   margin-left: 0px;
   margin-right: 16px;

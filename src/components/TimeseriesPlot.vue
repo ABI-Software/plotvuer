@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div ref="plotlyplot" class="vue-plotly" />
-    <div class="chooser-container" :class="{inactive: loading}">
+    <div v-if="selectorUi" class="chooser-container" :class="{inactive: loading}">
       <span>
         <el-select
           ref="selectBox"

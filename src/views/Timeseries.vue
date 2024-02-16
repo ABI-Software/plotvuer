@@ -7,7 +7,7 @@
   >
     <div class="plot-container">
       <h1>Plot of timeseries data</h1>
-      <plot-vuer :data-source="{url: urlList[0]}" :metadata="metadata" :supplemental-data="[{url: urlList[4]}]" />
+      <plot-vuer :data-source="{url: urlList[0]}" :metadata="metadata" :supplemental-data="[{url: urlList[4]}]" :selectorUi="true" />
     </div>
   </Vue3DraggableResizable>
 </template>
