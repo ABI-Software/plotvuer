@@ -212,7 +212,6 @@ export default {
     }
   },
   mounted: function () {
-    console.log('mounted1', this.parentElement)
     this.createZoomPercentages()
     setTimeout( ()=> {this.parentElement.element.addEventListener('wheel', this.handleWheel)}, 1000)
   },
