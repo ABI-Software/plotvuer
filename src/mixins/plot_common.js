@@ -22,6 +22,10 @@ export default {
     version: {
       type: String,
       required: true
+    },
+    selectorUi: {
+      type: Boolean,
+      default: true
     }
   },
   data: function () {

@@ -38,6 +38,15 @@
           />
         </template>
       </el-popover>
+      
+      <el-select size="small" v-model="selectZoom" placeholder="100%" class="zoomSelect" @change="selectZoomChange">
+        <el-option
+          v-for="item in zoomSelect"
+          :key="item.value"
+          :label="item.label"
+          :value="item.label">
+        </el-option>
+      </el-select>
       <!-- The commented part remains unchanged -->
       <el-popover
         v-model="hoverVisibilities[2].value"
@@ -120,12 +129,12 @@ export default {
     },
     // setDisabledButtons(zoomLevel): Disable buttons once they hit max zoom
     setDisabledButtons(zoom) {
-      if (zoom === this.maxZoom) {
+      if (zoom >= this.maxZoom) {
         this.zoomInDisabled = true
       } else {
         this.zoomInDisabled = false
       }
-      if (zoom === 0) {
+      if (zoom <= 0) {
         this.zoomOutDisabled = true
       } else {
         this.zoomOutDisabled = false
@@ -201,6 +210,13 @@ export default {
       this.zoom = this.zoom - change
       this.updateZoomSelect(this.zoom)
     }
+  },
+  mounted: function () {
+    this.createZoomPercentages()
+    setTimeout( ()=> {this.parentElement.element.addEventListener('wheel', this.handleWheel)}, 1000)
+  },
+  beforeUnmount: function () {
+    this.parentElement.element.removeEventListener('wheel', this.handleWheel)
   }
 }
 </script>
@@ -219,6 +235,7 @@ export default {
   bottom: 16px;
   right: 16px;
   z-index: 3;
+  width: 190px;
 }
 
 @media only screen and (max-width: 48em) {
@@ -258,7 +275,7 @@ export default {
 }
 
 .channel-select {
-  min-width: 220px;
+  min-width: 220px !important;
   margin: 8px;
   margin-left: 0px;
   margin-right: 16px;
@@ -300,6 +317,14 @@ export default {
 
 .el-select-dropdown__item {
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.zoomSelect {
+  max-width: 80px !important;
+  max-height: 24px !important;
+  margin-left: 8px;
+  margin-bottom: 12px;
+
 }
 
 .zoomSelect :deep( .el-input__inner ){

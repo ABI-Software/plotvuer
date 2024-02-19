@@ -1,7 +1,7 @@
 <template>
-  <div class="container">
+  <div ref="plotContainer" class="container">
     <div ref="plotlyplot" class="vue-plotly" />
-    <div class="chooser-container" :class="{inactive: loading}">
+    <div v-if="selectorUi" class="chooser-container" :class="{inactive: loading}">
       <span>
         <el-select
           ref="selectBox"
@@ -22,7 +22,7 @@
         <el-button class="view-heatmap-button" @click="filterPlot">Filter plot</el-button>
       </span>
     </div>
-    <plot-controls ref="controls" :parent-element="{element: $refs.plotlyplot}" :controls-enabled="!loading" />
+    <plot-controls ref="controls" :parent-element="{element: $refs.plotContainer}" :controls-enabled="!loading" />
   </div>
 </template>
 
@@ -150,7 +150,6 @@ export default {
         let yCols = [...Array(this.parsedData.data[0].length).keys()] // count up to number of coloumns
         yCols.shift()
         yCols.shift() // remove first two values
-        console.log('seeting to:', yCols)
         this.fullMetadata['y-axes-columns'] = yCols
       }
     },
@@ -163,12 +162,9 @@ export default {
     },
     populateTraceNames() {
       if (this.fullMetadata['no-header']) {
-        window.traceNames = this.traceNames
         this.traceNames.splice(0, this.traceNames.length)
-        window.traceData = this.traceData
         for (let col of this.fullMetadata['y-axes-columns']) {
           this.traceNames.push(this.traceData.data[0][col])
-          console.log('pushing:', this.traceData.data[0][col])
         }
         this.$set(this.traceNames, 0, this.traceNames[0])
       } else {

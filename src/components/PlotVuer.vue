@@ -7,6 +7,7 @@
         :plotLayout="layout"
         :version="metadata.version"
         :metadata="metadata.attrs"
+        :selectorUi="selectorUi"
         :supplementalData="supplementalData"
       ></component>
     </template>
@@ -65,6 +66,10 @@ export default {
     helpMode: {
       type: Boolean,
       default: false
+    },
+    selectorUi: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
