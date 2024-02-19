@@ -214,7 +214,7 @@ export default {
   mounted: function () {
     console.log('mounted1', this.parentElement)
     this.createZoomPercentages()
-    setTimeout( ()=> {console.log('mounted2', this.parentElement); window.pe = this.parentElement; this.parentElement.element.addEventListener('wheel', this.handleWheel)}, 1000)
+    setTimeout( ()=> {this.parentElement.element.addEventListener('wheel', this.handleWheel)}, 1000)
   },
   beforeUnmount: function () {
     this.parentElement.element.removeEventListener('wheel', this.handleWheel)
