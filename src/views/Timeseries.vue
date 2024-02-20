@@ -7,7 +7,7 @@
   >
     <div class="plot-container">
       <h1>Plot of timeseries data</h1>
-      <plot-vuer :data-source="{url: urlList[0]}" :metadata="metadata" :supplemental-data="[{url: urlList[4]}]" :selectorUi="true" />
+      <plot-vuer :data-source="{url: urlList[0]}" :metadata="metadata" :supplemental-data="[{url: urlList[4]}]" :selectorUi="true" :plotLayout="plotLayout" />
     </div>
   </Vue3DraggableResizable>
 </template>
@@ -41,7 +41,16 @@ export default {
           y: [100, 10, 130, 70, 80, 90],
           type: 'scatter'
         }
-      ]}
+      ]},
+      plotLayout: {
+        margin: {
+          t: 80,
+          l: 80,
+          r: 80,
+          b: 80,
+          pad: 4
+        }
+      }
     }
   },
   computed: {
