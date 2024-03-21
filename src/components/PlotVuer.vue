@@ -26,10 +26,19 @@ export default {
     HeatmapPlot,
   },
   props: {
+    /**
+     * The object with `url` property
+     * where the `url` is the source url to load the data.
+     */
     dataSource: {
       type: Object,
+      required: true,
       default: () => {}
     },
+    /**
+     * The metadata object
+     * with `version`, `type`, and `attrs` properties.
+     */
     metadata: {
       type: Object,
       required: true,
@@ -37,8 +46,30 @@ export default {
         return KNOWN_VERSIONS.includes(value.version) && value.type === 'plot'
       }
     },
+    /**
+     * The plotLayout for UI.
+     */
     plotLayout: {
       type: Object,
+      /**
+       * `{
+       * paper_bgcolor: 'rgba(0,0,0,0)',
+          plot_bgcolor: 'rgba(0,0,0,0)',
+          autosize: true,
+          margin: {
+            t: 25,
+            l: 55,
+            r: 55,
+            b: 90,
+            pad: 4
+          },
+          loading: false,
+          options: {
+            responsive: true,
+            scrollZoom: true
+          }
+       * }`
+       */
       default: () => {
         return {
           paper_bgcolor: 'rgba(0,0,0,0)',
@@ -59,14 +90,23 @@ export default {
         }
       }
     },
+    /**
+     * The supplemental data to load.
+     */
     supplementalData: {
       type: Array,
       default: () => []
     },
+    /**
+     * The option to choose helpMode.
+     */
     helpMode: {
       type: Boolean,
       default: false
     },
+    /**
+     * The option to show the selector UI.
+     */
     selectorUi: {
       type: Boolean,
       default: true
