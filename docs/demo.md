@@ -34,7 +34,17 @@ export default {
       return {
         version: '1.2.0',
         type: 'plot',
-        attrs: {style: 'heatmap', layout: {l: 200, height: '900px', title: 'okokok'}, logScale: true, columnHeaderIndex: 1, columnHeaderSize: 3}
+        attrs: {
+          style: 'heatmap',
+          layout: {
+            l: 200,
+            height: '900px',
+            title: 'Title'
+          },
+          logScale: true,
+          columnHeaderIndex: 1,
+          columnHeaderSize: 3
+        }
       }
     }
   }
@@ -45,7 +55,9 @@ export default {
 
 ```js-vue
   <div class="your-outer-container">
-    <PlotVuer
+    <plot-vuer
+      :data-source="{url: url}"
+      :metadata="metadata"
     />
   </div>
 
@@ -56,7 +68,22 @@ export default {
       components: { PlotVuer },
       data: function () {
         return {
-
+          url: 'the-data-url',
+          metadata: {
+            version: '1.2.0',
+            type: 'plot',
+            attrs: {
+              style: 'heatmap',
+              layout: {
+                l: 200,
+                height: '900px',
+                title: 'Title'
+              },
+              logScale: true,
+              columnHeaderIndex: 1,
+              columnHeaderSize: 3
+            }
+          },
         }
       }
     }
