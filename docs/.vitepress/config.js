@@ -1,3 +1,4 @@
+import { resolve } from "node:path";
 import { defineConfig } from 'vitepress'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
@@ -52,6 +53,13 @@ export default defineConfig({
   },
   markdown: { attrs: { disable: true } },
   vite: {
+    resolve: {
+      alias: [{ find: "@", replacement: resolve(__dirname, "../../src") }, {
+        // this is required for the SCSS modules
+        find: /^~(.*)$/,
+        replacement: '$1',
+      }],
+    },
     css: {
       preprocessorOptions: {
         scss: {
