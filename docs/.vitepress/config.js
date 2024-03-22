@@ -16,26 +16,19 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       {
-        text: 'PlotVuer',
-        items: [
-          { text: 'Live Demo', link: '/demo' },
-          { text: 'API References', link: '/components/PlotVuer' },
-        ]
+        text: 'API Reference',
+        link: '/components/PlotVuer'
       }
     ],
 
     sidebar: [
       {
-        text: 'Live Demos',
-        items: [
-          { text: 'PlotVuer Demo', link: '/demo' }
-        ]
+        text: 'Live Demo',
+        link: '/demo'
       },
       {
-        text: 'API References',
-        items: [
-          { text: 'PlotVuer', link: '/components/PlotVuer' },
-        ]
+        text: 'API Reference',
+        link: '/components/PlotVuer'
       },
       {
         text: 'Version',

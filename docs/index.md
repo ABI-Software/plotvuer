@@ -11,6 +11,6 @@ hero:
       text: Demo
       link: /demo
     - theme: alt
-      text: API References
+      text: API Reference
       link: /components/PlotVuer
 ---
