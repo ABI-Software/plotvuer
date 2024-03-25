@@ -6,7 +6,13 @@
     "build": "vue-cli-service build --mode static",
     "lint": "vue-cli-service lint",
     "build-bundle": "vite build",
-    "start": "vue-cli-service serve --port 8081"
+    "start": "vue-cli-service serve --port 8081",
+    "vuese-gen": "node vuese-generator.js",
+    "vuese-watch": "node vuese-generator.js watch",
+    "docs:dev": "vitepress dev docs",
+    "docs:watch": "concurrently \"npm run vuese-watch\" \"npm run docs:dev\"",
+    "docs:build": "npm run vuese-gen; vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "type": "module",
   "main": "./dist/plotvuer.umd.cjs",
@@ -45,8 +51,12 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.3",
+    "@vuese/markdown-render": "^2.11.3",
+    "@vuese/parser": "^2.10.3",
     "babel-eslint": "^10.0.3",
     "babel-plugin-component": "^1.1.1",
+    "chokidar": "^3.6.0",
+    "concurrently": "^8.2.2",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.3.1",
@@ -58,6 +68,7 @@
     "sass-loader": "^14.0.0",
     "transform-loader": "^0.2.4",
     "vite": "^5.0.12",
+    "vitepress": "^1.0.0-rc.45",
     "vue-template-compiler": "^2.6.10",
     "vue3-draggable-resizable": "^1.6.5",
     "webpack-node-externals": "^2.5.2"
