@@ -8,9 +8,9 @@ hero:
   tagline: PlotVuer is a Vue component used in the SPARC portal.
   actions:
     - theme: brand
-      text: Demo
-      link: /demo
-    - theme: alt
       text: API Reference
       link: /components/PlotVuer
+    - theme: alt
+      text: Demo
+      link: /demo
 ---

@@ -8,7 +8,7 @@ const versionNumber = process.env.npm_package_version
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "PlotVuer Docs",
+  title: "PlotVuer",
   description: "API documentation for PlotVuer",
   base: '/plotvuer/',
   themeConfig: {
