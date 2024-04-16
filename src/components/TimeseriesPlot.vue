@@ -81,7 +81,7 @@ export default {
         this.loading = true
         DataManager.loadFile(sourceData.url, this.dataReady) // Use url
       } else {
-        Plotly.react(this.$refs.plotlyplot, this.sourceData.data, this.sourceData.layout ? this.sourceData.layout : this.layout, this.options) // Use plolty input
+        Plotly.react(this.$refs.plotlyplot, this.sourceData.data, this.plotLayout ? this.plotLayout : this.layout, this.options) // Use plolty input
       }
     },
     dataReady(data) {
@@ -142,8 +142,10 @@ export default {
           y: yValues[i]
         })
       }
-      const timeseriesLayout = {title: {text: this.title}, xaxis: {title: {text: xValuesLabel}}}
-      Plotly.react(this.$refs.plotlyplot, tdata, {...this.layout, ...timeseriesLayout}, this.options) //this.getOptions())
+      let currentLayout = this.plotLayout ? this.plotLayout : this.layout
+      let newContent = {title: {text: this.title}, xaxis: {title: {text: xValuesLabel}}}
+      let tlayout = {...currentLayout, ...newContent}
+      Plotly.react(this.$refs.plotlyplot, tdata, tlayout, this.options) //this.getOptions())
     },
     findYaxesCols() {
       if (this.fullMetadata['y-axes-columns'].length === 0) {
