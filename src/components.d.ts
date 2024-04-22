@@ -13,12 +13,10 @@ declare module 'vue' {
     ElSelect: typeof import('element-plus/es')['ElSelect']
     HeatmapPlot: typeof import('./components/HeatmapPlot.vue')['default']
     PlotControls: typeof import('./components/PlotControls.vue')['default']
-    PlotlyOnly: typeof import('./components/PlotlyOnly.vue')['default']
     PlotVuer: typeof import('./components/PlotVuer.vue')['default']
     PlotVuerOriginal: typeof import('./components/PlotVuer-original.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Testcomponent: typeof import('./components/testcomponent.vue')['default']
     TimeseriesPlot: typeof import('./components/TimeseriesPlot.vue')['default']
   }
 }
