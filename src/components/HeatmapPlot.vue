@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { markRaw } from 'vue'
 import DataManager from '@/js/data_manager'
 import PlotCommon from '@/mixins/plot_common'
 import PlotControls from '@/components/PlotControls.vue'
@@ -63,13 +64,13 @@ export default {
     return {
       columnHeaders: [],
       rowHeaders: [],
-      dataValues: [],
+      dataValues: markRaw([]),
       filterX: [],
       filterY: [],
-      parsedData: null,
+      parsedData: markRaw(null),
       loading: false,
       logScale: false,
-      logDataValues: []
+      logDataValues: markRaw([])
     }
   },
   computed: {
@@ -116,7 +117,7 @@ export default {
     },
     dataReady(data) {
       this.loading = false
-      this.parsedData = data
+      this.parsedData = markRaw(data)
       this.populateColumnHeaders()
       this.populateRowHeaders()
       this.populateDataValues()
@@ -211,9 +212,9 @@ export default {
       const this_ = this
       let all_data = [...this.parsedData.data]
       const headers_removed = all_data.slice(this.fullMetadata.columnHeaderSize)
-      this.dataValues = headers_removed.map(function (row) {
+      this.dataValues = markRaw(headers_removed.map(function (row) {
         return row.slice(this_.fullMetadata.rowHeaderSize)
-      })
+      }))
     }
   }
 }

@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import { markRaw } from 'vue'
 import Plotly from '@/js/custom_plotly'
 import DataManager from '@/js/data_manager'
 import PlotControls from '@/components/PlotControls.vue'
@@ -40,11 +41,11 @@ export default {
   mixins: [PlotCommon],
   data: function () {
     return {
-      dataValues: [],
+      dataValues: markRaw([]),
       filterX: [],
       parsedData: null,
       time: [],
-      traceData: null,
+      traceData: markRaw(null),
       traceNames: [],
       xAxisLabel: 'time'
     }
@@ -90,7 +91,7 @@ export default {
       }
       this.loading = false
       // this.handleResize()
-      this.parsedData = data
+      this.parsedData = markRaw(data)
       this.findYaxesCols()
       this.populateTime()
       this.populateDataValues()
@@ -198,7 +199,7 @@ export default {
         })
         datat.push(filteredRow)
       }
-      this.dataValues = datat
+      this.dataValues = markRaw(datat)
     }
   }
 }
