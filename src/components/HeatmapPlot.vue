@@ -40,6 +40,7 @@
 </template>
 
 <script>
+import { markRaw } from 'vue'
 import DataManager from '@/js/data_manager'
 import PlotCommon from '@/mixins/plot_common'
 import PlotControls from '@/components/PlotControls.vue'
@@ -63,13 +64,12 @@ export default {
     return {
       columnHeaders: [],
       rowHeaders: [],
-      dataValues: [],
+      dataValues: markRaw([]),
       filterX: [],
       filterY: [],
-      parsedData: null,
       loading: false,
       logScale: false,
-      logDataValues: []
+      logDataValues: markRaw([])
     }
   },
   computed: {
@@ -116,10 +116,10 @@ export default {
     },
     dataReady(data) {
       this.loading = false
-      this.parsedData = data
-      this.populateColumnHeaders()
-      this.populateRowHeaders()
-      this.populateDataValues()
+      const parsedData = data
+      this.populateColumnHeaders(parsedData)
+      this.populateRowHeaders(parsedData)
+      this.populateDataValues(parsedData)
       if (this.logScaleEnabled) {
         this.logValues()
         this.logScale = true
@@ -193,27 +193,24 @@ export default {
       const heatmapLayout = {title: {text: this.plotTitle}}
       Plotly.react(this.$refs.plotlyplot, tdata, {...this.layout, ...heatmapLayout, ...this.plotLayout}, this.options) //this.getOptions())
     },
-    populateColumnHeaders() {
-      let all_data = [...this.parsedData.data]
+    populateColumnHeaders(parsedData) {
+      let all_data = parsedData.data
       let headers = [...all_data[this.fullMetadata.columnHeaderIndex]]
       this.columnHeaders = headers.slice(this.fullMetadata.rowHeaderSize)
     },
-    populateRowHeaders() {
-      let all_data = [...this.parsedData.data]
-      const col = [
-        ...all_data.map(row => {
+    populateRowHeaders(parsedData) {
+      let all_data = parsedData.data
+      const col = all_data.map(row => {
           return row[this.fullMetadata.rowHeaderIndex]
         })
-      ]
       this.rowHeaders = col.slice(this.fullMetadata.columnHeaderSize)
     },
-    populateDataValues() {
-      const this_ = this
-      let all_data = [...this.parsedData.data]
+    populateDataValues(parsedData) {
+      let all_data = parsedData.data
       const headers_removed = all_data.slice(this.fullMetadata.columnHeaderSize)
-      this.dataValues = headers_removed.map(function (row) {
-        return row.slice(this_.fullMetadata.rowHeaderSize)
-      })
+      this.dataValues = markRaw(headers_removed.map((row) => {
+        return row.slice(this.fullMetadata.rowHeaderSize)
+      }))
     }
   }
 }

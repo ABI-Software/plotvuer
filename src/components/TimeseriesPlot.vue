@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import { markRaw, toRaw } from 'vue'
 import Plotly from '@/js/custom_plotly'
 import DataManager from '@/js/data_manager'
 import PlotControls from '@/components/PlotControls.vue'
@@ -40,10 +41,10 @@ export default {
   mixins: [PlotCommon],
   data: function () {
     return {
-      dataValues: [],
+      dataValues: markRaw([]),
       filterX: [],
       parsedData: null,
-      time: [],
+      time: markRaw([]),
       traceData: null,
       traceNames: [],
       xAxisLabel: 'time'
@@ -85,12 +86,13 @@ export default {
       }
     },
     dataReady(data) {
+      const start = Date.now();
       if (this.fullMetadata['no-header']) {
         DataManager.loadFile(this.supplementalData[0].url, this.headerDataReady)
       }
       this.loading = false
       // this.handleResize()
-      this.parsedData = data
+      this.parsedData = markRaw(data)
       this.findYaxesCols()
       this.populateTime()
       this.populateDataValues()
@@ -99,9 +101,10 @@ export default {
         this.populateTraceNames()
       }
       this.createPlot(this.time, this.xAxisLabel, this.dataValues, this.traceNames)
+      console.log(Date.now() - start)
     },
     headerDataReady(data) {
-      this.traceData = data
+      this.traceData = markRaw(data)
       this.populateXaxisLabel()
       this.populateTraceNames()
       if (!this.loading) {
@@ -118,7 +121,7 @@ export default {
       for (let i of xTraceNames) {
         colIndeces.push(this.fullMetadata['y-axes-columns'][this.traceNames.indexOf(i)])
       }
-      let all_data = [...this.parsedData.data]
+      let all_data = this.parsedData.data
       if (!this.fullMetadata['no-header']) {
         all_data = all_data.slice(1)
       }
@@ -144,12 +147,12 @@ export default {
       }
       let currentLayout = this.plotLayout ? this.plotLayout : this.layout
       let newContent = {title: {text: this.title}, xaxis: {title: {text: xValuesLabel}}}
-      let tlayout = {...currentLayout, ...newContent}
+      let tlayout = {...toRaw(currentLayout), ...newContent}
       Plotly.react(this.$refs.plotlyplot, tdata, tlayout, this.options) //this.getOptions())
     },
     findYaxesCols() {
       if (this.fullMetadata['y-axes-columns'].length === 0) {
-        let yCols = [...Array(this.parsedData.data[0].length).keys()] // count up to number of coloumns
+        let yCols = Array(this.parsedData.data[0].length).keys() // count up to number of coloumns
         yCols.shift()
         yCols.shift() // remove first two values
         this.fullMetadata['y-axes-columns'] = yCols
@@ -178,16 +181,16 @@ export default {
     },
     populateTime() {
       const this_ = this
-      let all_data = [...this.parsedData.data]
+      let all_data = this.parsedData.data
       if (!this.fullMetadata['no-header']) {
         all_data = all_data.slice(1)
       }
-      this.time = all_data.map(function (row) {
+      this.time = markRaw(all_data.map(function (row) {
         return row[this_.fullMetadata['x-axis-column']]
-      })
+      }))
     },
     populateDataValues() {
-      let all_data = [...this.parsedData.data]
+      let all_data = this.parsedData.data
       if (!this.fullMetadata['no-header']) {
         all_data = all_data.slice(1)
       }
@@ -198,7 +201,7 @@ export default {
         })
         datat.push(filteredRow)
       }
-      this.dataValues = datat
+      this.dataValues = markRaw(datat)
     }
   }
 }
