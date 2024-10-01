@@ -69,7 +69,6 @@
     "transform-loader": "^0.2.4",
     "vite": "^5.0.12",
     "vitepress": "^1.0.0-rc.45",
-    "vue-template-compiler": "^2.6.10",
     "vue3-draggable-resizable": "^1.6.5"
   },
   "browserslist": [
