@@ -47,7 +47,6 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.3",
     "@vuese/markdown-render": "^2.11.3",
-    "@vuese/parser": "^2.10.3",
     "babel-eslint": "^10.0.3",
     "chokidar": "^3.6.0",
     "concurrently": "^8.2.2",

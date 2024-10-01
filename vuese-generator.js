@@ -8,7 +8,7 @@
 import fs from 'fs'
 import path from 'path'
 import chokidar from 'chokidar'
-import { parser } from '@vuese/parser'
+// import { parser } from '@vuese/parser'
 import { parseSource } from 'vue-docgen-api'
 import { Render } from '@vuese/markdown-render'
 
