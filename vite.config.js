@@ -47,10 +47,11 @@ export default defineConfig(({ command, mode }) => {
         commonjsOptions: { transformMixedEsModules: true } // Change
       },
       rollupOptions: {
-        external: ["vue"],
+      external: ["vue", /^plotly.*/, "papaparse", /^@plotly.*/, /^d3-.*/],
         output: {
           globals: {
             vue: "Vue",
+            "papaparse": "papaparse"
           },
         },
       },
