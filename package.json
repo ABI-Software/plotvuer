@@ -1,6 +1,6 @@
 {
   "name": "@abi-software/plotvuer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "scripts": {
     "serve": "vite serve --host",
     "build": "vue-cli-service build --mode static",
