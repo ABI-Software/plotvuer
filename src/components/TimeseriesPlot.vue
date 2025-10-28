@@ -220,7 +220,7 @@ export default {
 </script>
 
 <style scoped>
-@import '../styles/bottom-right-control.scss';
+@import '../assets/bottom-right-control.scss';
 
 .container {
   width: 100%;

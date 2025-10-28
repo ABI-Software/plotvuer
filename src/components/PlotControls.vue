@@ -223,7 +223,7 @@ export default {
 
 
 <style scoped>
-@import '../styles/bottom-right-control.scss';
+@import '../assets/bottom-right-control.scss';
 
 .controls-container {
   width: 100%;

@@ -487,7 +487,7 @@ export default {
 <style scoped src="element-ui/lib/theme-chalk/index.css"></style>
 
 <style scoped>
-@import '../styles/bottom-right-control.scss';
+@import '../assets/bottom-right-control.scss';
 
 .plotvuer_parent {
   height: 100%;
