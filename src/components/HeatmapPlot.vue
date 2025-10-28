@@ -229,8 +229,6 @@ export default {
 </script>
 
 <style scoped>
-@import '../assets/bottom-right-control.scss';
-
 .controls {
   padding-left: 55px;
   padding-top: 5px;
