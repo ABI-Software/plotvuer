@@ -47,7 +47,8 @@ export default {
       time: markRaw([]),
       traceData: null,
       traceNames: [],
-      xAxisLabel: 'time'
+      xAxisLabel: 'time',
+      resizeObserver: null,
     }
   },
   computed: {
@@ -75,6 +76,17 @@ export default {
   },
   mounted: function () {
     this.loadData(this.sourceData)
+    this.resizeObserver = new ResizeObserver(() => {
+      if (this.$refs.plotlyplot) {
+        Plotly.Plots.resize(this.$refs.plotlyplot)
+      }
+    })
+    this.resizeObserver.observe(this.$refs.plotContainer)
+  },
+  beforeUnmount: function () {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect()
+    }
   },
   methods: {
     loadData(sourceData) {
