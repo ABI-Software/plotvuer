@@ -487,6 +487,8 @@ export default {
 <style scoped src="element-ui/lib/theme-chalk/index.css"></style>
 
 <style scoped>
+@import '../styles/bottom-right-control.scss';
+
 .plotvuer_parent {
   height: 100%;
   width: 100%;
@@ -499,13 +501,6 @@ export default {
   padding-top: 5px;
   align-items: left;
   text-align: left;
-}
-
-.bottom-right-control {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  z-index: 3;
 }
 
 @media only screen and (max-width: 48em) {
@@ -607,27 +602,5 @@ export default {
   bottom: 79px;
   right: 50%;
   position: absolute;
-}
-.bottom-right-control :deep( .plot-popper ){
-  padding: 9px 10px;
-  min-width: 150px;
-  font-size: 12px;
-  color: #fff;
-  background-color: #8300bf;
-}
-.bottom-right-control :deep( .plot-popper .popper__arrow::after ){
-  border-left-color: #8300bf !important;
-}
-
-.bottom-right-control :deep( .el-select__tags-text ){
-  max-width: 90px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  display: inline-block;
-  vertical-align: middle;
-}
-.bottom-right-control :deep( .modebar-container ){
-  display: none;
 }
 </style>
