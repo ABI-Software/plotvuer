@@ -4,6 +4,16 @@
   z-index: 3;
   width: 190px;
 
+  // Hide controls until parent is hovered
+  .plotvuer_parent & {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .plotvuer_parent:hover & {
+    opacity: 1;
+  }
+
   .zoomSelect,
   svg.map-icon {
     margin-bottom: 0;
