@@ -135,6 +135,7 @@ export default {
 <style scoped>
 .plotvuer_parent {
   height: 100%;
+  min-height: 160px;
   width: 100%;
   position: relative;
   overflow: hidden;
