@@ -22,7 +22,7 @@
         <el-button class="view-heatmap-button" @click="filterPlot">Filter plot</el-button>
       </span>
     </div>
-    <plot-controls ref="controls" :parent-element="{element: $refs.plotContainer}" :controls-enabled="!loading" />
+    <plot-controls ref="controls" :parent-element="{element: $refs.plotlyplot}" :controls-enabled="!loading" />
   </div>
 </template>
 

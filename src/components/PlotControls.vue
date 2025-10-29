@@ -219,11 +219,11 @@ export default {
   },
   mounted: function () {
     this.createZoomPercentages()
-    this.$nextTick(() => {
+    setTimeout(() => {
       if (this.parentElement?.element) {
         this.parentElement.element.addEventListener('wheel', this.handleWheel)
       }
-    })
+    }, 1000)
   },
   beforeUnmount: function () {
     if (this.parentElement?.element) {

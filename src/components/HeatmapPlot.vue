@@ -35,7 +35,7 @@
         <el-button class="view-heatmap-button" @click="logToggle">Toggle log</el-button>
       </span>
     </div>
-    <plot-controls :parent-element="{element: $refs.plotContainer}" :controls-enabled="!loading" />
+    <plot-controls :parent-element="{element: $refs.plotlyplot}" :controls-enabled="!loading" />
   </div>
 </template>
 
