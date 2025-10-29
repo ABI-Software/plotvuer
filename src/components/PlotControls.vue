@@ -39,7 +39,13 @@
         </template>
       </el-popover>
 
-      <el-select size="small" v-model="selectZoom" placeholder="100%" class="zoomSelect" @change="selectZoomChange">
+      <el-select
+        size="small"
+        v-model="selectZoom"
+        placeholder="100%"
+        class="zoomSelect"
+        @change="selectZoomChange"
+      >
         <el-option
           v-for="item in zoomSelect"
           :key="item.value"
