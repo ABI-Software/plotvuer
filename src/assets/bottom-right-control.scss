@@ -3,6 +3,9 @@
   right: 16px;
   z-index: 3;
   width: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   // Hide controls until parent is hovered
   .plotvuer_parent & {
