@@ -1,0 +1,49 @@
+.bottom-right-control {
+  position: relative;
+  right: 16px;
+  z-index: 3;
+  width: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // Hide controls until parent is hovered
+  .plotvuer_parent & {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .plotvuer_parent:hover & {
+    opacity: 1;
+  }
+
+  .zoomSelect,
+  svg.map-icon {
+    margin-bottom: 0;
+  }
+
+  :deep(.plot-popper) {
+    padding: 9px 10px;
+    min-width: 150px;
+    font-size: 12px;
+    color: #fff;
+    background-color: #8300bf;
+  }
+
+  :deep(.plot-popper .popper__arrow::after) {
+    border-left-color: #8300bf !important;
+  }
+
+  :deep(.el-select__tags-text) {
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  :deep(.modebar-container) {
+    display: none;
+  }
+}
