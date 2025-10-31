@@ -94,7 +94,8 @@ export default {
         this.loading = true
         DataManager.loadFile(sourceData.url, this.dataReady) // Use url
       } else {
-        Plotly.react(this.$refs.plotlyplot, this.sourceData.data, this.plotLayout ? this.plotLayout : this.layout, this.options) // Use plolty input
+        const layout = this.plotLayout ? this.plotLayout : this.layout
+        Plotly.react(this.$refs.plotlyplot, this.sourceData.data, layout, this.options) // Use plolty input
       }
     },
     dataReady(data) {

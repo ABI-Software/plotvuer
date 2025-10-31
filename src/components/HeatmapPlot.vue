@@ -123,7 +123,8 @@ export default {
         this.loading = true
         DataManager.loadFile(sourceData.url, this.dataReady) // Use url
       } else {
-        Plotly.react(this.$refs.plotlyplot, this.sourceData.data, this.sourceData.layout ? this.sourceData.layout : this.layout, this.options) // Use plolty input
+        const layout = this.sourceData.layout ? this.sourceData.layout : this.layout
+        Plotly.react(this.$refs.plotlyplot, this.sourceData.data, layout, this.options) // Use plolty input
       }
     },
     dataReady(data) {
@@ -203,7 +204,8 @@ export default {
         }
       ]
       const heatmapLayout = {title: {text: this.plotTitle}}
-      Plotly.react(this.$refs.plotlyplot, tdata, {...this.layout, ...heatmapLayout, ...this.plotLayout}, this.options) //this.getOptions())
+      const layout = {...this.layout, ...heatmapLayout, ...this.plotLayout}
+      Plotly.react(this.$refs.plotlyplot, tdata, layout, this.options) //this.getOptions())
     },
     populateColumnHeaders(parsedData) {
       let all_data = parsedData.data
