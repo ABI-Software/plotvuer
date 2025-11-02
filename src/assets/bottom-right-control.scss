@@ -10,11 +10,12 @@
   // Hide controls until parent is hovered
   .plotvuer_parent & {
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 1.5s cubic-bezier(1, 0.03, 0.58, 1);
   }
 
   .plotvuer_parent:hover & {
     opacity: 1;
+    transition: opacity 0.3s;
   }
 
   .zoomSelect,
