@@ -243,7 +243,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-top: 4px;
+  position: absolute;
+  bottom: 8px;
+  right: 0;
 }
 
 .controls {

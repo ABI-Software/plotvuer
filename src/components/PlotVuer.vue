@@ -137,8 +137,10 @@ export default {
   height: 100%;
   min-height: 160px;
   width: 100%;
+  padding-bottom: 8px;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
 }
 </style>
 
