@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="controls-container">
     <map-svg-sprite-color />
     <div ref="zoomControls" :class="{inactive: !controlsEnabled}" class="bottom-right-control">
       <el-popover
@@ -38,8 +38,14 @@
           />
         </template>
       </el-popover>
-      
-      <el-select size="small" v-model="selectZoom" placeholder="100%" class="zoomSelect" @change="selectZoomChange">
+
+      <el-select
+        size="small"
+        v-model="selectZoom"
+        placeholder="100%"
+        class="zoomSelect"
+        @change="selectZoomChange"
+      >
         <el-option
           v-for="item in zoomSelect"
           :key="item.value"
@@ -213,29 +219,40 @@ export default {
   },
   mounted: function () {
     this.createZoomPercentages()
-    setTimeout( ()=> {this.parentElement.element.addEventListener('wheel', this.handleWheel)}, 1000)
+    setTimeout(() => {
+      if (this.parentElement?.element) {
+        this.parentElement.element.addEventListener('wheel', this.handleWheel)
+      }
+    }, 1000)
   },
   beforeUnmount: function () {
-    this.parentElement.element.removeEventListener('wheel', this.handleWheel)
+    if (this.parentElement?.element) {
+      this.parentElement.element.removeEventListener('wheel', this.handleWheel)
+    }
   }
 }
 </script>
 
 
 <style scoped>
+@import '../assets/bottom-right-control.scss';
+
+.controls-container {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: absolute;
+  bottom: 8px;
+  right: 0;
+}
+
 .controls {
   padding-left: 55px;
   padding-top: 5px;
   align-items: left;
   text-align: left;
-}
-
-.bottom-right-control {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  z-index: 3;
-  width: 190px;
 }
 
 @media only screen and (max-width: 48em) {
@@ -339,25 +356,5 @@ export default {
   width: 8px;
   margin-right: 2px;
   margin-top: 2px;
-}
-
-.bottom-right-control :deep( .plot-popper ){
-  padding: 9px 10px;
-  min-width: 150px;
-  font-size: 12px;
-  color: #fff;
-  background-color: #8300bf;
-}
-.bottom-right-control :deep( .plot-popper .popper__arrow::after ){
-  border-left-color: #8300bf !important;
-}
-
-.bottom-right-control :deep( .el-select__tags-text ){
-  max-width: 90px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  display: inline-block;
-  vertical-align: middle;
 }
 </style>

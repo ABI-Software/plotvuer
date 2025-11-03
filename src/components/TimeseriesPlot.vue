@@ -22,7 +22,7 @@
         <el-button class="view-heatmap-button" @click="filterPlot">Filter plot</el-button>
       </span>
     </div>
-    <plot-controls ref="controls" :parent-element="{element: $refs.plotContainer}" :controls-enabled="!loading" />
+    <plot-controls ref="controls" :parent-element="{element: $refs.plotlyplot}" :controls-enabled="!loading" />
   </div>
 </template>
 
@@ -47,7 +47,8 @@ export default {
       time: markRaw([]),
       traceData: null,
       traceNames: [],
-      xAxisLabel: 'time'
+      xAxisLabel: 'time',
+      resizeObserver: null,
     }
   },
   computed: {
@@ -75,6 +76,17 @@ export default {
   },
   mounted: function () {
     this.loadData(this.sourceData)
+    this.resizeObserver = new ResizeObserver(() => {
+      if (this.$refs.plotlyplot) {
+        Plotly.Plots.resize(this.$refs.plotlyplot)
+      }
+    })
+    this.resizeObserver.observe(this.$refs.plotContainer)
+  },
+  beforeUnmount: function () {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect()
+    }
   },
   methods: {
     loadData(sourceData) {
@@ -82,7 +94,8 @@ export default {
         this.loading = true
         DataManager.loadFile(sourceData.url, this.dataReady) // Use url
       } else {
-        Plotly.react(this.$refs.plotlyplot, this.sourceData.data, this.plotLayout ? this.plotLayout : this.layout, this.options) // Use plolty input
+        const layout = this.plotLayout ? this.plotLayout : this.layout
+        Plotly.react(this.$refs.plotlyplot, this.sourceData.data, layout, this.options) // Use plolty input
       }
     },
     dataReady(data) {
@@ -215,7 +228,7 @@ export default {
 
 .vue-plotly {
   width: 100%;
-  height: 80%;
+  height: 100%;
 }
 
 .controls {
@@ -223,13 +236,6 @@ export default {
   padding-top: 5px;
   align-items: left;
   text-align: left;
-}
-
-.bottom-right-control {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  z-index: 3;
 }
 
 @media only screen and (max-width: 48em) {
@@ -325,25 +331,5 @@ export default {
   width: 8px;
   margin-right: 2px;
   margin-top: 2px;
-}
-
-.bottom-right-control :deep( .plot-popper ){
-  padding: 9px 10px;
-  min-width: 150px;
-  font-size: 12px;
-  color: #fff;
-  background-color: #8300bf;
-}
-.bottom-right-control :deep( .plot-popper .popper__arrow::after ){
-  border-left-color: #8300bf !important;
-}
-
-.bottom-right-control :deep( .el-select__tags-text ){
-  max-width: 90px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  display: inline-block;
-  vertical-align: middle;
 }
 </style>

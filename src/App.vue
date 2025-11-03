@@ -19,6 +19,13 @@
   width: 250px;
 }
 
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   margin: 0px;
 }
@@ -26,8 +33,6 @@ body {
 html {
   background: url('../images/background.jpg') no-repeat 0 0 scroll;
   background-color: #0c0c0c;
-  background-size: 100% 100%;
-  height: 1080px;
-  width: 1920px;
+  background-size: cover;
 }
 </style>

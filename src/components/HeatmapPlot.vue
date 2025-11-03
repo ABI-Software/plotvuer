@@ -35,7 +35,7 @@
         <el-button class="view-heatmap-button" @click="logToggle">Toggle log</el-button>
       </span>
     </div>
-    <plot-controls :parent-element="{element: $refs.plotContainer}" :controls-enabled="!loading" />
+    <plot-controls :parent-element="{element: $refs.plotlyplot}" :controls-enabled="!loading" />
   </div>
 </template>
 
@@ -69,7 +69,8 @@ export default {
       filterY: [],
       loading: false,
       logScale: false,
-      logDataValues: markRaw([])
+      logDataValues: markRaw([]),
+      resizeObserver: null,
     }
   },
   computed: {
@@ -104,6 +105,17 @@ export default {
   },
   mounted: function () {
     this.loadData(this.sourceData)
+    this.resizeObserver = new ResizeObserver(() => {
+      if (this.$refs.plotlyplot) {
+        Plotly.Plots.resize(this.$refs.plotlyplot)
+      }
+    })
+    this.resizeObserver.observe(this.$refs.plotContainer)
+  },
+  beforeUnmount: function () {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect()
+    }
   },
   methods: {
     loadData(sourceData) {
@@ -111,7 +123,8 @@ export default {
         this.loading = true
         DataManager.loadFile(sourceData.url, this.dataReady) // Use url
       } else {
-        Plotly.react(this.$refs.plotlyplot, this.sourceData.data, this.sourceData.layout ? this.sourceData.layout : this.layout, this.options) // Use plolty input
+        const layout = this.sourceData.layout ? this.sourceData.layout : this.layout
+        Plotly.react(this.$refs.plotlyplot, this.sourceData.data, layout, this.options) // Use plolty input
       }
     },
     dataReady(data) {
@@ -191,7 +204,8 @@ export default {
         }
       ]
       const heatmapLayout = {title: {text: this.plotTitle}}
-      Plotly.react(this.$refs.plotlyplot, tdata, {...this.layout, ...heatmapLayout, ...this.plotLayout}, this.options) //this.getOptions())
+      const layout = {...this.layout, ...heatmapLayout, ...this.plotLayout}
+      Plotly.react(this.$refs.plotlyplot, tdata, layout, this.options) //this.getOptions())
     },
     populateColumnHeaders(parsedData) {
       let all_data = parsedData.data
@@ -222,13 +236,6 @@ export default {
   padding-top: 5px;
   align-items: left;
   text-align: left;
-}
-
-.bottom-right-control {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  z-index: 3;
 }
 
 @media only screen and (max-width: 48em) {
@@ -324,25 +331,5 @@ export default {
   width: 8px;
   margin-right: 2px;
   margin-top: 2px;
-}
-
-.bottom-right-control :deep( .plot-popper ){
-  padding: 9px 10px;
-  min-width: 150px;
-  font-size: 12px;
-  color: #fff;
-  background-color: #8300bf;
-}
-.bottom-right-control :deep( .plot-popper .popper__arrow::after ){
-  border-left-color: #8300bf !important;
-}
-
-.bottom-right-control :deep( .el-select__tags-text ){
-  max-width: 90px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  display: inline-block;
-  vertical-align: middle;
 }
 </style>
