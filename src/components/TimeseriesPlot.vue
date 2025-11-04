@@ -22,7 +22,6 @@
         <el-button class="view-heatmap-button" @click="filterPlot">Filter plot</el-button>
       </span>
     </div>
-    <plot-controls ref="controls" :parent-element="{element: $refs.plotlyplot}" :controls-enabled="!loading" />
   </div>
 </template>
 
@@ -30,14 +29,13 @@
 import { markRaw, toRaw } from 'vue'
 import Plotly from '@/js/custom_plotly'
 import DataManager from '@/js/data_manager'
-import PlotControls from '@/components/PlotControls.vue'
 import PlotCommon from '@/mixins/plot_common'
 import { ElSelect, ElButton, ElOption } from 'element-plus';
 
 
 export default {
   name: 'TimeseriesPlot',
-  components: {PlotControls, ElSelect, ElButton, ElOption},
+  components: { ElSelect, ElButton, ElOption},
   mixins: [PlotCommon],
   data: function () {
     return {
