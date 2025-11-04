@@ -35,7 +35,6 @@
         <el-button class="view-heatmap-button" @click="logToggle">Toggle log</el-button>
       </span>
     </div>
-    <plot-controls :parent-element="{element: $refs.plotlyplot}" :controls-enabled="!loading" />
   </div>
 </template>
 
@@ -43,7 +42,6 @@
 import { markRaw } from 'vue'
 import DataManager from '@/js/data_manager'
 import PlotCommon from '@/mixins/plot_common'
-import PlotControls from '@/components/PlotControls.vue'
 import Plotly from '@/js/custom_plotly'
 
 import { ElSelect, ElOption, ElCollapse, ElCollapseItem, ElButton, ElPopover } from 'element-plus';
@@ -51,7 +49,6 @@ import { ElSelect, ElOption, ElCollapse, ElCollapseItem, ElButton, ElPopover } f
 export default {
   name: 'HeatmapPlot',
   components: {
-    PlotControls,
     ElSelect,
     ElOption,
     ElCollapse,
@@ -231,49 +228,6 @@ export default {
 </script>
 
 <style scoped>
-.controls {
-  padding-left: 55px;
-  padding-top: 5px;
-  align-items: left;
-  text-align: left;
-}
-
-@media only screen and (max-width: 48em) {
-  .ui-controls {
-    position: absolute;
-    height: 100%;
-    width: 40px;
-    right: 0px;
-    top: 160px;
-    pointer-events: none;
-    z-index: 5;
-  }
-}
-
-.title {
-  width: 572px;
-  height: 17px;
-  font-family: Helvetica;
-  font-size: 14px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: #606266;
-  padding-top: 8px;
-  padding-bottom: 8px;
-}
-.options {
-  position: absolute;
-  z-index: 11000;
-  height: calc(100% - 20px);
-  text-align: right;
-  overflow: auto;
-  padding-top: 8px;
-  padding-bottom: 8px;
-}
-
 .channel-select {
   min-width: 220px;
   margin: 8px;
@@ -299,37 +253,8 @@ export default {
   letter-spacing: normal;
   color: white;
 }
-.input-div {
-  display: flex;
-  justify-content: space-between;
-}
-
-.icon-button {
-  background-color: #ffffff;
-  margin-left: 8px;
-  height: 24px !important;
-  width: 24px !important;
-}
-
-.icon-button:hover {
-  cursor: pointer;
-}
 
 .el-select-dropdown__item {
   font-family: Arial, Helvetica, sans-serif;
-}
-
-.zoomSelect :deep( .el-input__inner ){
-  padding: 0px;
-  height: 24px;
-  padding-left: 4px;
-  width: 60px;
-  margin-left: 8px;
-}
-
-.zoomSelect :deep( .el-select__caret ){
-  width: 8px;
-  margin-right: 2px;
-  margin-top: 2px;
 }
 </style>
