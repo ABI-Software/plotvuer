@@ -56,7 +56,7 @@ export default defineConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `@use '../src/assets/styles' as *;`
+          // additionalData: `@use '../src/assets/styles' as *;`
         },
       },
     },
