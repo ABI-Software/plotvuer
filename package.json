@@ -70,6 +70,11 @@
     "vue-docgen-api": "^4.79.2",
     "vue3-draggable-resizable": "^1.6.5"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-darwin-arm64": "4.22.5",
+    "@rollup/rollup-linux-x64-gnu": "4.22.5",
+    "@rollup/rollup-win32-x64-msvc": "4.22.5"
+  },
   "browserslist": [
     "> 1%",
     "last 2 versions"
