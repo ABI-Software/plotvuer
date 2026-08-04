@@ -2,6 +2,9 @@
   "name": "@abi-software/plotvuer",
   "version": "1.0.7",
   "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ABI-Software/plotvuer.git"
@@ -66,6 +69,11 @@
     "vitepress": "^1.0.0-rc.45",
     "vue-docgen-api": "^4.79.2",
     "vue3-draggable-resizable": "^1.6.5"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-darwin-arm64": "4.22.5",
+    "@rollup/rollup-linux-x64-gnu": "4.22.5",
+    "@rollup/rollup-win32-x64-msvc": "4.22.5"
   },
   "browserslist": [
     "> 1%",
