@@ -1,6 +1,6 @@
 {
   "name": "@abi-software/plotvuer",
-  "version": "1.0.7",
+  "version": "1.1.0",
   "license": "Apache-2.0",
   "engines": {
     "node": ">=20"
@@ -45,7 +45,7 @@
     "*.js"
   ],
   "dependencies": {
-    "@abi-software/svg-sprite": "1.0.4",
+    "@abi-software/svg-sprite": "^1.1.0",
     "css-element-queries": "^1.2.3",
     "element-plus": "2.8.4",
     "papaparse": "^5.5.2",
