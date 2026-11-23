@@ -1,5 +1,5 @@
 <template>
-  <div class="plotvuer_parent">
+  <div class="plotvuer_parent" data-help-scope>
     <template v-if="plotType != '-plot'">
       <component
         :is="plotType"
@@ -17,6 +17,7 @@
 <script>
 import TimeseriesPlot from './TimeseriesPlot.vue';
 import HeatmapPlot from './HeatmapPlot.vue';
+import { collectHelpModeSteps } from '@abi-software/map-utilities';
 const KNOWN_VERSIONS = ['1.2.0', '1.1.0'];
 
 export default {
@@ -119,6 +120,17 @@ export default {
           : this.plotLayout
         : this.plotLayout;
       return layout;
+    },
+  },
+  methods: {
+    /**
+     * @public
+     * Function to get the help mode steps of this plot, from the elements with ``v-help-mode``,
+     * to be used with ``HelpModeTour`` and ``HelpModeHover`` from ``@abi-software/map-utilities``.
+     * @returns {Array} The list of help steps.
+     */
+    getHelpModeSteps: function () {
+      return collectHelpModeSteps(this.$el);
     },
   },
 };
