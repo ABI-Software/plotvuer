@@ -3,39 +3,31 @@
     <map-svg-sprite-color />
     <div ref="zoomControls" :class="{ inactive: !controlsEnabled }" class="bottom-right-control">
       <el-popover
-        v-model="hoverVisibilities[0].value"
         content="Zoom in"
         placement="left"
         :teleported="false"
-        trigger="manual"
+        trigger="hover"
+        width="max-content"
+        :show-after="tooltipDelay"
+        :hide-after="tooltipDelay"
         popper-class="plot-popper"
       >
         <template #reference>
-          <map-svg-icon
-            icon="zoomIn"
-            class="icon-button zoomIn"
-            @click="zoomIn()"
-            @mouseover="showToolitip(0)"
-            @mouseout="hideToolitip(0)"
-          />
+          <map-svg-icon icon="zoomIn" class="icon-button zoomIn" @click="zoomIn()" />
         </template>
       </el-popover>
       <el-popover
-        v-model="hoverVisibilities[1].value"
         content="Zoom out"
         placement="top-end"
         :teleported="false"
-        trigger="manual"
+        trigger="hover"
+        width="max-content"
+        :show-after="tooltipDelay"
+        :hide-after="tooltipDelay"
         popper-class="plot-popper popper-zoomout"
       >
         <template #reference>
-          <map-svg-icon
-            icon="zoomOut"
-            class="icon-button zoomOut"
-            @click="zoomOut()"
-            @mouseover="showToolitip(1)"
-            @mouseout="hideToolitip(1)"
-          />
+          <map-svg-icon icon="zoomOut" class="icon-button zoomOut" @click="zoomOut()" />
         </template>
       </el-popover>
 
@@ -55,21 +47,17 @@
       </el-select>
       <!-- The commented part remains unchanged -->
       <el-popover
-        v-model="hoverVisibilities[2].value"
         content="Reset"
         placement="top"
         :teleported="false"
-        trigger="manual"
+        trigger="hover"
+        width="max-content"
+        :show-after="tooltipDelay"
+        :hide-after="tooltipDelay"
         popper-class="plot-popper"
       >
         <template #reference>
-          <map-svg-icon
-            icon="resetZoom"
-            class="icon-button resetView"
-            @click="resetView()"
-            @mouseover="showToolitip(2)"
-            @mouseout="hideToolitip(2)"
-          />
+          <map-svg-icon icon="resetZoom" class="icon-button resetView" @click="resetView()" />
         </template>
       </el-popover>
     </div>
@@ -97,13 +85,7 @@ export default {
   },
   data: function () {
     return {
-      hoverVisibilities: [
-        { value: false },
-        { value: false },
-        { value: false },
-        { value: false },
-        { value: false },
-      ],
+      tooltipDelay: 500,
       zoomSelect: [
         {
           value: '1',
@@ -181,33 +163,6 @@ export default {
           value: i,
           label: (i + 1) * 100 + '%',
         });
-      }
-    },
-    setHelpMode: function (helpMode) {
-      if (helpMode) {
-        this.inHelp = true;
-        this.hoverVisibilities.forEach((item) => {
-          item.value = true;
-        });
-      } else {
-        this.inHelp = false;
-        this.hoverVisibilities.forEach((item) => {
-          item.value = false;
-        });
-      }
-    },
-    showToolitip: function (tooltipNumber) {
-      if (!this.inHelp) {
-        this.hoverVisibilities[tooltipNumber].value = true;
-        this.tooltipWait = setTimeout(() => {
-          this.hoverVisibilities[tooltipNumber].value = true;
-        }, 1000);
-      }
-    },
-    hideToolitip: function (tooltipNumber) {
-      if (!this.inHelp) {
-        this.hoverVisibilities[tooltipNumber].value = false;
-        clearInterval(this.tooltipWait);
       }
     },
     handleWheel: function (event) {

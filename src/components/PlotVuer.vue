@@ -98,13 +98,6 @@ export default {
       default: () => [],
     },
     /**
-     * The option to choose helpMode.
-     */
-    helpMode: {
-      type: Boolean,
-      default: false,
-    },
-    /**
      * The option to show the selector UI.
      */
     selectorUi: {
