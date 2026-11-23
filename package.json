@@ -47,6 +47,7 @@
     "*.js"
   ],
   "dependencies": {
+    "@abi-software/map-utilities": "1.14.0",
     "@abi-software/svg-sprite": "1.4.0",
     "css-element-queries": "^1.2.3",
     "element-plus": "^2.14.5",
