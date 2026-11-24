@@ -94,7 +94,6 @@ export default {
       }
     },
     dataReady(data) {
-      const start = Date.now();
       if (this.fullMetadata['no-header']) {
         DataManager.loadFile(this.supplementalData[0].url, this.headerDataReady);
       }
