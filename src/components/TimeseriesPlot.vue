@@ -94,7 +94,6 @@ export default {
       }
     },
     dataReady(data) {
-      const start = Date.now();
       if (this.fullMetadata['no-header']) {
         DataManager.loadFile(this.supplementalData[0].url, this.headerDataReady);
       }
@@ -109,7 +108,6 @@ export default {
         this.populateTraceNames();
       }
       this.createPlot(this.time, this.xAxisLabel, this.dataValues, this.traceNames);
-      console.log(Date.now() - start);
     },
     headerDataReady(data) {
       this.traceData = markRaw(data);
@@ -160,7 +158,8 @@ export default {
     },
     findYaxesCols() {
       if (this.fullMetadata['y-axes-columns'].length === 0) {
-        let yCols = Array(this.parsedData.data[0].length).keys(); // count up to number of coloumns
+        // count up to number of columns (must be an array, not an iterator)
+        let yCols = Array.from(Array(this.parsedData.data[0].length).keys());
         yCols.shift();
         yCols.shift(); // remove first two values
         this.fullMetadata['y-axes-columns'] = yCols;
