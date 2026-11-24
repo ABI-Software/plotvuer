@@ -6,6 +6,13 @@
         <el-select
           v-model="filterX"
           class="channel-select"
+          v-help-mode="{
+            id: 'plot-column-select',
+            area: 'plot-filter',
+            title: 'Columns',
+            description: 'Choose the columns to show. You can type to search the list.',
+            placement: 'bottom',
+          }"
           multiple
           filterable
           collapse-tags
@@ -24,6 +31,13 @@
         <el-select
           v-model="filterY"
           class="channel-select"
+          v-help-mode="{
+            id: 'plot-row-select',
+            area: 'plot-filter',
+            title: 'Rows',
+            description: 'Choose the rows to show. You can type to search the list.',
+            placement: 'bottom',
+          }"
           multiple
           filterable
           collapse-tags
@@ -34,10 +48,34 @@
         </el-select>
       </span>
       <span>
-        <el-button class="view-heatmap-button" @click="filterPlot">Filter plot</el-button>
+        <el-button
+          class="view-heatmap-button"
+          v-help-mode="{
+            id: 'plot-filter-apply',
+            area: 'plot-filter',
+            title: 'Filter plot',
+            description: 'Update the plot to show only the chosen rows and columns.',
+            placement: 'bottom',
+          }"
+          @click="filterPlot"
+        >
+          Filter plot
+        </el-button>
       </span>
       <span v-if="logScaleEnabled">
-        <el-button class="view-heatmap-button" @click="logToggle">Toggle log</el-button>
+        <el-button
+          class="view-heatmap-button"
+          v-help-mode="{
+            id: 'plot-log-toggle',
+            area: 'plot-filter',
+            title: 'Toggle log',
+            description: 'Switch the values between a linear and a log scale.',
+            placement: 'bottom',
+          }"
+          @click="logToggle"
+        >
+          Toggle log
+        </el-button>
       </span>
     </div>
   </div>

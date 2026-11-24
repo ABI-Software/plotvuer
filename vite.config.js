@@ -55,11 +55,20 @@ export default defineConfig(({ command }) => {
         commonjsOptions: { transformMixedEsModules: true }, // Change
       },
       rollupOptions: {
-        external: ['vue', /^plotly.*/, 'papaparse', /^@plotly.*/, /^d3-.*/],
+        external: [
+          'vue',
+          /^plotly.*/,
+          'papaparse',
+          /^@plotly.*/,
+          /^d3-.*/,
+          // Shared with the other viewers, `v-help-mode` registers the steps in it
+          '@abi-software/map-utilities',
+        ],
         output: {
           globals: {
             vue: 'Vue',
             papaparse: 'papaparse',
+            '@abi-software/map-utilities': '@abi-software/map-utilities',
           },
           // keep css output name stable for the "./dist/style.css" export/import paths
           assetFileNames: (assetInfo) =>
@@ -72,6 +81,12 @@ export default defineConfig(({ command }) => {
   if (command === 'serve') {
     config.server = {
       port: 8081,
+    };
+    // Pre-bundle map-utilities also when it is linked with `npm link`,
+    // otherwise the node polyfills are injected into its files,
+    // which cannot resolve them outside of this project
+    config.optimizeDeps = {
+      include: ['@abi-software/map-utilities'],
     };
     config.define = {
       'process.env.HTTP_PROXY': 8081,

@@ -7,6 +7,13 @@
           ref="selectBox"
           v-model="filterX"
           class="channel-select"
+          v-help-mode="{
+            id: 'plot-channel-select',
+            area: 'plot-filter',
+            title: 'Channels',
+            description: 'Choose the channels to show. You can type to search the list.',
+            placement: 'bottom',
+          }"
           size="large"
           multiple
           filterable
@@ -19,7 +26,19 @@
         </el-select>
       </span>
       <span>
-        <el-button class="view-heatmap-button" @click="filterPlot">Filter plot</el-button>
+        <el-button
+          class="view-heatmap-button"
+          v-help-mode="{
+            id: 'plot-filter-apply',
+            area: 'plot-filter',
+            title: 'Filter plot',
+            description: 'Update the plot to show only the chosen channels.',
+            placement: 'bottom',
+          }"
+          @click="filterPlot"
+        >
+          Filter plot
+        </el-button>
       </span>
     </div>
   </div>

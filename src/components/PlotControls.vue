@@ -3,38 +3,52 @@
     <map-svg-sprite-color />
     <div ref="zoomControls" :class="{ inactive: !controlsEnabled }" class="bottom-right-control">
       <el-popover
-        v-model="hoverVisibilities[0].value"
         content="Zoom in"
         placement="left"
         :teleported="false"
-        trigger="manual"
+        trigger="hover"
+        width="max-content"
+        :show-after="tooltipDelay"
+        :hide-after="tooltipDelay"
         popper-class="plot-popper"
       >
         <template #reference>
           <map-svg-icon
             icon="zoomIn"
             class="icon-button zoomIn"
+            v-help-mode="{
+              id: 'plot-zoom-in',
+              area: 'zoom',
+              title: 'Zoom in',
+              description: 'Zoom in to see more detail. You can also scroll on the plot.',
+              placement: 'left',
+            }"
             @click="zoomIn()"
-            @mouseover="showToolitip(0)"
-            @mouseout="hideToolitip(0)"
           />
         </template>
       </el-popover>
       <el-popover
-        v-model="hoverVisibilities[1].value"
         content="Zoom out"
         placement="top-end"
         :teleported="false"
-        trigger="manual"
+        trigger="hover"
+        width="max-content"
+        :show-after="tooltipDelay"
+        :hide-after="tooltipDelay"
         popper-class="plot-popper popper-zoomout"
       >
         <template #reference>
           <map-svg-icon
             icon="zoomOut"
             class="icon-button zoomOut"
+            v-help-mode="{
+              id: 'plot-zoom-out',
+              area: 'zoom',
+              title: 'Zoom out',
+              description: 'Zoom out to see more. You can also scroll on the plot.',
+              placement: 'top',
+            }"
             @click="zoomOut()"
-            @mouseover="showToolitip(1)"
-            @mouseout="hideToolitip(1)"
           />
         </template>
       </el-popover>
@@ -44,6 +58,13 @@
         v-model="selectZoom"
         placeholder="100%"
         class="zoomSelect"
+        v-help-mode="{
+          id: 'plot-zoom-level',
+          area: 'zoom',
+          title: 'Zoom level',
+          description: 'Choose a zoom level for the plot.',
+          placement: 'top',
+        }"
         @change="selectZoomChange"
       >
         <el-option
@@ -55,20 +76,27 @@
       </el-select>
       <!-- The commented part remains unchanged -->
       <el-popover
-        v-model="hoverVisibilities[2].value"
         content="Reset"
         placement="top"
         :teleported="false"
-        trigger="manual"
+        trigger="hover"
+        width="max-content"
+        :show-after="tooltipDelay"
+        :hide-after="tooltipDelay"
         popper-class="plot-popper"
       >
         <template #reference>
           <map-svg-icon
             icon="resetZoom"
             class="icon-button resetView"
+            v-help-mode="{
+              id: 'plot-zoom-reset',
+              area: 'zoom',
+              title: 'Reset zoom',
+              description: 'Reset the zoom and position so the whole plot fits in this view.',
+              placement: 'top',
+            }"
             @click="resetView()"
-            @mouseover="showToolitip(2)"
-            @mouseout="hideToolitip(2)"
           />
         </template>
       </el-popover>
@@ -78,12 +106,16 @@
 
 <script>
 import { MapSvgSpriteColor, MapSvgIcon } from '@abi-software/svg-sprite';
+import { helpModeDirective } from '@abi-software/map-utilities';
 
 export default {
   name: 'PlotControls',
   components: {
     MapSvgSpriteColor,
     MapSvgIcon,
+  },
+  directives: {
+    helpMode: helpModeDirective,
   },
   props: {
     parentElement: {
@@ -97,13 +129,7 @@ export default {
   },
   data: function () {
     return {
-      hoverVisibilities: [
-        { value: false },
-        { value: false },
-        { value: false },
-        { value: false },
-        { value: false },
-      ],
+      tooltipDelay: 500,
       zoomSelect: [
         {
           value: '1',
@@ -181,33 +207,6 @@ export default {
           value: i,
           label: (i + 1) * 100 + '%',
         });
-      }
-    },
-    setHelpMode: function (helpMode) {
-      if (helpMode) {
-        this.inHelp = true;
-        this.hoverVisibilities.forEach((item) => {
-          item.value = true;
-        });
-      } else {
-        this.inHelp = false;
-        this.hoverVisibilities.forEach((item) => {
-          item.value = false;
-        });
-      }
-    },
-    showToolitip: function (tooltipNumber) {
-      if (!this.inHelp) {
-        this.hoverVisibilities[tooltipNumber].value = true;
-        this.tooltipWait = setTimeout(() => {
-          this.hoverVisibilities[tooltipNumber].value = true;
-        }, 1000);
-      }
-    },
-    hideToolitip: function (tooltipNumber) {
-      if (!this.inHelp) {
-        this.hoverVisibilities[tooltipNumber].value = false;
-        clearInterval(this.tooltipWait);
       }
     },
     handleWheel: function (event) {

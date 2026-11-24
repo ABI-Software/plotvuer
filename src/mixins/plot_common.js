@@ -1,7 +1,11 @@
+import { helpModeDirective } from '@abi-software/map-utilities';
 import PlotControls from '@/components/PlotControls.vue';
 
 export default {
   components: { PlotControls },
+  directives: {
+    helpMode: helpModeDirective,
+  },
   props: {
     metadata: {
       type: Object,
